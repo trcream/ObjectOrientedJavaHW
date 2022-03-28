@@ -1,7 +1,6 @@
 package problem1;
 
-import java.util.ArrayList;
-import java.util.List;
+
 import java.util.Objects;
 
 public class Phone implements Validator<String> {
@@ -51,7 +50,7 @@ public class Phone implements Validator<String> {
   public boolean containsOnlyDigits(String input){
     Integer count = 0;
     for(int i =0; i<input.length(); i++){
-      if(Character.isLowerCase(input.charAt(i))){
+      if(Character.isDigit(input.charAt(i))){
         count++;
       }
     }

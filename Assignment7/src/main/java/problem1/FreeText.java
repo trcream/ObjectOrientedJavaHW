@@ -88,6 +88,12 @@ public class FreeText implements Validator<String> {
         '}';
   }
 
+  public boolean freeTextLength(String input){
+    int length = input.length();
+    int maximumLength = this.numberOfLines*this.numberOfCharactersPerLine;
+    return length <=maximumLength;
+  }
+
   /**
    * @param input - General user input to be checked
    * @return A boolean to confirm whether the input is valid for
@@ -95,9 +101,6 @@ public class FreeText implements Validator<String> {
    */
   @Override
   public boolean isValid(String input) {
-    int length = input.length();
-    int maximumLength = this.numberOfLines*this.numberOfCharactersPerLine;
-
-    return length <=maximumLength;
+    return freeTextLength(input);
   }
 }

@@ -19,25 +19,49 @@ import java.util.Objects;
 public class Password implements Validator<String> {
   private Integer minimumPasswordLength;
   private Integer maximumPasswordLength;
-  private Integer minLowerCases;
-  private Integer minUpperCases;
-  private Integer minDigits;
+  private Integer minLowerCases = 0;
+  private Integer minUpperCases = 0;
+  private Integer minDigits= 0;
+
+  public Boolean minMaxCheck(Integer minimumPasswordLength, Integer maximumPasswordLength) {
+    return minimumPasswordLength <= maximumPasswordLength;
+  }
 
   public Password(Integer minimumPasswordLength, Integer maximumPasswordLength,
-      Integer minLowerCases, Integer minUpperCases, Integer minDigits) {
+      Integer minLowerCases, Integer minUpperCases, Integer minDigits) throws
+      MinMaxValueException {
+    if(minMaxCheck(minimumPasswordLength, maximumPasswordLength)) {
+      this.minimumPasswordLength = minimumPasswordLength;
+      this.maximumPasswordLength = maximumPasswordLength;
+      this.minLowerCases = minLowerCases;
+      this.minUpperCases = minUpperCases;
+      this.minDigits = minDigits;
+    } else {
+      throw new MinMaxValueException("The maximum password length cannot be smaller than the min");
+    }
+  }
+
+  public Password(Integer minimumPasswordLength, Integer maximumPasswordLength) throws
+      MinMaxValueException {
+    if(minMaxCheck(minimumPasswordLength, maximumPasswordLength)) {
     this.minimumPasswordLength = minimumPasswordLength;
     this.maximumPasswordLength = maximumPasswordLength;
-    this.minLowerCases = 0;
-    this.minUpperCases = 0;
-    this.minDigits = 0;
+    } else {
+      throw new MinMaxValueException("The maximum password length cannot be smaller than the min");
+    }
   }
 
   public Integer getMinimumPasswordLength() {
     return this.minimumPasswordLength;
   }
 
+
   public void setMinimumPasswordLength(Integer minimumPasswordLength) {
-    this.minimumPasswordLength = minimumPasswordLength;
+    if(minMaxCheck(minimumPasswordLength, this.maximumPasswordLength)) {
+      this.minimumPasswordLength = minimumPasswordLength;
+    } else {
+      throw new MinMaxValueException("The minimum password length cannot be larger than the max");
+    }
   }
 
   public Integer getMaximumPasswordLength() {
@@ -45,7 +69,11 @@ public class Password implements Validator<String> {
   }
 
   public void setMaximumPasswordLength(Integer maximumPasswordLength) {
-    this.maximumPasswordLength = maximumPasswordLength;
+    if(minMaxCheck(this.minimumPasswordLength, maximumPasswordLength)) {
+      this.maximumPasswordLength = maximumPasswordLength;
+    } else {
+      throw new MinMaxValueException("The maximum password length cannot be smaller than the min");
+    }
   }
 
   public Integer getMinLowerCases() {
@@ -73,17 +101,6 @@ public class Password implements Validator<String> {
   }
 
   @Override
-  public String toString() {
-    return "Password{" +
-        "minimumPasswordLength=" + minimumPasswordLength +
-        ", maximumPasswordLength=" + maximumPasswordLength +
-        ", minLowerCases=" + minLowerCases +
-        ", minUpperCases=" + minUpperCases +
-        ", minDigits=" + minDigits +
-        '}';
-  }
-
-  @Override
   public boolean equals(Object o) {
     if (this == o) {
       return true;
@@ -103,6 +120,17 @@ public class Password implements Validator<String> {
   public int hashCode() {
     return Objects.hash(minimumPasswordLength, maximumPasswordLength, minLowerCases, minUpperCases,
         minDigits);
+  }
+
+  @Override
+  public String toString() {
+    return "Password{" +
+        "minimumPasswordLength=" + this.minimumPasswordLength +
+        ", maximumPasswordLength=" + this.maximumPasswordLength +
+        ", minLowerCases=" + this.minLowerCases +
+        ", minUpperCases=" + this.minUpperCases +
+        ", minDigits=" + this.minDigits +
+        '}';
   }
 
   /**
@@ -171,14 +199,15 @@ public class Password implements Validator<String> {
    * no space
    * This is a helper method to isValid()
    */
+
   public boolean hasNoSpace(String input) {
     for (int i = 0; i < input.length(); i++) {
-      if (String.valueOf(input.charAt(i)).equals(" ") ) {
+      if (String.valueOf(input.charAt(i)).equals(" ")) {
         return false;
       }
-      }
-    return true;
     }
+    return true;
+  }
 
   /**
    * @param input - General user input to be checked
@@ -196,5 +225,5 @@ public class Password implements Validator<String> {
 }
 
 
-
+// Citation
 // https://www.tutorialspoint.com/check-whether-a-character-is-lowercase-or-not-in-java#:~:text=To%20check%20whether%20a%20character,isLowerCase()%20method.
