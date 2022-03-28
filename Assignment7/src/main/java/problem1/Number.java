@@ -57,7 +57,6 @@ public class Number implements Validator<String> {
       System.out.println("The number can hold only a maximum of two decimal places");
       return false;
     }
-
   }
 
   /**
@@ -73,6 +72,16 @@ public class Number implements Validator<String> {
     //Checking that the input is a number, has the right length and decimal places
     return checkNumber(input) && checkLength(input) && checkDecimalPlaces(input);
 
+  }
+
+  @Override
+  public int hashCode() {
+    return super.hashCode();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    return super.equals(obj);
   }
 
   @Override
