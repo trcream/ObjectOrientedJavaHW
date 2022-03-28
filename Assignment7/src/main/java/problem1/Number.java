@@ -1,14 +1,72 @@
 package problem1;
 
+import java.util.Objects;
+
 public class Number implements Validator<String> {
 
-  public static final Integer MAXIMUM_VALUE_LENGTH = 10;
-  public static final Integer MAXIMUM_DECIMAL_PLACES = 2;
+  private Integer maximumValue;
+  private Integer minimumValue;
+  private Integer maximumDecimalPlaces;
 
   /**
-   * Constructor for the Number class.
+   * Constructor for the number validator
+   * @param maximumValue - maximum value that can be entered
+   * @param minimumValue - minimum value that can be entered
+   * @param maximumDecimalPlaces - maximum decimal places that can be entered
    */
-  public Number() {
+
+  public Number(Integer maximumValue, Integer minimumValue, Integer maximumDecimalPlaces) {
+    this.maximumValue = maximumValue;
+    this.minimumValue = minimumValue;
+    this.maximumDecimalPlaces = maximumDecimalPlaces;
+  }
+
+  /**
+   * Gets the maximum value that can be entered
+   * @return - maximum value
+   */
+  public Integer getMaximumValue() {
+    return maximumValue;
+  }
+
+  /**
+   * Sets the maximum value that can be entered
+   * @param maximumValue - maximum value
+   */
+  public void setMaximumValue(Integer maximumValue) {
+    this.maximumValue = maximumValue;
+  }
+
+  /**
+   * Gets the minimum value that can be entered
+   * @return
+   */
+  public Integer getMinimumValue() {
+    return minimumValue;
+  }
+
+  /**
+   * Sets the minimum value that can be entered
+   * @param minimumValue - minimum value
+   */
+  public void setMinimumValue(Integer minimumValue) {
+    this.minimumValue = minimumValue;
+  }
+
+  /**
+   * Gets the maximum amount of decimal places
+   * @return - maximum amount of decimal places
+   */
+  public Integer getMaximumDecimalPlaces() {
+    return maximumDecimalPlaces;
+  }
+
+  /**
+   * Sets the maximum amount of decimal places
+   * @param maximumDecimalPlaces - maximum amount of decimal places
+   */
+  public void setMaximumDecimalPlaces(Integer maximumDecimalPlaces) {
+    this.maximumDecimalPlaces = maximumDecimalPlaces;
   }
 
   /**
@@ -20,10 +78,8 @@ public class Number implements Validator<String> {
   public static boolean checkNumber(String input) {
     try {
       Long.parseLong(input);
-      System.out.println("This is a number " + input);
       return true;
     } catch (NumberFormatException e) {
-      System.out.println("This is not a number " + input);
       return false;
     }
   }
@@ -34,12 +90,9 @@ public class Number implements Validator<String> {
    * @param input - User input to be checked as a string
    * @return - true or false
    */
-  public static boolean checkLength(String input) {
-    if (input.length() <= MAXIMUM_VALUE_LENGTH) {
-      return true;
-    } else
-      System.out.println("The maximum length is 10");
-    return false;
+  public boolean checkValue(String input) {
+    long stringToNumber = Long.parseLong(input);
+      return stringToNumber <= this.maximumValue && stringToNumber >= this.minimumValue;
   }
 
   /**
@@ -49,12 +102,11 @@ public class Number implements Validator<String> {
    * @param input - User input to be checked as a string
    * @return - true or false
    */
-  public static boolean checkDecimalPlaces(String input) {
+  public boolean checkDecimalPlaces(String input) {
     String[] splitNumber = input.split("\\.");
-    if (splitNumber[1].length() <= MAXIMUM_DECIMAL_PLACES) {
+    if (splitNumber[1].length() <= this.maximumDecimalPlaces) {
       return true;
     } else {
-      System.out.println("The number can hold only a maximum of two decimal places");
       return false;
     }
   }
@@ -70,22 +122,48 @@ public class Number implements Validator<String> {
   @Override
   public boolean isValid(String input) {
     //Checking that the input is a number, has the right length and decimal places
-    return checkNumber(input) && checkLength(input) && checkDecimalPlaces(input);
+    return checkNumber(input) && checkValue(input) && checkDecimalPlaces(input);
 
   }
 
+  /**
+   * Method that determines if the object is equal to in certain conditions
+   * @param o - Object o to compare if the object is equivalent
+   * @return - return true or false based upon if the criteria is met
+   */
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Number number = (Number) o;
+    return Objects.equals(maximumValue, number.maximumValue) && Objects.equals(
+        minimumValue, number.minimumValue) && Objects.equals(maximumDecimalPlaces,
+        number.maximumDecimalPlaces);
+  }
+
+  /**
+   * Method to determine if the hashcode of the object is a match
+   * @return - true or false depending on if the hash code is equal or not
+   */
   @Override
   public int hashCode() {
-    return super.hashCode();
+    return Objects.hash(maximumValue, minimumValue, maximumDecimalPlaces);
   }
 
-  @Override
-  public boolean equals(Object obj) {
-    return super.equals(obj);
-  }
-
+  /**
+   * Method that converts the object's field information into a string
+   * @return - True or false depending on if the string information matches
+   */
   @Override
   public String toString() {
-    return "Number{}";
+    return "Number{" +
+        "maximumValue=" + maximumValue +
+        ", minimumValue=" + minimumValue +
+        ", maximumDecimalPlaces=" + maximumDecimalPlaces +
+        '}';
   }
 }
