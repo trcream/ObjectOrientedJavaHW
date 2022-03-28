@@ -50,18 +50,12 @@ public class Phone implements Validator<String> {
    */
   public boolean containsOnlyDigits(String input){
     Integer count = 0;
-    char [] list = new char[input.length()];
-
     for(int i =0; i<input.length(); i++){
-      list[i] = input.charAt(i);
-    }
-
-    for(char s : list) {
-      if (Character.isDigit(s)) {
+      if(Character.isLowerCase(input.charAt(i))){
         count++;
       }
     }
-    return count>=length;
+    return count.equals(this.length);
   }
 
 
