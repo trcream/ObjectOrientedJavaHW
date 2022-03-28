@@ -17,50 +17,70 @@ import java.util.Objects;
  * space (“ “). To keep things simple, all other characters are allowed.
  */
 public class Password implements Validator<String> {
-  private Integer minimumLength;
-  private Integer maximumLength;
+  private Integer minimumPasswordLength;
+  private Integer maximumPasswordLength;
+  private Integer minLowerCases;
+  private Integer minUpperCases;
+  private Integer minDigits;
 
-  private static final int MIN_LOWER_CASE = 0;
-  private static final int MIN_UPPER_CASE = 0;
-  private static final int MIN_DIGITS =0;
-
-
-  /**
-   * @param minimumLength Minimum length of password
-   * @param maximumLength Maximum length of password
-   */
-  public Password(Integer minimumLength, Integer maximumLength) {
-    this.minimumLength = minimumLength;
-    this.maximumLength = maximumLength;
+  public Password(Integer minimumPasswordLength, Integer maximumPasswordLength,
+      Integer minLowerCases, Integer minUpperCases, Integer minDigits) {
+    this.minimumPasswordLength = minimumPasswordLength;
+    this.maximumPasswordLength = maximumPasswordLength;
+    this.minLowerCases = 0;
+    this.minUpperCases = 0;
+    this.minDigits = 0;
   }
 
-  /**
-   * @return Integer: Minimum length within object
-   */
-  public Integer getMinimumLength() {
-    return this.minimumLength;
+  public Integer getMinimumPasswordLength() {
+    return this.minimumPasswordLength;
   }
 
-  /**
-   * @param minimumLength Integer: Minimum length within object
-   * Set minimum length within object
-   */
-  public void setMinimumLength(Integer minimumLength) {
-    this.minimumLength = minimumLength;
+  public void setMinimumPasswordLength(Integer minimumPasswordLength) {
+    this.minimumPasswordLength = minimumPasswordLength;
   }
 
-  /**
-   * @return Maximum length within object
-   */
-  public Integer getMaximumLength() {
-    return this.maximumLength;
+  public Integer getMaximumPasswordLength() {
+    return this.maximumPasswordLength;
   }
 
-  /**
-   * @param maximumLength
-   */
-  public void setMaximumLength(Integer maximumLength) {
-    this.maximumLength = maximumLength;
+  public void setMaximumPasswordLength(Integer maximumPasswordLength) {
+    this.maximumPasswordLength = maximumPasswordLength;
+  }
+
+  public Integer getMinLowerCases() {
+    return this.minLowerCases;
+  }
+
+  public void setMinLowerCases(Integer minLowerCases) {
+    this.minLowerCases = minLowerCases;
+  }
+
+  public Integer getMinUpperCases() {
+    return this.minUpperCases;
+  }
+
+  public void setMinUpperCases(Integer minUpperCases) {
+    this.minUpperCases = minUpperCases;
+  }
+
+  public Integer getMinDigits() {
+    return this.minDigits;
+  }
+
+  public void setMinDigits(Integer minDigits) {
+    this.minDigits = minDigits;
+  }
+
+  @Override
+  public String toString() {
+    return "Password{" +
+        "minimumPasswordLength=" + minimumPasswordLength +
+        ", maximumPasswordLength=" + maximumPasswordLength +
+        ", minLowerCases=" + minLowerCases +
+        ", minUpperCases=" + minUpperCases +
+        ", minDigits=" + minDigits +
+        '}';
   }
 
   @Override
@@ -72,21 +92,17 @@ public class Password implements Validator<String> {
       return false;
     }
     Password password = (Password) o;
-    return Objects.equals(minimumLength, password.minimumLength)
-        && Objects.equals(maximumLength, password.maximumLength);
+    return Objects.equals(minimumPasswordLength, password.minimumPasswordLength)
+        && Objects.equals(maximumPasswordLength, password.maximumPasswordLength)
+        && Objects.equals(minLowerCases, password.minLowerCases)
+        && Objects.equals(minUpperCases, password.minUpperCases)
+        && Objects.equals(minDigits, password.minDigits);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(minimumLength, maximumLength);
-  }
-
-  @Override
-  public String toString() {
-    return "Password{" +
-        "minimumLength=" + minimumLength +
-        ", maximumLength=" + maximumLength +
-        '}';
+    return Objects.hash(minimumPasswordLength, maximumPasswordLength, minLowerCases, minUpperCases,
+        minDigits);
   }
 
   /**
@@ -96,7 +112,7 @@ public class Password implements Validator<String> {
    */
   public boolean isAcceptableLength(String input){
     Integer length = input.length();
-    return (length>= minimumLength && length<= maximumLength);
+    return (length>= minimumPasswordLength && length<= maximumPasswordLength);
 
   }
 
@@ -108,19 +124,14 @@ public class Password implements Validator<String> {
    */
   public boolean hasMinimumLowerCases(String input){
     Integer count = 0;
-    char [] list = new char[input.length()];
-
     for(int i =0; i<input.length(); i++){
-      list[i] = input.charAt(i);
-    }
-
-    for(char s : list) {
-      if (Character.isLowerCase(s)) {
+      if(Character.isLowerCase(input.charAt(i))){
         count++;
       }
     }
-    return count>=MIN_LOWER_CASE;
+    return count>=this.minLowerCases;
   }
+
 
   /**
    * @param input A string for password
@@ -130,18 +141,12 @@ public class Password implements Validator<String> {
    */
   public boolean hasMinimumUpperCases(String input){
     Integer count = 0;
-    char [] list = new char[input.length()];
-
     for(int i =0; i<input.length(); i++){
-      list[i] = input.charAt(i);
-    }
-
-    for(char s : list) {
-      if (Character.isUpperCase(s)) {
+      if(Character.isUpperCase(input.charAt(i))){
         count++;
       }
     }
-    return count>=MIN_UPPER_CASE;
+    return count>=this.minUpperCases;
   }
 
   /**
@@ -152,18 +157,12 @@ public class Password implements Validator<String> {
    */
   public boolean hasMinimumDigits(String input) {
     Integer count = 0;
-    char [] list = new char[input.length()];
-
     for(int i =0; i<input.length(); i++){
-      list[i] = input.charAt(i);
-    }
-
-    for(char s : list) {
-      if (Character.isDigit(s)) {
+      if(Character.isDigit(input.charAt(i))){
         count++;
       }
     }
-    return count>=MIN_DIGITS;
+    return count>=this.minDigits;
   }
 
   /**
