@@ -13,12 +13,44 @@ public class Number implements Validator<String> {
    * @param maximumValue - maximum value that can be entered
    * @param minimumValue - minimum value that can be entered
    * @param maximumDecimalPlaces - maximum decimal places that can be entered
+   * @throws NegativeDecimalPlacesException - Exception when a max for negative decimal places is added
+   * @throws MinMaxValueException - Exception when invalid values are entered for min and max
    */
 
-  public Number(Integer maximumValue, Integer minimumValue, Integer maximumDecimalPlaces) {
-    this.maximumValue = maximumValue;
-    this.minimumValue = minimumValue;
-    this.maximumDecimalPlaces = maximumDecimalPlaces;
+  public Number(Integer maximumValue, Integer minimumValue, Integer maximumDecimalPlaces)
+      throws NegativeDecimalPlacesException, MinMaxValueException {
+    if(minMaxCheck(minimumValue, maximumValue)) {
+      this.maximumValue = maximumValue;
+      this.minimumValue = minimumValue;
+    }
+    else{
+      throw new MinMaxValueException("The maximum value cannot be smaller than the min");
+    }
+    if(checkNegativeDecimal(maximumDecimalPlaces)) {
+      this.maximumDecimalPlaces = maximumDecimalPlaces;
+    }
+    else{
+      throw new NegativeDecimalPlacesException("You can't have negative decimal places");
+    }
+  }
+
+  /**
+   * Helper method to check that the minimum value is less than the max value;
+   * @param minimumValue - Minimum value that can be entered
+   * @param maximumValue - Maximum value that can be entered
+   * @return - true or false
+   */
+  public Boolean minMaxCheck(Integer minimumValue, Integer maximumValue){
+    return minimumValue <= maximumValue;
+  }
+
+  /**
+   * Helper method to check if maximum decimal place entered is negative
+   * @param maximumDecimalPlaces - maximum decimal place
+   * @return - true or false
+   */
+  public Boolean checkNegativeDecimal(Integer maximumDecimalPlaces){
+    return maximumDecimalPlaces >=0;
   }
 
   /**
@@ -30,16 +62,23 @@ public class Number implements Validator<String> {
   }
 
   /**
-   * Sets the maximum value that can be entered
-   * @param maximumValue - maximum value
+   *
+   * @param maximumValue
+   * @throws MinMaxValueException
    */
-  public void setMaximumValue(Integer maximumValue) {
-    this.maximumValue = maximumValue;
+  public void setMaximumValue(Integer maximumValue) throws MinMaxValueException {
+
+    if(minMaxCheck(minimumValue, maximumValue)) {
+      this.maximumValue = maximumValue;
+    }
+    else{
+      throw new MinMaxValueException("The maximum value cannot be smaller than the min");
+    }
   }
 
   /**
    * Gets the minimum value that can be entered
-   * @return
+   * @return - gets the minimum value
    */
   public Integer getMinimumValue() {
     return minimumValue;
@@ -48,9 +87,15 @@ public class Number implements Validator<String> {
   /**
    * Sets the minimum value that can be entered
    * @param minimumValue - minimum value
+   * @throws MinMaxValueException - exception if min is less than max value
    */
-  public void setMinimumValue(Integer minimumValue) {
-    this.minimumValue = minimumValue;
+  public void setMinimumValue(Integer minimumValue) throws MinMaxValueException {
+    if(minMaxCheck(minimumValue, maximumValue)) {
+      this.minimumValue = minimumValue;
+    }
+    else{
+      throw new MinMaxValueException("The minimum value cannot be larger than the max");
+    }
   }
 
   /**
@@ -63,10 +108,18 @@ public class Number implements Validator<String> {
 
   /**
    * Sets the maximum amount of decimal places
-   * @param maximumDecimalPlaces - maximum amount of decimal places
+   * @param maximumDecimalPlaces - maximum decimal places
+   * @throws NegativeDecimalPlacesException - exception if a negative amount of decimal places is entered
    */
-  public void setMaximumDecimalPlaces(Integer maximumDecimalPlaces) {
-    this.maximumDecimalPlaces = maximumDecimalPlaces;
+  public void setMaximumDecimalPlaces(Integer maximumDecimalPlaces)
+      throws NegativeDecimalPlacesException {
+
+    if(checkNegativeDecimal(maximumDecimalPlaces)) {
+      this.maximumDecimalPlaces = maximumDecimalPlaces;
+    }
+    else{
+      throw new NegativeDecimalPlacesException("You can't have negative decimal places");
+    }
   }
 
   /**
@@ -75,13 +128,26 @@ public class Number implements Validator<String> {
    * @param input - User input to be checked as a string
    * @return - true or false
    */
-  public static boolean checkNumber(String input) {
-    try {
-      Long.parseLong(input);
-      return true;
-    } catch (NumberFormatException e) {
-      return false;
+  public boolean checkNumber(String input) {
+
+    if(input.contains(".") == Boolean.TRUE) {
+      try {
+        String[] splitNumber = input.split("\\.");
+        long numberFirstHalfCheck = Long.parseLong(splitNumber[0]);
+        long numberSecondHalfCheck = Long.parseLong(splitNumber[1]);
+        return true;
+
+      }
+      catch (NumberFormatException e){
+        return false;
+      }
     }
+      try {
+        Long.parseLong(input);
+        return true;
+      } catch (NumberFormatException e) {
+        return false;
+      }
   }
 
   /**
@@ -91,7 +157,8 @@ public class Number implements Validator<String> {
    * @return - true or false
    */
   public boolean checkValue(String input) {
-    long stringToNumber = Long.parseLong(input);
+    // account for decimal places
+    double stringToNumber = Double.parseDouble(input);
       return stringToNumber <= this.maximumValue && stringToNumber >= this.minimumValue;
   }
 
@@ -103,12 +170,13 @@ public class Number implements Validator<String> {
    * @return - true or false
    */
   public boolean checkDecimalPlaces(String input) {
-    String[] splitNumber = input.split("\\.");
-    if (splitNumber[1].length() <= this.maximumDecimalPlaces) {
+
+    if(input.contains(".") == (Boolean.FALSE)){
       return true;
-    } else {
-      return false;
     }
+    String[] splitNumber = input.split("\\.");
+    return splitNumber[1].length() >= 0 && splitNumber[1].length() <= this.maximumDecimalPlaces;
+
   }
 
   /**
@@ -127,9 +195,8 @@ public class Number implements Validator<String> {
   }
 
   /**
-   * Method that determines if the object is equal to in certain conditions
-   * @param o - Object o to compare if the object is equivalent
-   * @return - return true or false based upon if the criteria is met
+   * Returns whether some other object is "equal to" this one.
+   * @return whether some other object is "equal to" this one, encoded as a Boolean.
    */
   @Override
   public boolean equals(Object o) {
@@ -147,7 +214,7 @@ public class Number implements Validator<String> {
 
   /**
    * Method to determine if the hashcode of the object is a match
-   * @return - true or false depending on if the hash code is equal or not
+   * @return - a hashcode value for the object returned as an integer
    */
   @Override
   public int hashCode() {
@@ -155,8 +222,8 @@ public class Number implements Validator<String> {
   }
 
   /**
-   * Method that converts the object's field information into a string
-   * @return - True or false depending on if the string information matches
+   * Returns a string representation of the object.
+   * @return a string representation of the object, encoded as a String.
    */
   @Override
   public String toString() {

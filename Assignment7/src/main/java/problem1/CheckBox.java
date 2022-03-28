@@ -2,6 +2,8 @@ package problem1;
 
 public class CheckBox implements Validator<Boolean> {
 
+  private static final int HASH_CODE = 31;
+
   /**
    * Constructor for the CheckBox class
    */
@@ -31,17 +33,16 @@ public class CheckBox implements Validator<Boolean> {
 
   /**
    * Method to determine if the hashcode of the object is a match
-   * @return - true or false depending on if the hash code is equal or not
+   * @return - a hashcode value for the object returned as an integer
    */
   @Override
   public int hashCode() {
-    return super.hashCode();
+    return CheckBox.HASH_CODE;
   }
 
   /**
-   * Method that determines if the object is equal to in certain conditions
-   * @param obj - Object o to compare if the object is equivalent
-   * @return - return true or false based upon if the criteria is met
+   * Returns whether some other object is "equal to" this one.
+   * @return whether some other object is "equal to" this one, encoded as a Boolean.
    */
   @Override
   public boolean equals(Object obj) {
@@ -49,8 +50,8 @@ public class CheckBox implements Validator<Boolean> {
   }
 
   /**
-   * Method that converts the object's field information into a string
-   * @return - True or false depending on if the string information matches
+   * Returns a string representation of the object.
+   * @return a string representation of the object, encoded as a String.
    */
   @Override
   public String toString() {
