@@ -20,6 +20,11 @@ class NumberTest {
   }
 
   @Test
+  void testConstructorException() {
+    assertThrows(NegativeDecimalPlacesException.class, () -> new Number(10, 1, -1));
+  }
+
+  @Test
   void getMaximumValue() {
     assertEquals(10,testNumber.getMaximumValue());
   }
@@ -40,6 +45,10 @@ class NumberTest {
   void setMinimumValue() throws MinMaxValueException {
     testNumber.setMinimumValue(5);
     assertEquals(5,testNumber.getMinimumValue());
+
+    assertThrows(MinMaxValueException.class,() ->{
+      testNumber.setMinimumValue(500);
+    });
   }
 
   @Test
@@ -51,6 +60,11 @@ class NumberTest {
   void setMaximumDecimalPlaces() throws NegativeDecimalPlacesException {
     testNumber.setMaximumDecimalPlaces(4);
     assertEquals(4,testNumber.getMaximumDecimalPlaces());
+
+    assertThrows(MinMaxValueException.class,() ->{
+      testNumber.setMaximumValue(1);
+    });
+
   }
 
   @Test
