@@ -70,7 +70,7 @@ public class FreeText implements Validator<String> {
   }
 
   /**
-   * @return int: Hash code
+   * @return int: Hash code for object
    */
   @Override
   public int hashCode() {
@@ -88,6 +88,11 @@ public class FreeText implements Validator<String> {
         '}';
   }
 
+  /**
+   * @param input String: Free text
+   * @return Boolean: States whether the length of the input is equal to
+   * the length required
+   */
   private boolean freeTextLength(String input){
     int length = input.length();
     int maximumLength = this.numberOfLines*this.numberOfCharactersPerLine;

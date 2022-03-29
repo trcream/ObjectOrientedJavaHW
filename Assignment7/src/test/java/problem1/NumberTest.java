@@ -2,17 +2,20 @@ package problem1;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.Objects;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class NumberTest {
   private Number testNumber;
   private Number testNumber2;
+  private MinMaxValueException testNumber3;
 
   @BeforeEach
   void setUp() throws NegativeDecimalPlacesException, MinMaxValueException {
     testNumber = new Number(10,2,2);
     testNumber2 = new Number(5,2,2);
+    testNumber3 = new MinMaxValueException("You can't have negative decimal places");
 
   }
 
@@ -25,6 +28,7 @@ class NumberTest {
   void setMaximumValue() throws MinMaxValueException {
     testNumber.setMaximumValue(9);
     assertEquals(9,testNumber.getMaximumValue());
+
   }
 
   @Test
@@ -52,6 +56,11 @@ class NumberTest {
   @Test
   void testIsValid() {
     assertTrue(testNumber.isValid("4.32"));
+    assertFalse(testNumber.isValid("1"));
+    assertFalse(testNumber.isValid("11"));
+    assertFalse(testNumber.isValid("4a"));
+    assertFalse(testNumber.checkNumber(""));
+    assertFalse(testNumber.checkDecimalPlaces("23.3242"));
 
 
   }
@@ -66,6 +75,8 @@ class NumberTest {
 
   @Test
   void testHashCode() {
+    int expectedHashcode = Objects.hashCode(testNumber);
+    assertEquals(expectedHashcode,testNumber.hashCode());
 
   }
 

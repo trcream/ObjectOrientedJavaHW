@@ -2,6 +2,7 @@ package problem1;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.Objects;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -25,11 +26,17 @@ class CheckBoxTest {
 
   @Test
   void testHashCode() {
+    int expectHashcode = Objects.hashCode(testCheckBox);
+    assertEquals(expectHashcode,testCheckBox.hashCode());
 
   }
 
   @Test
   void testEquals() {
+    CheckBox expectedObject = testCheckBox;
+    assertTrue(testCheckBox.equals(expectedObject));
+
+
   }
 
   @Test
