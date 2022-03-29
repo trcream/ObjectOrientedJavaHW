@@ -2,6 +2,11 @@ package problem1;
 
 import java.util.Objects;
 
+/**
+ * Number class that implements validator. Number input is a valid if the string can be converted
+ * to the appropriate numeric format. This means that the value must be within the same range, decimals
+ * must be in the set range, and cannot can invalid characters, such as letters from the alphabet.
+ */
 public class Number implements Validator<String> {
 
   private Integer maximumValue;
@@ -62,9 +67,9 @@ public class Number implements Validator<String> {
   }
 
   /**
-   *
-   * @param maximumValue
-   * @throws MinMaxValueException
+   * Sets the maximum value that can be entered
+   * @param maximumValue - maximum value as an integer
+   * @throws MinMaxValueException - exception is through if min <= max.
    */
   public void setMaximumValue(Integer maximumValue) throws MinMaxValueException {
 
@@ -129,25 +134,13 @@ public class Number implements Validator<String> {
    * @return - true or false
    */
   private boolean checkNumber(String input) {
-
-    if(input.contains(".") == Boolean.TRUE) {
-      try {
-        String[] splitNumber = input.split("\\.");
-        long numberFirstHalfCheck = Long.parseLong(splitNumber[0]);
-        long numberSecondHalfCheck = Long.parseLong(splitNumber[1]);
+    try {
+      double parseString = Double.parseDouble(input);
         return true;
-
-      }
-      catch (NumberFormatException e){
-        return false;
-      }
     }
-      try {
-        Long.parseLong(input);
-        return true;
-      } catch (NumberFormatException e) {
-        return false;
-      }
+    catch (NumberFormatException e){
+      return false;
+    }
   }
 
   /**
@@ -171,12 +164,11 @@ public class Number implements Validator<String> {
    */
   private boolean checkDecimalPlaces(String input) {
 
-    if(input.contains(".") == (Boolean.FALSE)){
+    if(!input.contains(".")){
       return true;
     }
-    String[] splitNumber = input.split("\\.");
-    return splitNumber[1].length() >= 0 && splitNumber[1].length() <= this.maximumDecimalPlaces;
-
+      String[] splitNumber = input.split("\\.");
+      return splitNumber[1].length() <= this.maximumDecimalPlaces;
   }
 
   /**
