@@ -9,8 +9,8 @@ import java.util.Objects;
  * lines multiplied by the number of characters allowed per line.
  */
 public class FreeText implements Validator<String> {
-  public Integer numberOfLines;
-  public Integer numberOfCharactersPerLine;
+  private Integer numberOfLines;
+  private Integer numberOfCharactersPerLine;
 
   /**
    * @param numberOfLines Number of lines in text box
@@ -88,7 +88,7 @@ public class FreeText implements Validator<String> {
         '}';
   }
 
-  public boolean freeTextLength(String input){
+  private boolean freeTextLength(String input){
     int length = input.length();
     int maximumLength = this.numberOfLines*this.numberOfCharactersPerLine;
     return length <=maximumLength;

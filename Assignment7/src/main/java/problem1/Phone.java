@@ -4,7 +4,7 @@ package problem1;
 import java.util.Objects;
 
 public class Phone implements Validator<String> {
-  public Integer length;
+  private Integer length;
 
 
   public Phone(Integer length) {
@@ -47,10 +47,25 @@ public class Phone implements Validator<String> {
    * @param input
    * @return
    */
-  public boolean containsOnlyDigits(String input){
+  private boolean containsOnlyDigits(String input){
     Integer count = 0;
     for(int i =0; i<input.length(); i++){
       if(Character.isDigit(input.charAt(i))){
+        count++;
+      }
+    }
+    return count.equals(input.length());
+  }
+
+  /**
+   *
+   * @param input
+   * @return
+   */
+  private boolean validLength(String input) {
+    Integer count = 0;
+    for (int i = 0; i < input.length(); i++) {
+      if (Character.isDigit(input.charAt(i))) {
         count++;
       }
     }
@@ -65,6 +80,7 @@ public class Phone implements Validator<String> {
    */
   @Override
   public boolean isValid(String input) {
-    return containsOnlyDigits(input);
-  }
+      return containsOnlyDigits(input) && validLength(input);
+
+    }
 }
