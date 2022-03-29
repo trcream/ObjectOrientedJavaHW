@@ -13,7 +13,7 @@ public class Number implements Validator<String> {
    * @param maximumValue - maximum value that can be entered
    * @param minimumValue - minimum value that can be entered
    * @param maximumDecimalPlaces - maximum decimal places that can be entered
-   * @throws NegativeDecimalPlacesException - Exception when a max for negative decimal places is added
+   * @throws NegativeDecimalPlacesException - Exception thrown when negative decimal place is added
    * @throws MinMaxValueException - Exception when invalid values are entered for min and max
    */
 
