@@ -1,5 +1,7 @@
 package problem1;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
+
 public class RadioButton implements Validator<Boolean> {
 
   private static final int HASH_CODE = 31;
@@ -17,8 +19,7 @@ public class RadioButton implements Validator<Boolean> {
    */
   @Override
   public boolean isValid(Boolean input){
-    //Returning as a valid input as long as the button is selected as true or false
-    return input.equals(false) || input.equals(true);
+    return Boolean.FALSE.equals(input) || Boolean.TRUE.equals(input);
   }
 
   /**
