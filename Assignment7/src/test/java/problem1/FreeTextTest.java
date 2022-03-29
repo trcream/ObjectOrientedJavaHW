@@ -11,11 +11,17 @@ class FreeTextTest {
   private Field testField;
   private FreeText testFreeText;
   private FreeText testFreeText2;
+  private FreeText testFreeText3;
+  private FreeText testFreeText4;
+  private FreeText testFreeText5;
 
   @BeforeEach
   void setUp() {
     testFreeText = new FreeText(3, 50);
     testFreeText2 = new FreeText(1, 15);
+    testFreeText3 = new FreeText(3, 15);
+    testFreeText4 = new FreeText(1, 50);
+    testFreeText5 = new FreeText(3, 50);
 
     testField = new Field<>("FreeText", false, testFreeText);
     //testField.setValue("Setting the values to be tested");
@@ -44,19 +50,17 @@ class FreeTextTest {
   }
 
   @Test
-  void testEqualsSameObject() {
+  void testEquals() {
+
     assertTrue(testFreeText.equals(testFreeText));
-  }
-
-  @Test
-  void testEqualsDifferentObject() {
     assertFalse(testFreeText.equals(testFreeText2));
+    assertFalse(testFreeText.equals(null));
+    assertFalse(testFreeText.equals(testFreeText3));
+    assertFalse(testFreeText.equals(testFreeText4));
+    assertTrue(testFreeText.equals(testFreeText5));
   }
 
-  @Test
-  void testEqualsNullObject() {
-    assertFalse(testFreeText.equals(null));
-  }
+
 
   @Test
   void testHashCode() {
@@ -71,6 +75,13 @@ class FreeTextTest {
         ", numberOfCharactersPerLine=" + testFreeText.getNumberOfCharactersPerLine() +
         '}';
     assertEquals(expectedString, testFreeText.toString());
+  }
+
+  @Test
+  void freeTextLength() {
+    assertEquals(true, testFreeText.isValid("Test that will pass"));
+    assertEquals(false, testFreeText2.isValid("Test that will fail"));
+
   }
 
   @Test
