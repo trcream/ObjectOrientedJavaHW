@@ -34,6 +34,10 @@ class NumberTest {
     testNumber.setMaximumValue(9);
     assertEquals(9,testNumber.getMaximumValue());
 
+    assertThrows(MinMaxValueException.class,() ->{
+      testNumber.setMaximumValue(1);
+    });
+
   }
 
   @Test
@@ -61,8 +65,8 @@ class NumberTest {
     testNumber.setMaximumDecimalPlaces(4);
     assertEquals(4,testNumber.getMaximumDecimalPlaces());
 
-    assertThrows(MinMaxValueException.class,() ->{
-      testNumber.setMaximumValue(1);
+    assertThrows(NegativeDecimalPlacesException.class,() ->{
+      testNumber.setMaximumDecimalPlaces(-1);
     });
 
   }
@@ -82,10 +86,14 @@ class NumberTest {
   }
 
   @Test
-  void testEquals() {
+  void testEquals() throws NegativeDecimalPlacesException, MinMaxValueException {
     Number expectedObject = testNumber;
     assertTrue(testNumber.equals(expectedObject));
     assertFalse(testNumber.equals(testNumber2));
+    assertFalse(testNumber.equals(new Number(10,4,2)));
+    assertFalse(testNumber.equals(new Number(10,2,5)));
+    assertFalse(testNumber.equals(null));
+    assertFalse(testNumber.equals(new CheckBox()));
 
   }
 

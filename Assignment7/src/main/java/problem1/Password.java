@@ -11,7 +11,6 @@ import java.util.Objects;
  * ○ The minimum number of uppercase letters that the password must contain
  * (default = 0).
  * ○ The minimum number of digits that the password must contain (default = 0).
- * CS 5004, Spring 2022
  * To be valid, a password must meet the length requirements and contain at least the
  * minimum number of each character type. Additionally, a valid password cannot contain a
  * space (“ “). To keep things simple, all other characters are allowed.
@@ -23,6 +22,7 @@ public class Password implements Validator<String> {
   private Integer minUpperCases = 0;
   private Integer minDigits = 0;
 
+
   /**
    * @param minimumPasswordLength Integer: Minimum Password Length
    * @param maximumPasswordLength Integer: Maximum Password Length
@@ -30,6 +30,18 @@ public class Password implements Validator<String> {
    */
   private Boolean minMaxCheck(Integer minimumPasswordLength, Integer maximumPasswordLength) {
     return minimumPasswordLength <= maximumPasswordLength;
+  }
+
+  /**
+   * @param minLowerCases Integer: Minimum amount of lower cases within password
+   * @param minUpperCases Integer: Minimum amount of upper cases within password
+   * @param minDigits Integer: Minimum amount of digits within password
+   * @param maximumPasswordLength Integer: Maximum Password Length
+   * @return Boolean: States whether if the minimum and maximum length check is valid (true)
+   */
+  private Boolean minMaxLengthCheck(Integer minLowerCases, Integer minUpperCases,
+      Integer minDigits, Integer maximumPasswordLength){
+    return (minLowerCases+minUpperCases+minDigits) <= maximumPasswordLength;
   }
 
   /**
@@ -45,14 +57,22 @@ public class Password implements Validator<String> {
   public Password(Integer minimumPasswordLength, Integer maximumPasswordLength,
       Integer minLowerCases, Integer minUpperCases, Integer minDigits) throws
       MinMaxValueException {
-    if(minMaxCheck(minimumPasswordLength, maximumPasswordLength)) {
+      Boolean truthGate1 = minMaxCheck(minimumPasswordLength, maximumPasswordLength);
+      Boolean truthGate2 = minMaxLengthCheck(minLowerCases, minUpperCases, minDigits,maximumPasswordLength);
+    if(truthGate1) {
       this.minimumPasswordLength = minimumPasswordLength;
       this.maximumPasswordLength = maximumPasswordLength;
+    }
+    else{
+      throw new MinMaxValueException("The maximum length cannot be smaller than the minimum length");
+    }
+    if(truthGate2) {
       this.minLowerCases = minLowerCases;
       this.minUpperCases = minUpperCases;
       this.minDigits = minDigits;
-    } else {
-      throw new MinMaxValueException("The maximum password length cannot be smaller than the min");
+    }
+    else{
+      throw new MinMaxValueException("The minimum lower cases, upper cases, and digits cannot be larger than the maximum length");
     }
   }
 
@@ -125,8 +145,12 @@ public class Password implements Validator<String> {
    * @param minLowerCases Integer: Set the amount of minimum lower
    * cases
    */
-  public void setMinLowerCases(Integer minLowerCases) {
-    this.minLowerCases = minLowerCases;
+  public void setMinLowerCases(Integer minLowerCases) throws MinMaxValueException {
+    if(minMaxLengthCheck(minLowerCases, this.minUpperCases, this.minDigits,this.maximumPasswordLength)){
+      this.minLowerCases = minLowerCases;
+    } else {
+      throw new MinMaxValueException("the minimum upper cases, lower cases, and digits cannot be greater than the maximum length");
+    }
   }
 
   /**
@@ -140,8 +164,13 @@ public class Password implements Validator<String> {
    * @param minUpperCases Integer: Set the amount of minimum upper
    * cases
    */
-  public void setMinUpperCases(Integer minUpperCases) {
-    this.minUpperCases = minUpperCases;
+  public void setMinUpperCases(Integer minUpperCases) throws MinMaxValueException {
+    if (minMaxLengthCheck(minLowerCases, minUpperCases, this.minDigits,
+        this.maximumPasswordLength)) {
+      this.minUpperCases = minUpperCases;
+    } else {
+      throw new MinMaxValueException("the minimum upper cases, lower cases, and digits cannot be greater than the maximum length");
+    }
   }
 
   /**
@@ -154,8 +183,13 @@ public class Password implements Validator<String> {
   /**
    * @param minDigits Integer: Set minimum digits within password
    */
-  public void setMinDigits(Integer minDigits) {
-    this.minDigits = minDigits;
+  public void setMinDigits(Integer minDigits) throws MinMaxValueException {
+    if (minMaxLengthCheck(minLowerCases, minUpperCases, minDigits,
+        this.maximumPasswordLength)) {
+      this.minDigits = minDigits;
+    } else {
+      throw new MinMaxValueException("the minimum upper cases, lower cases, and digits cannot be greater than the maximum length");
+    }
   }
 
   /**

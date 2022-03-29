@@ -17,6 +17,10 @@ class PasswordTest {
   void testConstructorException() {
     assertThrows(MinMaxValueException.class, () -> new Password(10, 5));
     assertThrows(MinMaxValueException.class, () -> new Password(10, 5, 1, 1, 1));
+    assertThrows(MinMaxValueException.class, () -> new Password(1, 10, 11, 0, 0));
+    assertThrows(MinMaxValueException.class, () -> new Password(1, 10, 0, 11, 0));
+    assertThrows(MinMaxValueException.class, () -> new Password(1, 10, 0, 0, 11));
+
   }
 
   @Test
@@ -55,9 +59,10 @@ class PasswordTest {
   }
 
   @Test
-  void setMinLowerCases() {
+  void setMinLowerCases() throws MinMaxValueException {
     testPassword.setMinLowerCases(5);
     assertEquals(5, testPassword.getMinLowerCases());
+    assertThrows(MinMaxValueException.class, () -> testPassword.setMinLowerCases(15));
   }
 
   @Test
@@ -66,9 +71,11 @@ class PasswordTest {
   }
 
   @Test
-  void setMinUpperCases() {
-    testPassword.setMinUpperCases(15);
-    assertEquals(15, testPassword.getMinUpperCases());
+  void setMinUpperCases() throws MinMaxValueException {
+    testPassword.setMinUpperCases(3);
+    assertEquals(3, testPassword.getMinUpperCases());
+    assertThrows(MinMaxValueException.class, () -> testPassword.setMinUpperCases(15));
+
   }
 
   @Test
@@ -77,9 +84,12 @@ class PasswordTest {
   }
 
   @Test
-  void setMinDigits() {
-    testPassword.setMinDigits(1);
-    assertEquals(1, testPassword.getMinDigits());
+  void setMinDigits() throws MinMaxValueException {
+    testPassword.setMinDigits(3);
+    assertEquals(3, testPassword.getMinDigits());
+    assertThrows(MinMaxValueException.class, () -> testPassword.setMinDigits(15));
+
+
   }
 
   @Test
