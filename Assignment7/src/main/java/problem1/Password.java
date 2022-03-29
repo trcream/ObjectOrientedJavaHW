@@ -23,10 +23,25 @@ public class Password implements Validator<String> {
   private Integer minUpperCases = 0;
   private Integer minDigits = 0;
 
+  /**
+   * @param minimumPasswordLength Integer: Minimum Password Length
+   * @param maximumPasswordLength Integer: Maximum Password Length
+   * @return Boolean
+   */
   private Boolean minMaxCheck(Integer minimumPasswordLength, Integer maximumPasswordLength) {
     return minimumPasswordLength <= maximumPasswordLength;
   }
 
+  /**
+   * @param minimumPasswordLength Integer: Minimum Password Length
+   * @param maximumPasswordLength Integer: Maximum Password Length
+   * @param minLowerCases Integer: Minimum amount of lower cases within password
+   * @param minUpperCases Integer: Minimum amount of upper cases within password
+   * @param minDigits Integer: Minimum amount of digits within password
+   * @throws MinMaxValueException Throws exception when minimum or maximum password
+   * length is entered incorrectly based on parameters
+   * This constructor allows user to change parameters with defaults
+   */
   public Password(Integer minimumPasswordLength, Integer maximumPasswordLength,
       Integer minLowerCases, Integer minUpperCases, Integer minDigits) throws
       MinMaxValueException {
@@ -41,6 +56,13 @@ public class Password implements Validator<String> {
     }
   }
 
+  /**
+   * @param minimumPasswordLength Integer: Minimum Password Length
+   * @param maximumPasswordLength Integer: Maximum Password Length
+   * @throws MinMaxValueException Throws exception when minimum or maximum password
+   * length is entered incorrectly based on parameters
+   * This constructor allows user to not change defaults
+   */
   public Password(Integer minimumPasswordLength, Integer maximumPasswordLength) throws
       MinMaxValueException {
     if(minMaxCheck(minimumPasswordLength, maximumPasswordLength)) {
@@ -51,11 +73,19 @@ public class Password implements Validator<String> {
     }
   }
 
+  /**
+   * @return Integer: Object's minimum password length
+   */
   public Integer getMinimumPasswordLength() {
     return this.minimumPasswordLength;
   }
 
 
+  /**
+   * @param minimumPasswordLength Integer: Set minimum password length
+   * @throws MinMaxValueException Throws exception when minimum password
+   * length is greater than the max
+   */
   public void setMinimumPasswordLength(Integer minimumPasswordLength) throws MinMaxValueException {
     if(minMaxCheck(minimumPasswordLength, this.maximumPasswordLength)) {
       this.minimumPasswordLength = minimumPasswordLength;
@@ -64,10 +94,18 @@ public class Password implements Validator<String> {
     }
   }
 
+  /**
+   * @return Integer: Object's maximum password length
+   */
   public Integer getMaximumPasswordLength() {
     return this.maximumPasswordLength;
   }
 
+  /**
+   * @param maximumPasswordLength Integer: set maximum password length
+   * @throws MinMaxValueException Throws exception when maximum password length is less than
+   * the minimum password length
+   */
   public void setMaximumPasswordLength(Integer maximumPasswordLength) throws MinMaxValueException {
     if(minMaxCheck(this.minimumPasswordLength, maximumPasswordLength)) {
       this.maximumPasswordLength = maximumPasswordLength;
@@ -76,30 +114,54 @@ public class Password implements Validator<String> {
     }
   }
 
+  /**
+   * @return Integer: Object's minimum lower cases amount
+   */
   public Integer getMinLowerCases() {
     return this.minLowerCases;
   }
 
+  /**
+   * @param minLowerCases Integer: Set the amount of minimum lower
+   * cases
+   */
   public void setMinLowerCases(Integer minLowerCases) {
     this.minLowerCases = minLowerCases;
   }
 
+  /**
+   * @return Integer: Object's minimum upper cases amount
+   */
   public Integer getMinUpperCases() {
     return this.minUpperCases;
   }
 
+  /**
+   * @param minUpperCases Integer: Set the amount of minimum upper
+   * cases
+   */
   public void setMinUpperCases(Integer minUpperCases) {
     this.minUpperCases = minUpperCases;
   }
 
+  /**
+   * @return Integer: Object's minimum digits
+   */
   public Integer getMinDigits() {
     return this.minDigits;
   }
 
+  /**
+   * @param minDigits Integer: Set minimum digits within password
+   */
   public void setMinDigits(Integer minDigits) {
     this.minDigits = minDigits;
   }
 
+  /**
+   * @param o An Object
+   * @return Boolean to state whether if 2 objects are the same
+   */
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -116,12 +178,18 @@ public class Password implements Validator<String> {
         && Objects.equals(minDigits, password.minDigits);
   }
 
+  /**
+   * @return Hashcode for object
+   */
   @Override
   public int hashCode() {
     return Objects.hash(minimumPasswordLength, maximumPasswordLength, minLowerCases, minUpperCases,
         minDigits);
   }
 
+  /**
+   * @return String: Shows the values of all attributes within object
+   */
   @Override
   public String toString() {
     return "Password{" +
@@ -139,9 +207,12 @@ public class Password implements Validator<String> {
    * This is a helper method to isValid()
    */
   private boolean isAcceptableLength(String input){
-    Integer length = input.length();
-    return (length>= minimumPasswordLength && length<= maximumPasswordLength);
-
+    if (input == null) {
+      return Boolean.FALSE;
+    } else {
+      Integer length = input.length();
+      return (length >= minimumPasswordLength && length <= maximumPasswordLength);
+    }
   }
 
   /**
