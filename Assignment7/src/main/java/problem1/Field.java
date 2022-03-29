@@ -8,10 +8,10 @@ import java.util.Objects;
 
 public class Field <T> {
 
-  public String label;
-  public T value;
-  public Boolean required;
-  public Validator<T> validator;
+  private String label;
+  private T value;
+  private Boolean required;
+  private Validator<T> validator;
 
   /**
    * Constructor, creating a new Field object.
@@ -50,14 +50,6 @@ public class Field <T> {
    */
   public T getValue() {
     return this.value;
-  }
-
-  /**
-   * Sets the field's value.
-   * @param value - the input captured by the GUI.
-   */
-  public void setValue(T value) {
-    this.value = value;
   }
 
   /**
@@ -132,9 +124,9 @@ public class Field <T> {
       return false;
     }
     Field<?> field = (Field<?>) o;
-    return Objects.equals(label, field.label) && Objects.equals(value,
-        field.value) && Objects.equals(required, field.required)
-        && Objects.equals(validator, field.validator);
+    return Objects.equals(this.label, field.label) && Objects.equals(this.value,
+        field.value) && Objects.equals(this.required, field.required)
+        && Objects.equals(this.validator, field.validator);
   }
 
   /**
@@ -143,7 +135,7 @@ public class Field <T> {
    */
   @Override
   public int hashCode() {
-    return Objects.hash(label, value, required, validator);
+    return Objects.hash(this.label, this.value, this.required, this.validator);
   }
 
   /**
@@ -153,10 +145,10 @@ public class Field <T> {
   @Override
   public String toString() {
     return "Field{" +
-        "label='" + label + '\'' +
-        ", value=" + value +
-        ", required=" + required +
-        ", validator=" + validator +
+        "label='" + this.label + '\'' +
+        ", value=" + this.value +
+        ", required=" + this.required +
+        ", validator=" + this.validator +
         '}';
   }
 }
