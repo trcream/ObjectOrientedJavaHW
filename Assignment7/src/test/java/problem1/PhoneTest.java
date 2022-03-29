@@ -54,19 +54,6 @@ class PhoneTest {
   }
 
   @Test
-  void containsOnlyDigits() {
-    assertEquals(true, testPhone.containsOnlyDigits("123456"));
-    assertEquals(false, testPhone.containsOnlyDigits("123456abc"));
-  }
-
-  @Test
-  void validLength() {
-    assertEquals(false, testPhone.validLength("123456"));
-    assertEquals(true, testPhone.validLength("1234657891"));
-
-  }
-
-  @Test
   void isValid() {
     assertEquals(false, testPhone.isValid("1234657"));
     assertEquals(false, testPhone.isValid("1234657"));
