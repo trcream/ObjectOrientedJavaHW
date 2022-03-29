@@ -21,9 +21,9 @@ public class Password implements Validator<String> {
   private Integer maximumPasswordLength;
   private Integer minLowerCases = 0;
   private Integer minUpperCases = 0;
-  private Integer minDigits= 0;
+  private Integer minDigits = 0;
 
-  public Boolean minMaxCheck(Integer minimumPasswordLength, Integer maximumPasswordLength) {
+  private Boolean minMaxCheck(Integer minimumPasswordLength, Integer maximumPasswordLength) {
     return minimumPasswordLength <= maximumPasswordLength;
   }
 
@@ -56,7 +56,7 @@ public class Password implements Validator<String> {
   }
 
 
-  public void setMinimumPasswordLength(Integer minimumPasswordLength) {
+  public void setMinimumPasswordLength(Integer minimumPasswordLength) throws MinMaxValueException {
     if(minMaxCheck(minimumPasswordLength, this.maximumPasswordLength)) {
       this.minimumPasswordLength = minimumPasswordLength;
     } else {
@@ -68,7 +68,7 @@ public class Password implements Validator<String> {
     return this.maximumPasswordLength;
   }
 
-  public void setMaximumPasswordLength(Integer maximumPasswordLength) {
+  public void setMaximumPasswordLength(Integer maximumPasswordLength) throws MinMaxValueException {
     if(minMaxCheck(this.minimumPasswordLength, maximumPasswordLength)) {
       this.maximumPasswordLength = maximumPasswordLength;
     } else {
@@ -138,7 +138,7 @@ public class Password implements Validator<String> {
    * @return A boolean to state whether the password has a valid length
    * This is a helper method to isValid()
    */
-  public boolean isAcceptableLength(String input){
+  private boolean isAcceptableLength(String input){
     Integer length = input.length();
     return (length>= minimumPasswordLength && length<= maximumPasswordLength);
 
@@ -150,7 +150,7 @@ public class Password implements Validator<String> {
    * number of minimum lower cases
    * This is a helper method to isValid()
    */
-  public boolean hasMinimumLowerCases(String input){
+  private boolean hasMinimumLowerCases(String input){
     Integer count = 0;
     for(int i =0; i<input.length(); i++){
       if(Character.isLowerCase(input.charAt(i))){
@@ -167,7 +167,7 @@ public class Password implements Validator<String> {
    * number of minimum upper cases
    * This is a helper method to isValid()
    */
-  public boolean hasMinimumUpperCases(String input){
+  private boolean hasMinimumUpperCases(String input){
     Integer count = 0;
     for(int i =0; i<input.length(); i++){
       if(Character.isUpperCase(input.charAt(i))){
@@ -183,7 +183,7 @@ public class Password implements Validator<String> {
    * number of minimum digits
    * This is a helper method to isValid()
    */
-  public boolean hasMinimumDigits(String input) {
+  private boolean hasMinimumDigits(String input) {
     Integer count = 0;
     for(int i =0; i<input.length(); i++){
       if(Character.isDigit(input.charAt(i))){
@@ -200,7 +200,7 @@ public class Password implements Validator<String> {
    * This is a helper method to isValid()
    */
 
-  public boolean hasNoSpace(String input) {
+  private boolean hasNoSpace(String input) {
     for (int i = 0; i < input.length(); i++) {
       if (String.valueOf(input.charAt(i)).equals(" ")) {
         return false;
