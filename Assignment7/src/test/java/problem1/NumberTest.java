@@ -59,8 +59,8 @@ class NumberTest {
     assertFalse(testNumber.isValid("1"));
     assertFalse(testNumber.isValid("11"));
     assertFalse(testNumber.isValid("4a"));
-    assertFalse(testNumber.checkNumber(""));
-    assertFalse(testNumber.checkDecimalPlaces("23.3242"));
+    assertFalse(testNumber.isValid(""));
+    assertFalse(testNumber.isValid("23.3242"));
 
 
   }
