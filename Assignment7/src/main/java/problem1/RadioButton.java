@@ -1,7 +1,5 @@
 package problem1;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
-
 public class RadioButton implements Validator<Boolean> {
 
   private static final int HASH_CODE = 31;
