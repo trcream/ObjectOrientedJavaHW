@@ -1,5 +1,8 @@
 package problem1;
 
+/**
+ * MinMaxValueException is an Exception that is thrown when the max is less than the min
+ */
 public class MinMaxValueException extends Exception {
 
   /**
@@ -7,8 +10,9 @@ public class MinMaxValueException extends Exception {
    * larger than the maximum value or when the
    * maximum value is less than the minimum value
    *
-   * @param s: A string input
+   * @param message: Message to the user that the input is invalid
    */
-  public MinMaxValueException(String s) {
+  public MinMaxValueException(String message) {
+    super(message);
   }
 }

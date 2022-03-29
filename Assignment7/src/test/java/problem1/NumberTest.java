@@ -72,10 +72,12 @@ class NumberTest {
     assertTrue(testNumber.isValid("4.32"));
     assertFalse(testNumber.isValid("1"));
     assertFalse(testNumber.isValid("11"));
+    assertTrue(testNumber.isValid("8"));
+    assertFalse(testNumber.isValid("111111111111111111"));
     assertFalse(testNumber.isValid("4a"));
     assertFalse(testNumber.isValid(""));
     assertFalse(testNumber.isValid("23.3242"));
-
+    assertFalse(testNumber.isValid("23.3gwq242"));
 
   }
 

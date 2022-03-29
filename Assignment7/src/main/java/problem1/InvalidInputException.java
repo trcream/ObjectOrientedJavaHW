@@ -5,6 +5,10 @@ package problem1;
  */
 public class InvalidInputException extends Exception {
 
+  /**
+   * Exception is thrown when there is an invalid input
+   * @param message - Message to the user that the input is invalid
+   */
   public InvalidInputException(String message) {
     super(message);
   }

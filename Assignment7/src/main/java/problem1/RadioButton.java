@@ -1,5 +1,8 @@
 package problem1;
 
+/**
+ * RadioButton class that implements validator. RadioButton input is a valid input if the box is checked as true or false.
+ */
 public class RadioButton implements Validator<Boolean> {
 
   private static final int HASH_CODE = 31;

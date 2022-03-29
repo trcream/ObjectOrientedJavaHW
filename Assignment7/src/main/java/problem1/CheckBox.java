@@ -1,5 +1,9 @@
 package problem1;
 
+/**
+ * Checkbox class that implements validator. Checkbox input is a valid input if the box is checked, not
+ * checked or null.
+ */
 public class CheckBox implements Validator<Boolean> {
 
   private static final int HASH_CODE = 31;
