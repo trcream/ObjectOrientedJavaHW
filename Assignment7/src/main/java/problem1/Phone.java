@@ -12,14 +12,15 @@ public class Phone implements Validator<String> {
 
 
   /**
+   * Constructor for the Phone class
    * @param length Integer: Length of the phone number
-   * Constructor for class
    */
   public Phone(Integer length) {
     this.length = length;
   }
 
   /**
+   * Returns length of the phone number
    * @return Integer: Length of phone number
    */
   public Integer getLength() {
@@ -27,15 +28,16 @@ public class Phone implements Validator<String> {
   }
 
   /**
-   * @param length Integer: Set length of phone number
+   * Sets length of the phone number
+   * @param length Integer: Set length of the phone number
    */
   public void setLength(Integer length) {
     this.length = length;
   }
 
   /**
-   * @param o An Object
-   * @return Boolean: States whether if 2 objects are the same
+   * Returns whether some other object is "equal to" this one.
+   * @return whether some other object is "equal to" this one, encoded as a Boolean.
    */
   @Override
   public boolean equals(Object o) {
@@ -46,19 +48,21 @@ public class Phone implements Validator<String> {
       return false;
     }
     Phone phone = (Phone) o;
-    return Objects.equals(length, phone.length);
+    return Objects.equals(this.length, phone.length);
   }
 
   /**
-   * @return Hashcode for object
+   * Returns a hash code value for the object.
+   * @return a hash code value for the object, encoded as an Integer.
    */
   @Override
   public int hashCode() {
-    return Objects.hash(length);
+    return Objects.hash(this.length);
   }
 
   /**
-   * @return String: Shows the values of all attributes within object
+   * Returns a string representation of the object.
+   * @return a string representation of the object, encoded as a String.
    */
   @Override
   public String toString() {
@@ -68,6 +72,7 @@ public class Phone implements Validator<String> {
   }
 
   /**
+   * Method to determine if the input only contains digits
    * @param input String: Phone number
    * @return Boolean: States whether if the input only contains digits
    */
@@ -82,7 +87,7 @@ public class Phone implements Validator<String> {
   }
 
   /**
-   *
+   * Method to determine whether the length matches the required length
    * @param input String: Phone number
    * @return Boolean: States whether the length matches the required length
    */
@@ -98,6 +103,7 @@ public class Phone implements Validator<String> {
 
 
   /**
+   * Method to determine if the user input is a valid Phone number
    * @param input - General user input to be checked
    * @return A boolean to confirm whether the input is valid for
    * phone number

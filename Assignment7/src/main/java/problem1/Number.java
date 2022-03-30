@@ -40,7 +40,7 @@ public class Number implements Validator<String> {
   }
 
   /**
-   * Helper method to check that the minimum value is less than the max value;
+   * Helper method to check that the minimum value is less or equal to the max value;
    * @param minimumValue - Minimum value that can be entered
    * @param maximumValue - Maximum value that can be entered
    * @return - true or false
@@ -69,7 +69,7 @@ public class Number implements Validator<String> {
   /**
    * Sets the maximum value that can be entered
    * @param maximumValue - maximum value as an integer
-   * @throws MinMaxValueException - exception is through if min <= max.
+   * @throws MinMaxValueException - exception is thrown if max < min.
    */
   public void setMaximumValue(Integer maximumValue) throws MinMaxValueException {
 
@@ -129,7 +129,6 @@ public class Number implements Validator<String> {
 
   /**
    * Helper method to check that the given string is a number
-   *
    * @param input - User input to be checked as a string
    * @return - true or false
    */
@@ -144,26 +143,22 @@ public class Number implements Validator<String> {
   }
 
   /**
-   * Helper method to check that the given string has a length less than 10
-   *
+   * Helper method to check that the given string is between the min and max value
    * @param input - User input to be checked as a string
    * @return - true or false
    */
   private boolean checkValue(String input) {
-    // account for decimal places
     double stringToNumber = Double.parseDouble(input);
       return stringToNumber <= this.maximumValue && stringToNumber >= this.minimumValue;
   }
 
   /**
-   * Helper method to check that a given string, when converted to a number, only has two decimal
-   * places
-   *
+   * Helper method to check that a given string, when converted to a number, only less than or
+   * equal to the max number of decimal places
    * @param input - User input to be checked as a string
    * @return - true or false
    */
   private boolean checkDecimalPlaces(String input) {
-
     if(!input.contains(".")){
       return true;
     }
@@ -173,17 +168,14 @@ public class Number implements Validator<String> {
 
   /**
    * Method to check that text entered by a user can be converted to the appropriate numeric format.
-   * A string must be able to be converted to a number, less than 10 digits, and have less than two
-   * decimal places
-   *
+   * A string must be able to be converted to a number, between the min and max values, and less
+   * than or equal max amount of decimal places
    * @param input - User string to be validated
    * @return - true or false if the string meets the given criteria
    */
   @Override
   public boolean isValid(String input) {
-    //Checking that the input is a number, has the right length and decimal places
     return checkNumber(input) && checkValue(input) && checkDecimalPlaces(input);
-
   }
 
   /**
@@ -199,8 +191,8 @@ public class Number implements Validator<String> {
       return false;
     }
     Number number = (Number) o;
-    return Objects.equals(maximumValue, number.maximumValue) && Objects.equals(
-        minimumValue, number.minimumValue) && Objects.equals(maximumDecimalPlaces,
+    return Objects.equals(this.maximumValue, number.maximumValue) && Objects.equals(
+        this.minimumValue, number.minimumValue) && Objects.equals(this.maximumDecimalPlaces,
         number.maximumDecimalPlaces);
   }
 
@@ -210,7 +202,7 @@ public class Number implements Validator<String> {
    */
   @Override
   public int hashCode() {
-    return Objects.hash(maximumValue, minimumValue, maximumDecimalPlaces);
+    return Objects.hash(this.maximumValue, this.minimumValue, this.maximumDecimalPlaces);
   }
 
   /**
@@ -220,9 +212,9 @@ public class Number implements Validator<String> {
   @Override
   public String toString() {
     return "Number{" +
-        "maximumValue=" + maximumValue +
-        ", minimumValue=" + minimumValue +
-        ", maximumDecimalPlaces=" + maximumDecimalPlaces +
+        "maximumValue=" + this.maximumValue +
+        ", minimumValue=" + this.minimumValue +
+        ", maximumDecimalPlaces=" + this.maximumDecimalPlaces +
         '}';
   }
 }

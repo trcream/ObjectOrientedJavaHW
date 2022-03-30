@@ -7,6 +7,18 @@ package problem1;
 
 public interface FieldInterface<T> {
 
-  public void updateValue(T input) throws InvalidInputException;
-  public Boolean isFilled();
+  /**
+   * Method to update the Field’s value if the input is valid according to the validator.
+   * The data type of input will either be String or Boolean depending on the type of data the
+   * field accepts.
+   * @param input - user provided input to update value.
+   * @throws InvalidInputException an Exception that is thrown when an invalid input is provided.
+   */
+  void updateValue(T input) throws InvalidInputException;
+
+  /**
+   * Method to determine if a form is ready to submit.
+   * @return True if the Field has been filled out and False otherwise.
+   */
+  Boolean isFilled();
 }
