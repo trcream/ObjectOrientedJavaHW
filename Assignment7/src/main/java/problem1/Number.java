@@ -128,28 +128,19 @@ public class Number implements Validator<String> {
   }
 
   /**
-   * Helper method to check that the given string is a number
+   * Helper method to check that the given string is between the min and max value and is a
+   * numeric value with no allowed characters such as letters.
    * @param input - User input to be checked as a string
    * @return - true or false
    */
-  private boolean checkNumber(String input) {
+  private boolean checkNumValue(String input) {
     try {
-      double parseString = Double.parseDouble(input);
-        return true;
+      double stringToNumber = Double.parseDouble(input);
+      return stringToNumber <= this.maximumValue && stringToNumber >= this.minimumValue;
     }
     catch (NumberFormatException e){
       return false;
     }
-  }
-
-  /**
-   * Helper method to check that the given string is between the min and max value
-   * @param input - User input to be checked as a string
-   * @return - true or false
-   */
-  private boolean checkValue(String input) {
-    double stringToNumber = Double.parseDouble(input);
-      return stringToNumber <= this.maximumValue && stringToNumber >= this.minimumValue;
   }
 
   /**
@@ -175,7 +166,7 @@ public class Number implements Validator<String> {
    */
   @Override
   public boolean isValid(String input) {
-    return checkNumber(input) && checkValue(input) && checkDecimalPlaces(input);
+    return checkNumValue(input) && checkDecimalPlaces(input);
   }
 
   /**
