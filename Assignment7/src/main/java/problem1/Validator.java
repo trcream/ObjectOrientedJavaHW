@@ -1,5 +1,10 @@
 package problem1;
 
+/**
+ * Interface for a validator.
+ * @param <T> - Generic data type.
+ */
+
 public interface Validator<T> {
 
   /**

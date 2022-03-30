@@ -5,8 +5,7 @@ import java.util.Objects;
 /**
  * Field is a class that represents a field in a Graphical User Interface (GUI).
  */
-
-public class Field <T> {
+public class Field <T> implements FieldInterface <T> {
 
   private String label;
   private T value;
@@ -24,6 +23,7 @@ public class Field <T> {
    */
   public Field(String label, Boolean required, Validator<T> validator) {
     this.label = label;
+    this.value = null;
     this.required = required;
     this.validator = validator;
   }

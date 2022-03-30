@@ -28,7 +28,7 @@ public class CheckBox implements Validator<Boolean> {
 
   /**
    * Overloaded method that returns true when the value is null
-   * @return - true or false
+   * @return - true
    */
   public boolean isValid() {
     return true;
