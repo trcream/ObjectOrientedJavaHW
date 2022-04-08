@@ -23,71 +23,45 @@ public class LetterGenerator extends FileGenerator{
     super(csv, template, outputDirPath);
   }
 
-  public String helperFunction(String line){
-    if(line == null){
-      return "Error. There is a null";
-    }
-    else {
-      return line
-          .replaceAll("\\[\\[first_name", "Arjun").replaceAll("]]", "")
-          .replaceAll("\\[\\[last_name", "Patel").replaceAll("]]", "")
-          .replaceAll("\\[\\[company_name", "ARJUN PATEL LLC").replaceAll("]]", "")
-          .replaceAll("\\[\\[address", "4234 Battery St").replaceAll("]]", "")
-          .replaceAll("\\[\\[city", "Seattle").replaceAll("]]", "")
-          .replaceAll("\\[\\[county", "King").replaceAll("]]", "]]")
-          .replaceAll("\\[\\[state", "WA").replaceAll("]]", "")
-          .replaceAll("\\[\\[zip", "91234").replaceAll("]]", "")
-          .replaceAll("\\[\\[email", "patel.arjun1@northeastern.edu").replaceAll("]]", "");
-    }
-  }
 
+  public void LetterGenerator(String fileLocation) throws IOException {
+    ArrayList<String> parsedArray = new ArrayList<>();
+    parsedArray = super.parseCsv(fileLocation);
+    int fileCounter = 0;
+    for(int i = 0; i< parsedArray.size(); i++) {
+      String[] list = parsedArray.get(i).split("\",\"");
 
-  public void LetterGenerator(String fileLocation, ArrayList<String>list) throws IOException {
-    fileLocation = "C:\\Users\\Arjun Patel\\IdeaProjects\\Team_repo_Repo6_Arjun_Matthew_Trenton\\Assignment8\\src\\main\\java\\problem1\\letter-template.txt";
-
-    try {
-      BufferedReader reader = new BufferedReader(new FileReader(fileLocation));
-
-      String line;
-      int i =0; //index of list
-      int length = list.size();
-      //line = reader.readLine();
-      while((i <= length)) {
-        String firstname = list.get(i);
-        String lastname = list.get(i + 1);
-        String companyname = list.get(i + 2);
-        String address = list.get(i + 3);
-        String city = list.get(i + 4);
-        String county = list.get(i + 5);
-        String state = list.get(i + 6);
-        String zip = list.get(i + 7);
-        String email = list.get(i + 10);
-        BufferedWriter writer = new BufferedWriter(new FileWriter(
-            "C:\\Users\\Arjun Patel\\IdeaProjects\\Team_repo_Repo6_Arjun_Matthew_Trenton\\Assignment8\\src\\main\\java\\file\\"+ firstname + "_" + lastname + ".txt"));
+      fileLocation = "C:\\Users\\Arjun Patel\\IdeaProjects\\Team_repo_Repo6_Arjun_Matthew_Trenton\\Assignment8\\src\\main\\java\\problem1\\letter-template.txt" ;
+      try {
+        BufferedReader reader = new BufferedReader(new FileReader(fileLocation));
+        BufferedWriter writer = new BufferedWriter(new FileWriter("C:\\Users\\Arjun Patel\\IdeaProjects\\Team_repo_Repo6_Arjun_Matthew_Trenton\\Assignment8\\src\\main\\java\\file\\letter" +  fileCounter+".txt"));
+        String line;
 
         while ((line = reader.readLine()) != null) {
-          line
-              .replaceAll("\\[\\[first_name", firstname).replaceAll("]]", "")
-              .replaceAll("\\[\\[last_name", lastname).replaceAll("]]", "")
-              .replaceAll("\\[\\[company_name", companyname).replaceAll("]]", "")
-              .replaceAll("\\[\\[address", address).replaceAll("]]", "")
-              .replaceAll("\\[\\[city", city).replaceAll("]]", "")
-              .replaceAll("\\[\\[county", county).replaceAll("]]", "]]")
-              .replaceAll("\\[\\[state", state).replaceAll("]]", "")
-              .replaceAll("\\[\\[zip", zip).replaceAll("]]", "")
-              .replaceAll("\\[\\[email", email).replaceAll("]]", "");
+          writer.write(line
+              .replaceAll("\\[\\[first_name", list[0].replaceAll("\"","")).replaceAll("]]", "")
+              .replaceAll("\\[\\[last_name", list[1]).replaceAll("]]", "")
+              .replaceAll("\\[\\[company_name", list[2]).replaceAll("]]", "")
+              .replaceAll("\\[\\[address", list[3]).replaceAll("]]", "")
+              .replaceAll("\\[\\[city", list[4]).replaceAll("]]", "")
+              .replaceAll("\\[\\[county", list[5]).replaceAll("]]", "]]")
+              .replaceAll("\\[\\[state", list[6]).replaceAll("]]", "")
+              .replaceAll("\\[\\[zip", list[7]).replaceAll("]]", "")
+              .replaceAll("\\[\\[email", list[10]).replaceAll("]]", ""));
           System.out.println("Read: " + line);
-          writer.write(helperFunction(line));
           writer.newLine();
 
+
         }
+        fileCounter +=1;
+        System.out.println(fileCounter);
         reader.close();
         writer.close();
-        i = i + 12;
+      } catch (IOException e) {
+        e.printStackTrace();
       }
-    } catch (IOException e) {
-      e.printStackTrace();
     }
-
+    fileCounter+=1;
+    System.out.println(fileCounter);
   }
 }
