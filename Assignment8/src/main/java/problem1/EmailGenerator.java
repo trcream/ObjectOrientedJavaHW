@@ -50,13 +50,10 @@ public class EmailGenerator extends FileGenerator {
         while ((line = reader.readLine()) != null) {
           //System.out.println(line.replaceAll("\\[\\[email", "").replaceAll("]]", "trentoncreamer@yahoo.com"));
           line = line.replaceAll("\\[\\[emai", "").replaceAll("l]]", list[1].replaceAll("\"", ""));
-          //System.out.println(line.replaceAll("\\[\\[first_name", "").replaceAll("]]", "trenton"));
           line = line.replaceAll("\\[\\[fi", "")
               .replaceAll("rst_name]]", list[1].replaceAll("\"", ""));
-          //System.out.println(line.replaceAll("\\[\\[last_name", "").replaceAll("]]", "Creamer"));
           line = line.replaceAll("\\[\\[l", "")
               .replaceAll("ast_name]]", list[10].replaceAll("\"", ""));
-
           writer.write(line);
           writer.newLine();
 
@@ -67,37 +64,7 @@ public class EmailGenerator extends FileGenerator {
         e.printStackTrace();
       }
     }
-
   }
-
-//  public void writeFileContent(String fileLocation, String firstName, String lastName, String email ){
-//    fileLocation = "C:\\Users\\trent\\Desktop\\Masters Programs\\Northeastern\\CS5004\\GroupProject\\Team_repo_Repo6_Arjun_Matthew_Trenton\\Assignment8\\src\\main\\java\\problem1\\email-template.txt";
-//
-//    try {
-//      BufferedReader reader = new BufferedReader(new FileReader(fileLocation));
-//      BufferedWriter writer = new BufferedWriter(new FileWriter("testing.txt"));
-//
-//      String line;
-//
-//      while((line = reader.readLine()) != null){
-//        //System.out.println(line.replaceAll("\\[\\[email", "").replaceAll("]]", "trentoncreamer@yahoo.com"));
-//        line = line.replaceAll("\\[\\[emai", "").replaceAll("l]]", firstName);
-//        //System.out.println(line.replaceAll("\\[\\[first_name", "").replaceAll("]]", "trenton"));
-//        line = line.replaceAll("\\[\\[fi", "").replaceAll("rst_name]]", lastName);
-//        //System.out.println(line.replaceAll("\\[\\[last_name", "").replaceAll("]]", "Creamer"));
-//        line = line.replaceAll("\\[\\[l", "").replaceAll("ast_name]]", email);
-//
-//        writer.write(line);
-//        writer.newLine();
-//
-//      }
-//      reader.close();
-//      writer.close();
-//    } catch (IOException e) {
-//      e.printStackTrace();
-//    }
-//
-//  }
 
 
 //  @Override
