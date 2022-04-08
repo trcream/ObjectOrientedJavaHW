@@ -27,62 +27,77 @@ public class EmailGenerator extends FileGenerator {
     ArrayList<String> parsedValues = new ArrayList<>();
     for(int i = 0; i< parsedArray.size(); i++){
       String[] list = parsedArray.get(i).split("\",\"");
-      //System.out.println("First name: " + list[0].replaceAll("\"", ""));
-      //System.out.println("Last name: " + list[1].replaceAll("\"", ""));
-      //System.out.println("Email: " + list[10].replaceAll("\"", ""));
       parsedValues.add(list[0].replaceAll("\"", ""));
       parsedValues.add(list[1].replaceAll("\"", ""));
       parsedValues.add(list[10].replaceAll("\"", ""));
-      //helper method
-      writeFileContent("C:\\\\Users\\\\trent\\\\Desktop\\\\Masters Programs\\\\Northeastern\\\\CS5004\\\\GroupProject\\\\Team_repo_Repo6_Arjun_Matthew_Trenton\\\\Assignment8\\\\src\\\\main\\\\java\\\\problem1\\\\email-template.txt\"",
-          list[0].replaceAll("\"", ""),
-          list[1].replaceAll("\"", ""),
-          list[10].replaceAll("\"", ""));
     }
     return parsedValues;
   }
 
+  public void writeFileContent(String fileLocation ){
+    ArrayList<String> parsedArray = new ArrayList<>();
+    parsedArray = super.parseCsv(fileLocation);
+    for(int i = 0; i< parsedArray.size(); i++) {
+      String[] list = parsedArray.get(i).split("\",\"");
 
-  public void writeFileContent(String fileLocation, String firstName, String lastName, String email ){
-    fileLocation = "C:\\Users\\trent\\Desktop\\Masters Programs\\Northeastern\\CS5004\\GroupProject\\Team_repo_Repo6_Arjun_Matthew_Trenton\\Assignment8\\src\\main\\java\\problem1\\email-template.txt";
+      fileLocation = "C:\\Users\\trent\\Desktop\\Masters Programs\\Northeastern\\CS5004\\GroupProject\\Team_repo_Repo6_Arjun_Matthew_Trenton\\Assignment8\\src\\main\\java\\problem1\\email-template.txt";
+      try {
+        BufferedReader reader = new BufferedReader(new FileReader(fileLocation));
+        BufferedWriter writer = new BufferedWriter(new FileWriter("testing.txt"));
 
-    try {
-      BufferedReader reader = new BufferedReader(new FileReader(fileLocation));
-      BufferedWriter writer = new BufferedWriter(new FileWriter("testing.txt"));
+        String line;
 
-      String line;
+        while ((line = reader.readLine()) != null) {
+          //System.out.println(line.replaceAll("\\[\\[email", "").replaceAll("]]", "trentoncreamer@yahoo.com"));
+          line = line.replaceAll("\\[\\[emai", "").replaceAll("l]]", list[1].replaceAll("\"", ""));
+          //System.out.println(line.replaceAll("\\[\\[first_name", "").replaceAll("]]", "trenton"));
+          line = line.replaceAll("\\[\\[fi", "")
+              .replaceAll("rst_name]]", list[1].replaceAll("\"", ""));
+          //System.out.println(line.replaceAll("\\[\\[last_name", "").replaceAll("]]", "Creamer"));
+          line = line.replaceAll("\\[\\[l", "")
+              .replaceAll("ast_name]]", list[10].replaceAll("\"", ""));
 
-      while((line = reader.readLine()) != null){
-        //System.out.println(line.replaceAll("\\[\\[email", "").replaceAll("]]", "trentoncreamer@yahoo.com"));
-        line = line.replaceAll("\\[\\[emai", "").replaceAll("l]]", firstName);
-        //System.out.println(line.replaceAll("\\[\\[first_name", "").replaceAll("]]", "trenton"));
-        line = line.replaceAll("\\[\\[fi", "").replaceAll("rst_name]]", lastName);
-        //System.out.println(line.replaceAll("\\[\\[last_name", "").replaceAll("]]", "Creamer"));
-        line = line.replaceAll("\\[\\[l", "").replaceAll("ast_name]]", email);
+          writer.write(line);
+          writer.newLine();
 
-        writer.write(line);
-        writer.newLine();
-
+        }
+        reader.close();
+        writer.close();
+      } catch (IOException e) {
+        e.printStackTrace();
       }
-      reader.close();
-      writer.close();
-    } catch (IOException e) {
-      e.printStackTrace();
     }
 
   }
 
-  public void writeEmail(String location, String line){
-    location = "testing.txt";
-    try{
-      BufferedWriter writer = new BufferedWriter(new FileWriter(location));
-      writer.write(line);
-      writer.close();
-    }catch(IOException e){
-      e.printStackTrace();
-
-    }
-  }
+//  public void writeFileContent(String fileLocation, String firstName, String lastName, String email ){
+//    fileLocation = "C:\\Users\\trent\\Desktop\\Masters Programs\\Northeastern\\CS5004\\GroupProject\\Team_repo_Repo6_Arjun_Matthew_Trenton\\Assignment8\\src\\main\\java\\problem1\\email-template.txt";
+//
+//    try {
+//      BufferedReader reader = new BufferedReader(new FileReader(fileLocation));
+//      BufferedWriter writer = new BufferedWriter(new FileWriter("testing.txt"));
+//
+//      String line;
+//
+//      while((line = reader.readLine()) != null){
+//        //System.out.println(line.replaceAll("\\[\\[email", "").replaceAll("]]", "trentoncreamer@yahoo.com"));
+//        line = line.replaceAll("\\[\\[emai", "").replaceAll("l]]", firstName);
+//        //System.out.println(line.replaceAll("\\[\\[first_name", "").replaceAll("]]", "trenton"));
+//        line = line.replaceAll("\\[\\[fi", "").replaceAll("rst_name]]", lastName);
+//        //System.out.println(line.replaceAll("\\[\\[last_name", "").replaceAll("]]", "Creamer"));
+//        line = line.replaceAll("\\[\\[l", "").replaceAll("ast_name]]", email);
+//
+//        writer.write(line);
+//        writer.newLine();
+//
+//      }
+//      reader.close();
+//      writer.close();
+//    } catch (IOException e) {
+//      e.printStackTrace();
+//    }
+//
+//  }
 
 
 //  @Override
