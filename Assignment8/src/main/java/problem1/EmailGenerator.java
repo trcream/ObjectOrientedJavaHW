@@ -33,7 +33,7 @@ public class EmailGenerator extends FileGenerator {
       fileLocation = "C:\\Users\\trent\\Desktop\\Masters Programs\\Northeastern\\CS5004\\GroupProject\\Team_repo_Repo6_Arjun_Matthew_Trenton\\Assignment8\\src\\main\\java\\problem1\\email-template.txt" ;
       try {
         BufferedReader reader = new BufferedReader(new FileReader(fileLocation));
-        BufferedWriter writer = new BufferedWriter(new FileWriter("C:\\Users\\trent\\Desktop\\Masters Programs\\Northeastern\\CS5004\\GroupProject\\Team_repo_Repo6_Arjun_Matthew_Trenton\\Assignment8\\src\\main\\java\\file\\testing.txt" + fileCounter));
+        BufferedWriter writer = new BufferedWriter(new FileWriter("C:\\Users\\trent\\Desktop\\Masters Programs\\Northeastern\\CS5004\\GroupProject\\Team_repo_Repo6_Arjun_Matthew_Trenton\\Assignment8\\src\\main\\java\\file\\generatedEmail.txt" +  fileCounter));
         String line;
 
         while ((line = reader.readLine()) != null) {
