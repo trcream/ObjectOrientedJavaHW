@@ -9,7 +9,6 @@ import java.util.ArrayList;
 
 public class EmailGenerator extends FileGenerator {
 
-
   /**
    * @param csv       CSV file to derive information from to fill letter
    * @param template  Template file to use to generate letter
@@ -21,49 +20,44 @@ public class EmailGenerator extends FileGenerator {
 
   @Override
   public ArrayList<String> parseCsv(String fileLocation) {
-    ArrayList<String> parsedArray = new ArrayList<>();
-    System.out.println("Printing from Email Generator");
-    parsedArray = super.parseCsv(fileLocation);
-    ArrayList<String> parsedValues = new ArrayList<>();
-    for(int i = 0; i< parsedArray.size(); i++){
-      String[] list = parsedArray.get(i).split("\",\"");
-      parsedValues.add(list[0].replaceAll("\"", ""));
-      parsedValues.add(list[1].replaceAll("\"", ""));
-      parsedValues.add(list[10].replaceAll("\"", ""));
-    }
-    return parsedValues;
+    return super.parseCsv(fileLocation);
   }
 
   public void writeFileContent(String fileLocation ){
     ArrayList<String> parsedArray = new ArrayList<>();
     parsedArray = super.parseCsv(fileLocation);
+    int fileCounter = 0;
     for(int i = 0; i< parsedArray.size(); i++) {
       String[] list = parsedArray.get(i).split("\",\"");
 
-      fileLocation = "C:\\Users\\trent\\Desktop\\Masters Programs\\Northeastern\\CS5004\\GroupProject\\Team_repo_Repo6_Arjun_Matthew_Trenton\\Assignment8\\src\\main\\java\\problem1\\email-template.txt";
+      fileLocation = "C:\\Users\\trent\\Desktop\\Masters Programs\\Northeastern\\CS5004\\GroupProject\\Team_repo_Repo6_Arjun_Matthew_Trenton\\Assignment8\\src\\main\\java\\problem1\\email-template.txt" ;
       try {
         BufferedReader reader = new BufferedReader(new FileReader(fileLocation));
-        BufferedWriter writer = new BufferedWriter(new FileWriter("testing.txt"));
-
+        BufferedWriter writer = new BufferedWriter(new FileWriter("C:\\Users\\trent\\Desktop\\Masters Programs\\Northeastern\\CS5004\\GroupProject\\Team_repo_Repo6_Arjun_Matthew_Trenton\\Assignment8\\src\\main\\java\\file\\testing.txt" + fileCounter));
         String line;
 
         while ((line = reader.readLine()) != null) {
           //System.out.println(line.replaceAll("\\[\\[email", "").replaceAll("]]", "trentoncreamer@yahoo.com"));
-          line = line.replaceAll("\\[\\[emai", "").replaceAll("l]]", list[1].replaceAll("\"", ""));
+          line = line.replaceAll("\\[\\[emai", "").replaceAll("l]]", list[10].replaceAll("\"", ""));
           line = line.replaceAll("\\[\\[fi", "")
-              .replaceAll("rst_name]]", list[1].replaceAll("\"", ""));
+              .replaceAll("rst_name]]", list[0].replaceAll("\"", ""));
+          //System.out.println(line);
           line = line.replaceAll("\\[\\[l", "")
-              .replaceAll("ast_name]]", list[10].replaceAll("\"", ""));
+              .replaceAll("ast_name]]", list[1].replaceAll("\"", ""));
           writer.write(line);
           writer.newLine();
 
         }
+        fileCounter +=1;
+        System.out.println(fileCounter);
         reader.close();
         writer.close();
       } catch (IOException e) {
         e.printStackTrace();
       }
     }
+    fileCounter+=1;
+    System.out.println(fileCounter);
   }
 
 
