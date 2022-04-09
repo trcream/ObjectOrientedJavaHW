@@ -23,17 +23,18 @@ public class EmailGenerator extends FileGenerator {
     return super.parseCsv(fileLocation);
   }
 
-  public void writeFileContent(String fileLocation ){
+  public void writeFileContent(String csv, String template, String outputDirPath){
+    //outputDirPath = "C:\\Users\\trent\\Desktop\\Masters Programs\\Northeastern\\CS5004\\GroupProject\\Team_repo_Repo6_Arjun_Matthew_Trenton\\Assignment8\\src\\main\\java\\file\\generatedEmail.txt";
     ArrayList<String> parsedArray = new ArrayList<>();
-    parsedArray = super.parseCsv(fileLocation);
+    parsedArray = super.parseCsv(csv);
     int fileCounter = 0;
     for(int i = 0; i< parsedArray.size(); i++) {
       String[] list = parsedArray.get(i).split("\",\"");
 
-      fileLocation = "C:\\Users\\trent\\Desktop\\Masters Programs\\Northeastern\\CS5004\\GroupProject\\Team_repo_Repo6_Arjun_Matthew_Trenton\\Assignment8\\src\\main\\java\\problem1\\email-template.txt" ;
+      //template = "C:\\Users\\trent\\Desktop\\Masters Programs\\Northeastern\\CS5004\\GroupProject\\Team_repo_Repo6_Arjun_Matthew_Trenton\\Assignment8\\src\\main\\java\\problem1\\email-template.txt" ;
       try {
-        BufferedReader reader = new BufferedReader(new FileReader(fileLocation));
-        BufferedWriter writer = new BufferedWriter(new FileWriter("C:\\Users\\trent\\Desktop\\Masters Programs\\Northeastern\\CS5004\\GroupProject\\Team_repo_Repo6_Arjun_Matthew_Trenton\\Assignment8\\src\\main\\java\\file\\generatedEmail.txt" +  fileCounter));
+        BufferedReader reader = new BufferedReader(new FileReader(template));
+        BufferedWriter writer = new BufferedWriter(new FileWriter( outputDirPath + "\\generatedEmail" +  fileCounter));
         String line;
 
         while ((line = reader.readLine()) != null) {
@@ -59,7 +60,6 @@ public class EmailGenerator extends FileGenerator {
     fileCounter+=1;
     System.out.println(fileCounter);
   }
-
 
 //  @Override
 //  createFileName(){
