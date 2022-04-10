@@ -5,8 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class FileGenerator {
-
+public abstract class FileGenerator {
 
   /**
    *
@@ -14,7 +13,7 @@ public class FileGenerator {
    * @param template Template file to use to generate letter
    * @param outputDirPath Output directory to save newly generated letter to.
    */
-  //Double check no buffered reader in constructor
+
   public FileGenerator(String csv, String template, String outputDirPath) {
 
   }
@@ -23,11 +22,8 @@ public class FileGenerator {
     // return "firstname_lastname.txt
   }
 
-  //Update return type
-
   public ArrayList<String> parseCsv(String fileLocation){
     // parse CSV file to get information, need to match data to column name
-    fileLocation = "C:\\Users\\trent\\Desktop\\Masters Programs\\Northeastern\\CS5004\\GroupProject\\Team_repo_Repo6_Arjun_Matthew_Trenton\\Assignment8\\src\\main\\java\\problem1\\insurance-company-members.csv";
     ArrayList<String> parsedArray = new ArrayList<>();
     try{
       BufferedReader reader = new BufferedReader(new FileReader(fileLocation));
@@ -43,13 +39,7 @@ public class FileGenerator {
     return parsedArray;
   }
 
-  public void writeFileContent() {
-    // go through template and fill in [[ ]] with right information from csv
+  public void generateFileContent(String csv, String template, String outputDirPath) {
   }
 
-  //Update return type
-  public void generate(){
-    // create new BufferedWriter
-    // Replace strings in template with data from csv
-  }
 }
