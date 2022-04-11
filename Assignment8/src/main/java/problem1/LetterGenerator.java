@@ -1,7 +1,5 @@
 package problem1;
 
-import java.io.BufferedReader;
-
 public class LetterGenerator extends FileGenerator{
   /**
    * @param csv       CSV file to derive information from to fill letter
@@ -11,8 +9,17 @@ public class LetterGenerator extends FileGenerator{
   public LetterGenerator(String csv, String template, String outputDirPath) {
     super(csv, template, outputDirPath);
   }
-//  @Override
-//  createFileName(){
-//    // return "firstname_lastname_letter".txt
-//  }
+
+  @Override
+  public String createFileName(Integer index){
+    // By default, use first name and last name keys
+    String defaultName = this.generateDefaultFileName(index);
+
+    // If generating default file name produce empty file name
+    if (defaultName.equals("")) {
+      return "letter_" + index + ".txt";
+    } else {
+      return defaultName + "_letter.txt";
+    }
+  }
 }

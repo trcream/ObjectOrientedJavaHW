@@ -1,9 +1,5 @@
 package problem1;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-
 public class EmailGenerator extends FileGenerator {
 
   /**
@@ -13,31 +9,20 @@ public class EmailGenerator extends FileGenerator {
    */
   public EmailGenerator(String csv, String template, String outputDirPath) {
     super(csv, template, outputDirPath);
+
+    System.out.println(this.template);
   }
 
   @Override
-  public void parseCsv(String fileLocation) {
-    super.parseCsv(fileLocation);
-  }
+  public String createFileName(Integer index){
+    // By default, use first name and last name keys
+    String defaultName = this.generateDefaultFileName(index);
 
-  public void readTemplate(String fileLocation){
-
-    fileLocation = "C:\\Users\\trent\\Desktop\\Masters Programs\\Northeastern\\CS5004\\GroupProject\\Team_repo_Repo6_Arjun_Matthew_Trenton\\HW8\\src\\main\\java\\Problem1\\email-template.txt";
-    try {
-      BufferedReader reader = new BufferedReader(new FileReader(fileLocation));
-      String line;
-      while((line = reader.readLine()) != null){
-        System.out.println("Read: " + line);
-      }
-      reader.close();
-    } catch (IOException e) {
-      e.printStackTrace();
+    // If generating default file name produce empty file name
+    if (defaultName.equals("")) {
+      return "email_" + index + ".txt";
+    } else {
+      return defaultName + "_email.txt";
     }
-
   }
-
-//  @Override
-//  createFileName(){
-//    // return "firstname_lastname_email".txt
-//  }
 }

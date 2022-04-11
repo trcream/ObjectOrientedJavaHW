@@ -1,23 +1,21 @@
 package problem1;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class FileGenerator {
+  String csv;
+  String template;
+  String outputDirPath;
 
-  private String firstName;
-  private String lastName;
-  private String companyName;
-  private String address;
-  private String city;
-  private String county;
-  private String state;
-  private String zip;
-  private String phone1;
-  private String phone2;
-  private String email;
-  private String web;
+  ArrayList<ArrayList<String>> informationFromCsv = new ArrayList<>();
+  HashMap<String, Integer> columnIndices = new HashMap<>();
 
   /**
    *
@@ -25,59 +23,134 @@ public class FileGenerator {
    * @param template Template file to use to generate letter
    * @param outputDirPath Output directory to save newly generated letter to.
    */
-  //Double check no buffered reader in constructor
   public FileGenerator(String csv, String template, String outputDirPath) {
-
-
+    this.csv = csv;
+    this.template = template;
+    this.outputDirPath = outputDirPath;
   }
 
-  public void createFileName(){
-    // return "firstname_lastname.txt
+  public String createFileName(Integer index){
+    // By default, use first name and last name keys
+    String defaultName = this.generateDefaultFileName(index);
+
+    // If generating default file name produce empty file name
+    if (defaultName.equals("")) {
+      return "file_" + index + ".txt";
+    } else {
+      return defaultName + ".txt";
+    }
   }
 
-  //Update return type
+  public String generateDefaultFileName(Integer index) {
+    ArrayList<String> row = this.informationFromCsv.get(index);
 
-  public void parseCsv(String fileLocation){
-    // parse CSV file to get information, need to match data to column name
-    fileLocation = "C:\\Users\\trent\\Desktop\\Masters Programs\\Northeastern\\CS5004\\GroupProject\\Team_repo_Repo6_Arjun_Matthew_Trenton\\Assignment8\\src\\main\\java\\problem1\\insurance-company-members.csv";
+    String firstName = null;
+    String lastName = null;
+    String fileName = "";
 
+    for (String key:  this.columnIndices.keySet()) {
+      if (key.toLowerCase().matches("first.*name")){
+        firstName = row.get(this.columnIndices.get(key));
+      }
+
+      if (key.toLowerCase().matches("last.*name")){
+        lastName = row.get(this.columnIndices.get(key));
+      }
+    }
+
+    if (firstName != null) {
+      fileName = fileName.concat(firstName);
+    }
+
+    if (lastName != null) {
+      if (fileName.length() > 0){
+        fileName = fileName.concat("_");
+      }
+
+      fileName = fileName.concat(lastName);
+    }
+
+    return fileName;
+  }
+
+  private String getValue(Integer index, String key) {
+    return this.informationFromCsv.get(index).get(this.columnIndices.get(key));
+  }
+
+  /**
+   *
+   */
+  public void createColumnIndices() {
+    for (int i = 0; i < this.informationFromCsv.get(0).size(); i++ ){
+      String key = this.informationFromCsv.get(0).get(i);
+      if (!key.equals("")) {
+        Integer value = i;
+        this.columnIndices.put(key, value);
+      }
+    }
+  }
+
+  /**
+   *
+   * @param fileLocation
+   */
+  private void parseCsv(String fileLocation){
     try{
       BufferedReader reader = new BufferedReader(new FileReader(fileLocation));
       String line;
       while ((line = reader.readLine()) != null) {
-        //System.out.println("Read: " + line);
-        String[] list = line.split("\",\"");
-        //String firstname = list[0].replaceAll("\"", "");
-        //System.out.println("First name: " + firstname);
-        System.out.println("First name: " + list[0].replaceAll("\"", ""));
-        System.out.println("Last name: " + list[1].replaceAll("\"", ""));
-        System.out.println("Company: " + list[2].replaceAll("\"", ""));
-        System.out.println("Address: " + list[3].replaceAll("\"", ""));
-        System.out.println("City: " + list[4].replaceAll("\"", ""));
-        System.out.println("County: " + list[5].replaceAll("\"", ""));
-        System.out.println("Sate: " + list[6].replaceAll("\"", ""));
-        System.out.println("Zip: " + list[7].replaceAll("\"", ""));
-        System.out.println("Phone1: " + list[8].replaceAll("\"", ""));
-        System.out.println("Phone2: " + list[9].replaceAll("\"", ""));
-        System.out.println("Email: " + list[10].replaceAll("\"", ""));
-        System.out.println("Web: " + list[11].replaceAll("\"", ""));
-
+        ArrayList<String> csvRow = new ArrayList(Arrays.asList(line.split("\"*,*\"")));
+        System.out.println(Arrays.deepToString(csvRow.toArray()));
+        this.informationFromCsv.add(csvRow);
       }
       reader.close();
+      this.createColumnIndices();
     } catch (IOException e) {
       e.printStackTrace();
     }
   }
 
-  //Update return type
+  private void writeFileContent(Integer rowIndex, String fileName) {
+    try {
+      BufferedReader reader = new BufferedReader(new FileReader(this.template));
+      BufferedWriter writer = new BufferedWriter(new FileWriter( outputDirPath + "/" + fileName));
+      String line;
+      Pattern pattern = Pattern.compile("\\[\\[(.*?)\\]\\]");
 
-  public void writeFileContent() {
-    // go through template and fill in [[ ]] with right information from csv
+      while ((line = reader.readLine()) != null) {
+        Matcher matcher = pattern.matcher(line);
+
+        while (matcher.find()){
+          String key = matcher.group(1);
+          String value = this.getValue(rowIndex, key);
+
+          line = line.replace(matcher.group(), value);
+        }
+
+        writer.write(line);
+        writer.newLine();
+
+      }
+      reader.close();
+      writer.close();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
-  //Update return type
   public void generate(){
-    // create new BufferedWriter
-    // Replace strings in template with data from csv
+    this.parseCsv(this.csv);
+//    System.out.println(Arrays.deepToString(this.informationFromCsv.toArray()));
+    System.out.println("Printing columnIndices Hashmap");
+    System.out.println(Arrays.asList(this.columnIndices));
+
+    if (this.informationFromCsv.size() > 1) {
+      // Ignore column headers, skip first row
+      for (int i = 1; i < this.informationFromCsv.size(); i++) {
+        String fileName = this.createFileName(i);
+
+        this.writeFileContent(i, fileName);
+      }
+    }
   }
 }

@@ -1,15 +1,18 @@
 package problem1;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-
 public class Main {
 
   public static void main(String[] args) {
-    FileGenerator testFileGenerator = new FileGenerator("test", "test", "test");
-    //testFileGenerator.fileReader("C:\\Users\\trent\\Desktop\\Masters Programs\\Northeastern\\CS5004\\GroupProject\\Team_repo_Repo6_Arjun_Matthew_Trenton\\HW8\\src\\main\\java\\Problem1\\insurance-company-members.csv");
-    EmailGenerator testEmailGenerator = new EmailGenerator("test", "test", "test");
-    testEmailGenerator.parseCsv("C:\\Users\\trent\\Desktop\\Masters Programs\\Northeastern\\CS5004\\GroupProject\\Team_repo_Repo6_Arjun_Matthew_Trenton\\Assignment8\\src\\main\\java\\problem1\\insurance-company-members.csv");
-    //testEmail.readTemplate("C:\\Users\\trent\\Desktop\\Masters Programs\\Northeastern\\CS5004\\GroupProject\\Team_repo_Repo6_Arjun_Matthew_Trenton\\HW8\\src\\main\\java\\Problem1\\email-template.txt");
+    try {
+      String emailTemplateFilePath = "/Users/matthewfox/Desktop/GroupProject/Team_repo_Repo6_Arjun_Matthew_Trenton/Assignment8/src/main/java/problem1/email-template.txt";
+      String csvFilePath = "/Users/matthewfox/Desktop/GroupProject/Team_repo_Repo6_Arjun_Matthew_Trenton/Assignment8/src/main/java/problem1/insurance-company-members.csv";
+      String outputFilePath = "/Users/matthewfox/Desktop/GroupProject/Team_repo_Repo6_Arjun_Matthew_Trenton/Assignment8/files";
+      String letterTemplateFilePath = "/Users/matthewfox/Desktop/GroupProject/Team_repo_Repo6_Arjun_Matthew_Trenton/Assignment8/src/main/java/problem1/letter-template.txt";
+      String[] arguments = {"--email", "--email-template", emailTemplateFilePath, "--letter", "--letter-template", letterTemplateFilePath,"--csv-file", csvFilePath, "--output-dir", outputFilePath};
+      CommandLineParser commandLine = new CommandLineParser(arguments);
+
+    } catch (InvalidArgumentsException e) {
+      System.out.println("ERROR: " + e.getMessage());
+    }
   }
 }
