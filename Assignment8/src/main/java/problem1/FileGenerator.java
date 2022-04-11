@@ -116,7 +116,7 @@ public class FileGenerator implements FileGeneratorI{
     }
   }
 
-  public void writeFileContent(Integer rowIndex, String fileName) {
+  public int writeFileContent(Integer rowIndex, String fileName) {
     try {
       BufferedReader reader = new BufferedReader(new FileReader(this.template));
       BufferedWriter writer = new BufferedWriter(new FileWriter( outputDirPath + "/" + fileName));
@@ -139,12 +139,15 @@ public class FileGenerator implements FileGeneratorI{
       }
       reader.close();
       writer.close();
+      return 1;
     } catch (IOException e) {
       e.printStackTrace();
+      return 0;
     }
   }
 
   public void generate(){
+    // this.informationfromCSV
     this.parseCsv(this.csv);
 //    System.out.println(Arrays.deepToString(this.informationFromCsv.toArray()));
     System.out.println("Printing columnIndices Hashmap");

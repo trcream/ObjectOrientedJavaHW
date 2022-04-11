@@ -1,7 +1,5 @@
 package problem1;
 
-import java.util.ArrayList;
-
 /**
  * Interface for the file generator class
  */
@@ -11,7 +9,7 @@ public interface FileGeneratorI {
 
   void parseCsv(String csv);
 
-  void writeFileContent(Integer rowIndex, String fileName);
+  int writeFileContent(Integer rowIndex, String fileName);
 
   void generate();
 }
