@@ -7,21 +7,11 @@ import java.util.ArrayList;
  */
 public interface FileGeneratorI {
 
-  /**
-   * Method to create file names
-   * @return - file names
-   */
-  String createFileName();
+  String createFileName(Integer index);
 
-  /**
-   * Method to parse values based on a given csv file
-   * @param csv - file location of the csv to be parsed
-   * @return
-   */
-  ArrayList<String> parseCsv(String csv);
+  void parseCsv(String csv);
 
-  void setHeaderValues(String csv);
+  void writeFileContent(Integer rowIndex, String fileName);
 
-  void generateFileContent(String csv, String template, String outputDirPath);
-
+  void generate();
 }

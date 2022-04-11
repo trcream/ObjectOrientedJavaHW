@@ -1,7 +1,4 @@
 package problem1;
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.util.*;
 
 /**
@@ -18,9 +15,9 @@ public class CommandLineParser {
 
   private String[] requiredOptions = {OUTPUT_ARGUMENT_KEY, CSV_ARGUMENT_KEY};
 
-  public BufferedReader emailTemplate;
-  public BufferedReader letterTemplate;
-  public BufferedReader csv;
+  public String emailTemplate;
+  public String letterTemplate;
+  public String csv;
   public String outputDirPath;
 
   /**
@@ -48,7 +45,7 @@ public class CommandLineParser {
    * @param args The arguments provided by the user.
    * @return arguments with duplicates removed
    */
-  private HashMap<String, String> preprocessArgs(String[] args) throws InvalidArgumentsException {
+  private HashMap<String, String> preprocessArgs(String[] args) {
     String OPTION_FLAG = "--";
     HashMap<String, String> processedArgs = new HashMap<String, String>();
 
@@ -83,7 +80,7 @@ public class CommandLineParser {
     // check required options
     checkRequiredOptions(processedArgs);
     this.outputDirPath = processedArgs.get(OUTPUT_ARGUMENT_KEY);
-    this.csv = this.fetchFile(processedArgs.get(CSV_ARGUMENT_KEY));
+    this.csv = processedArgs.get(CSV_ARGUMENT_KEY);
 
     // check that either email option or letter option is given
     if (!processedArgs.containsKey(EMAIL_ARGUMENT_KEY) &&
@@ -91,15 +88,17 @@ public class CommandLineParser {
       throw new InvalidArgumentsException("Neither email option or letter option were chosen.");
     }
 
+    System.out.println("CSV from: " + processedArgs.get(CSV_ARGUMENT_KEY));
+    System.out.println("Output directory: " + processedArgs.get(OUTPUT_ARGUMENT_KEY));
     // check if email option is given, email-template is also given
     if (processedArgs.containsKey(EMAIL_ARGUMENT_KEY)) {
       if (processedArgs.get(EMAIL_TEMPLATE_ARGUMENT_KEY) == null) {
         throw new InvalidArgumentsException("Email option chosen but no email template given.");
       } else {
-        this.emailTemplate = this.fetchFile(processedArgs.get(EMAIL_ARGUMENT_KEY));
+        this.emailTemplate = processedArgs.get(EMAIL_TEMPLATE_ARGUMENT_KEY);
 
-        // TODO: Create new EmailGenerator
-        // emailGenerator.generate();
+        EmailGenerator emailGenerator = new EmailGenerator(this.csv, this.emailTemplate, this.outputDirPath);
+        emailGenerator.generate();
       }
     }
 
@@ -108,10 +107,10 @@ public class CommandLineParser {
       if (processedArgs.get(LETTER_TEMPLATE_ARGUMENT_KEY) == null) {
         throw new InvalidArgumentsException("Letter option chosen but no letter template given.");
       } else {
-        this.letterTemplate = this.fetchFile(processedArgs.get(LETTER_ARGUMENT_KEY));
+        this.letterTemplate = processedArgs.get(LETTER_TEMPLATE_ARGUMENT_KEY);
 
-        // TODO: Create new LetterGenerator
-        // letterGenerator.generate();
+        LetterGenerator letterGenerator = new LetterGenerator(this.csv, this.letterTemplate, this.outputDirPath);
+        letterGenerator.generate();
       }
     }
   }
@@ -129,20 +128,5 @@ public class CommandLineParser {
         throw new InvalidArgumentsException(requiredOption + " option is required.");
       }
     }
-  }
-
-  /**
-   * Gets the file from given path.
-   * @param pathToFile
-   * @return
-   */
-  BufferedReader fetchFile(String pathToFile){
-    try {
-      return new BufferedReader(new FileReader(pathToFile));
-    } catch (FileNotFoundException fnfe) {
-      System.out.println("*** OOPS! A file was not found : " + fnfe.getMessage());
-      fnfe.printStackTrace();
-    }
-    return null;
   }
 }
