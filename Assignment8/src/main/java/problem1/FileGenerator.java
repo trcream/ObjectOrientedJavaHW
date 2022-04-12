@@ -17,9 +17,9 @@ import java.util.regex.Pattern;
  * File generator is a class that is used to generate files
  */
 public class FileGenerator implements FileGeneratorI{
-  String csv;
-  String template;
-  String outputDirPath;
+  public String csv;
+  public String template;
+  public String outputDirPath;
 
   ArrayList<ArrayList<String>> informationFromCsv = new ArrayList<>();
   HashMap<String, Integer> columnIndices = new HashMap<>();
@@ -115,15 +115,20 @@ public class FileGenerator implements FileGeneratorI{
    * @return - the filename
    */
   public String createFileName(Integer index){
+    String fileName = "";
     // By default, use first name and last name keys
     String defaultName = this.generateDefaultFileName(index);
 
     // If generating default file name produce empty file name
     if (defaultName.equals("")) {
-      return "file_" + index + ".txt";
+      fileName = fileName.concat("file");
     } else {
-      return defaultName + ".txt";
+      fileName = fileName.concat(defaultName);
     }
+
+    // add row index for easy csv lookup
+    return fileName.concat("_" + index + ".txt");
+
   }
 
   /**

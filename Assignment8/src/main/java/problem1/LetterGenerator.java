@@ -19,7 +19,7 @@ public class LetterGenerator extends FileGenerator{
     if (defaultName.equals("")) {
       return "letter_" + index + ".txt";
     } else {
-      return defaultName + "_letter.txt";
+      return defaultName + "_letter_" + index + ".txt";
     }
   }
 }
