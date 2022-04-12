@@ -29,7 +29,8 @@ public class EmailGenerator extends FileGenerator {
     if (defaultName.equals("")) {
       return "email_" + index + ".txt";
     } else {
-      return defaultName + "_email.txt";
+      return defaultName + "_email_" + index + ".txt";
     }
+
   }
 }

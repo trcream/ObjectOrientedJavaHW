@@ -2,6 +2,7 @@ package problem1;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
@@ -15,12 +16,14 @@ class EmailGeneratorTest {
   private EmailGenerator testEmailGenerator3;
   private EmailGenerator testEmailGenerator4;
 
-  String emailTemplateFilePath = "C:\\Users\\trent\\Desktop\\Masters Programs\\Northeastern\\CS5004\\GroupProject\\Team_repo_Repo6_Arjun_Matthew_Trenton\\Assignment8\\src\\main\\java\\inputFiles\\email-template.txt";
-  String emailTemplateFilePath2 = "C:\\Users\\trent\\Desktop\\Masters Programs\\Northeastern\\CS5004\\GroupProject\\Team_repo_Repo6_Arjun_Matthew_Trenton\\Assignment8\\src\\main\\java\\inputFiles\\email-template.txt2";
-  String csvFilePath = "C:\\Users\\trent\\Desktop\\Masters Programs\\Northeastern\\CS5004\\GroupProject\\Team_repo_Repo6_Arjun_Matthew_Trenton\\Assignment8\\src\\main\\java\\inputFiles\\insurance-company-members.csv";
-  String csvFilePath2 = "C:\\Users\\trent\\Desktop\\Masters Programs\\Northeastern\\CS5004\\GroupProject\\Team_repo_Repo6_Arjun_Matthew_Trenton\\Assignment8\\src\\main\\java\\inputFiles\\insurance-company-members3.csv";
-  String outputFilePath = "C:\\Users\\trent\\Desktop\\Masters Programs\\Northeastern\\CS5004\\GroupProject\\Team_repo_Repo6_Arjun_Matthew_Trenton\\Assignment8\\src\\main\\java\\outputFiles";
-  String outputFilePath2 = "C:\\Users\\trent\\Desktop\\Masters Programs\\Northeastern\\CS5004\\GroupProject\\Team_repo_Repo6_Arjun_Matthew_Trenton\\Assignment8\\src\\main\\java\\outputFiles2";
+  String filePath = new File("").getAbsolutePath();
+
+  String emailTemplateFilePath = filePath + "\\src\\main\\java\\inputFiles\\email-template.txt";
+  String emailTemplateFilePath2 = filePath + "\\src\\main\\java\\inputFiles\\email-template.txt2";
+  String csvFilePath =  filePath + "\\src\\main\\java\\inputFiles\\insurance-company-members.csv";
+  String csvFilePath2 = filePath + "\\src\\main\\java\\inputFiles\\insurance-company-members3.csv";
+  String outputFilePath = filePath + "\\src\\main\\java\\outputFiles";
+  String outputFilePath2 = filePath + "\\src\\main\\java\\outputFiles2";
 
   @BeforeEach
   void setUp() {
@@ -50,7 +53,7 @@ class EmailGeneratorTest {
   void testCreateFileName() {
     testEmailGenerator.parseCsv(csvFilePath);
     testEmailGenerator2.parseCsv(csvFilePath2);
-    assertEquals("first_name_last_name_email.txt", testEmailGenerator.createFileName(0));
+    assertEquals("first_name_last_name_email_0.txt", testEmailGenerator.createFileName(0));
      assertEquals("email_0.txt", testEmailGenerator2.createFileName(0));
   }
 
@@ -85,7 +88,7 @@ class EmailGeneratorTest {
 
     testEmailGenerator.parseCsv(csvFilePath);
     testEmailGenerator2.parseCsv(csvFilePath2);
-    assertEquals("first_name_last_name_email.txt", testEmailGenerator.createFileName(0));
+    assertEquals("first_name_last_name_email_0.txt", testEmailGenerator.createFileName(0));
     assertEquals("email_0.txt", testEmailGenerator2.createFileName(0));
 
 
