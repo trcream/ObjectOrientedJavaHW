@@ -9,7 +9,7 @@ public interface FileGeneratorI {
 
   void parseCsv(String csv);
 
-  int writeFileContent(Integer rowIndex, String fileName);
+  void writeFileContent(Integer rowIndex, String fileName);
 
   void generate();
 }

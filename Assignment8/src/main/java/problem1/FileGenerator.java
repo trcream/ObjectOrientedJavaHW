@@ -35,6 +35,26 @@ public class FileGenerator implements FileGeneratorI{
     this.outputDirPath = outputDirPath;
   }
 
+  public String getCsv() {
+    return csv;
+  }
+
+  public String getTemplate() {
+    return template;
+  }
+
+  public String getOutputDirPath() {
+    return outputDirPath;
+  }
+
+  public ArrayList<ArrayList<String>> getInformationFromCsv() {
+    return informationFromCsv;
+  }
+
+  public HashMap<String, Integer> getColumnIndices() {
+    return columnIndices;
+  }
+
   public String createFileName(Integer index){
     // By default, use first name and last name keys
     String defaultName = this.generateDefaultFileName(index);
@@ -116,7 +136,7 @@ public class FileGenerator implements FileGeneratorI{
     }
   }
 
-  public int writeFileContent(Integer rowIndex, String fileName) {
+  public void writeFileContent(Integer rowIndex, String fileName) {
     try {
       BufferedReader reader = new BufferedReader(new FileReader(this.template));
       BufferedWriter writer = new BufferedWriter(new FileWriter( outputDirPath + "/" + fileName));
@@ -139,15 +159,12 @@ public class FileGenerator implements FileGeneratorI{
       }
       reader.close();
       writer.close();
-      return 1;
     } catch (IOException e) {
       e.printStackTrace();
-      return 0;
     }
   }
 
   public void generate(){
-    // this.informationfromCSV
     this.parseCsv(this.csv);
 //    System.out.println(Arrays.deepToString(this.informationFromCsv.toArray()));
     System.out.println("Printing columnIndices Hashmap");
