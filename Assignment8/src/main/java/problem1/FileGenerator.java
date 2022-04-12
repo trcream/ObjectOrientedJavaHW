@@ -41,7 +41,7 @@ public class FileGenerator implements FileGeneratorI{
    * @return - the csv file path
    */
   public String getCsv() {
-    return csv;
+    return this.csv;
   }
 
   /**
@@ -49,7 +49,7 @@ public class FileGenerator implements FileGeneratorI{
    * @return - the template file path
    */
   public String getTemplate() {
-    return template;
+    return this.template;
   }
 
   /**
@@ -57,7 +57,7 @@ public class FileGenerator implements FileGeneratorI{
    * @return - the output directory file path
    */
   public String getOutputDirPath() {
-    return outputDirPath;
+    return this.outputDirPath;
   }
 
   /**
@@ -65,7 +65,7 @@ public class FileGenerator implements FileGeneratorI{
    * @return - the information from csv array list
    */
   public ArrayList<ArrayList<String>> getInformationFromCsv() {
-    return informationFromCsv;
+    return this.informationFromCsv;
   }
 
   /**
@@ -73,7 +73,40 @@ public class FileGenerator implements FileGeneratorI{
    * @return - the column indices hashmap
    */
   public HashMap<String, Integer> getColumnIndices() {
-    return columnIndices;
+    return this.columnIndices;
+  }
+
+  /**
+   * Method to parse csv data into an array list
+   * @param fileLocation -csv file to be parsed
+   */
+  public void parseCsv(String fileLocation){
+    try{
+      BufferedReader reader = new BufferedReader(new FileReader(this.csv));
+      String line;
+      while ((line = reader.readLine()) != null) {
+        ArrayList<String> csvRow = new ArrayList(Arrays.asList(line.split("\"*,*\"")));
+        //System.out.println(Arrays.deepToString(csvRow.toArray()));
+        this.informationFromCsv.add(csvRow);
+      }
+      reader.close();
+      this.createColumnIndices();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  /**
+   * Helper method to create column indices with key values that match the csv headers
+   */
+  public void createColumnIndices() {
+    for (int i = 0; i < this.informationFromCsv.get(0).size(); i++ ){
+      String key = this.informationFromCsv.get(0).get(i);
+      if (!key.equals("")) {
+        Integer value = i;
+        this.columnIndices.put(key, value);
+      }
+    }
   }
 
   /**
@@ -94,7 +127,7 @@ public class FileGenerator implements FileGeneratorI{
   }
 
   /**
-   * Method to generate default file names. Names are returned by matching
+   * Helper method to generate default file names. Names are returned by matching
    * hashmap key values which correspond to the matching row index values
    * @param index - index of the row in the csv to parse data from
    * @return - generated file name
@@ -131,43 +164,6 @@ public class FileGenerator implements FileGeneratorI{
     return fileName;
   }
 
-  private String getValue(Integer index, String key) {
-    return this.informationFromCsv.get(index).get(this.columnIndices.get(key));
-  }
-
-  /**
-   * Method to create column indices with key values that match the csv headers
-   */
-  public void createColumnIndices() {
-    for (int i = 0; i < this.informationFromCsv.get(0).size(); i++ ){
-      String key = this.informationFromCsv.get(0).get(i);
-      if (!key.equals("")) {
-        Integer value = i;
-        this.columnIndices.put(key, value);
-      }
-    }
-  }
-
-  /**
-   * Method to parse csv data into an array list
-   * @param fileLocation -csv file to be parsed
-   */
-  public void parseCsv(String fileLocation){
-    try{
-      BufferedReader reader = new BufferedReader(new FileReader(csv));
-      String line;
-      while ((line = reader.readLine()) != null) {
-        ArrayList<String> csvRow = new ArrayList(Arrays.asList(line.split("\"*,*\"")));
-        //System.out.println(Arrays.deepToString(csvRow.toArray()));
-        this.informationFromCsv.add(csvRow);
-      }
-      reader.close();
-      this.createColumnIndices();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-  }
-
   /**
    * Method to read data from template, input the correct data,and then generate the file
    * @param rowIndex - rowIndex to read, input,and write data
@@ -202,6 +198,16 @@ public class FileGenerator implements FileGeneratorI{
   }
 
   /**
+   * Returning the value to be input based on the mathcing key value
+   * @param index - row in the csv file
+   * @param key - key to
+   * @return
+   */
+  private String getValue(Integer index, String key) {
+    return this.informationFromCsv.get(index).get(this.columnIndices.get(key));
+  }
+
+  /**
    * Method that is used to call the other helper methods to read, input, and generate the desired files
    */
   public void generate(){
@@ -233,10 +239,10 @@ public class FileGenerator implements FileGeneratorI{
       return false;
     }
     FileGenerator that = (FileGenerator) o;
-    return Objects.equals(csv, that.csv) && Objects.equals(template,
-        that.template) && Objects.equals(outputDirPath, that.outputDirPath)
-        && Objects.equals(informationFromCsv, that.informationFromCsv)
-        && Objects.equals(columnIndices, that.columnIndices);
+    return Objects.equals(this.csv, that.csv) && Objects.equals(this.template,
+        that.template) && Objects.equals(this.outputDirPath, that.outputDirPath)
+        && Objects.equals(this.informationFromCsv, that.informationFromCsv)
+        && Objects.equals(this.columnIndices, that.columnIndices);
   }
 
   /**
@@ -245,7 +251,7 @@ public class FileGenerator implements FileGeneratorI{
    */
   @Override
   public int hashCode() {
-    return Objects.hash(csv, template, outputDirPath, informationFromCsv, columnIndices);
+    return Objects.hash(this.csv, this.template, this.outputDirPath, this.informationFromCsv, this.columnIndices);
   }
 
   /**
@@ -255,11 +261,11 @@ public class FileGenerator implements FileGeneratorI{
   @Override
   public String toString() {
     return "FileGenerator{" +
-        "csv='" + csv + '\'' +
-        ", template='" + template + '\'' +
-        ", outputDirPath='" + outputDirPath + '\'' +
-        ", informationFromCsv=" + informationFromCsv +
-        ", columnIndices=" + columnIndices +
+        "csv='" + this.csv + '\'' +
+        ", template='" + this.template + '\'' +
+        ", outputDirPath='" + this.outputDirPath + '\'' +
+        ", informationFromCsv=" + this.informationFromCsv +
+        ", columnIndices=" +this.columnIndices +
         '}';
   }
 }
