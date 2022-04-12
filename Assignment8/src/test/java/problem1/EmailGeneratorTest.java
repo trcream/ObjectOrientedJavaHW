@@ -12,19 +12,23 @@ class EmailGeneratorTest {
 
   private EmailGenerator testEmailGenerator;
   private EmailGenerator testEmailGenerator2;
+  private EmailGenerator testEmailGenerator3;
+  private EmailGenerator testEmailGenerator4;
 
   String emailTemplateFilePath = "C:\\Users\\trent\\Desktop\\Masters Programs\\Northeastern\\CS5004\\GroupProject\\Team_repo_Repo6_Arjun_Matthew_Trenton\\Assignment8\\src\\main\\java\\inputFiles\\email-template.txt";
+  String emailTemplateFilePath2 = "C:\\Users\\trent\\Desktop\\Masters Programs\\Northeastern\\CS5004\\GroupProject\\Team_repo_Repo6_Arjun_Matthew_Trenton\\Assignment8\\src\\main\\java\\inputFiles\\email-template.txt2";
   String csvFilePath = "C:\\Users\\trent\\Desktop\\Masters Programs\\Northeastern\\CS5004\\GroupProject\\Team_repo_Repo6_Arjun_Matthew_Trenton\\Assignment8\\src\\main\\java\\inputFiles\\insurance-company-members.csv";
-  String csvFilePath2 = "C:\\Users\\trent\\Desktop\\Masters Programs\\Northeastern\\CS5004\\GroupProject\\Team_repo_Repo6_Arjun_Matthew_Trenton\\Assignment8\\src\\main\\java\\inputFiles\\insurance-company-members.csv";
+  String csvFilePath2 = "C:\\Users\\trent\\Desktop\\Masters Programs\\Northeastern\\CS5004\\GroupProject\\Team_repo_Repo6_Arjun_Matthew_Trenton\\Assignment8\\src\\main\\java\\inputFiles\\insurance-company-members2.csv";
   String outputFilePath = "C:\\Users\\trent\\Desktop\\Masters Programs\\Northeastern\\CS5004\\GroupProject\\Team_repo_Repo6_Arjun_Matthew_Trenton\\Assignment8\\src\\main\\java\\outputFiles";
+  String outputFilePath2 = "C:\\Users\\trent\\Desktop\\Masters Programs\\Northeastern\\CS5004\\GroupProject\\Team_repo_Repo6_Arjun_Matthew_Trenton\\Assignment8\\src\\main\\java\\outputFiles2";
 
   @BeforeEach
   void setUp() {
 
     testEmailGenerator = new EmailGenerator(csvFilePath, emailTemplateFilePath, outputFilePath);
-    testEmailGenerator2 = new EmailGenerator(csvFilePath2, emailTemplateFilePath, outputFilePath);
-
-
+    testEmailGenerator2 = new EmailGenerator(csvFilePath2, emailTemplateFilePath2, outputFilePath);
+    testEmailGenerator3 = new EmailGenerator(csvFilePath2, emailTemplateFilePath2, outputFilePath2);
+    testEmailGenerator4 = new EmailGenerator(csvFilePath, emailTemplateFilePath, outputFilePath2);
   }
 
   @Test
@@ -73,20 +77,23 @@ class EmailGeneratorTest {
 
   @Test
   void testGenerate() {
-    //Generate first!
   }
 
   @Test
   void CreateFileName() {
-//    testEmailGenerator.parseCsv(csvFilePath);
+
 
   }
 
   @Test
   void testEquals() {
+    testEmailGenerator2.getInformationFromCsv();
+    assertFalse(testEmailGenerator.equals(testEmailGenerator2));
+    assertFalse(testEmailGenerator.equals(testEmailGenerator3));
+    assertFalse(testEmailGenerator.equals(testEmailGenerator4));
     assertTrue(testEmailGenerator.equals(testEmailGenerator));
-    //assertFalse(testEmailGenerator.equals(testEmailGenerator2));
     assertFalse(testEmailGenerator.equals(null));
+
 
   }
 

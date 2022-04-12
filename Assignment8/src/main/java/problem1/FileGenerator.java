@@ -9,11 +9,12 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * File generator is an abstract class that is used to generate files
+ * File generator is a class that is used to generate files
  */
 public class FileGenerator implements FileGeneratorI{
   String csv;
@@ -24,7 +25,7 @@ public class FileGenerator implements FileGeneratorI{
   HashMap<String, Integer> columnIndices = new HashMap<>();
 
   /**
-   * Abstract constructor for the file generator class
+   * Constructor for the file generator class
    * @param csv CSV file to derive information from to fill letter
    * @param template Template file to use to generate letter
    * @param outputDirPath Output directory to save newly generated letter to.
@@ -35,26 +36,51 @@ public class FileGenerator implements FileGeneratorI{
     this.outputDirPath = outputDirPath;
   }
 
+  /**
+   * Returns the csv file path
+   * @return - the csv file path
+   */
   public String getCsv() {
     return csv;
   }
 
+  /**
+   * Returns the template file path
+   * @return - the template file path
+   */
   public String getTemplate() {
     return template;
   }
 
+  /**
+   * Returns the output directory file path
+   * @return - the output directory file path
+   */
   public String getOutputDirPath() {
     return outputDirPath;
   }
 
+  /**
+   * Returns the information from csv array list
+   * @return - the information from csv array list
+   */
   public ArrayList<ArrayList<String>> getInformationFromCsv() {
     return informationFromCsv;
   }
 
+  /**
+   * Returns the column indices hashmap
+   * @return - the column indices hashmap
+   */
   public HashMap<String, Integer> getColumnIndices() {
     return columnIndices;
   }
 
+  /**
+   * Method to create file names
+   * @param index - index of the name in the row to be returned
+   * @return - the filename
+   */
   public String createFileName(Integer index){
     // By default, use first name and last name keys
     String defaultName = this.generateDefaultFileName(index);
@@ -67,6 +93,12 @@ public class FileGenerator implements FileGeneratorI{
     }
   }
 
+  /**
+   * Method to generate default file names. Names are returned by matching
+   * hashmap key values which correspond to the matching row index values
+   * @param index - index of the row in the csv to parse data from
+   * @return - generated file name
+   */
   public String generateDefaultFileName(Integer index) {
     ArrayList<String> row = this.informationFromCsv.get(index);
 
@@ -104,7 +136,7 @@ public class FileGenerator implements FileGeneratorI{
   }
 
   /**
-   *
+   * Method to create column indices with key values that match the csv headers
    */
   public void createColumnIndices() {
     for (int i = 0; i < this.informationFromCsv.get(0).size(); i++ ){
@@ -117,8 +149,8 @@ public class FileGenerator implements FileGeneratorI{
   }
 
   /**
-   *
-   * @param fileLocation
+   * Method to parse csv data into an array list
+   * @param fileLocation -csv file to be parsed
    */
   public void parseCsv(String fileLocation){
     try{
@@ -126,7 +158,7 @@ public class FileGenerator implements FileGeneratorI{
       String line;
       while ((line = reader.readLine()) != null) {
         ArrayList<String> csvRow = new ArrayList(Arrays.asList(line.split("\"*,*\"")));
-        System.out.println(Arrays.deepToString(csvRow.toArray()));
+        //System.out.println(Arrays.deepToString(csvRow.toArray()));
         this.informationFromCsv.add(csvRow);
       }
       reader.close();
@@ -136,6 +168,11 @@ public class FileGenerator implements FileGeneratorI{
     }
   }
 
+  /**
+   * Method to read data from template, input the correct data,and then generate the file
+   * @param rowIndex - rowIndex to read, input,and write data
+   * @param fileName - file name of the file to be generated
+   */
   public void writeFileContent(Integer rowIndex, String fileName) {
     try {
       BufferedReader reader = new BufferedReader(new FileReader(this.template));
@@ -164,6 +201,9 @@ public class FileGenerator implements FileGeneratorI{
     }
   }
 
+  /**
+   * Method that is used to call the other helper methods to read, input, and generate the desired files
+   */
   public void generate(){
     this.parseCsv(this.csv);
 //    System.out.println(Arrays.deepToString(this.informationFromCsv.toArray()));
@@ -180,4 +220,46 @@ public class FileGenerator implements FileGeneratorI{
     }
   }
 
+  /**
+   * Returns whether some other object is "equal to" this one.
+   * @return whether some other object is "equal to" this one, encoded as a Boolean.
+   */
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    FileGenerator that = (FileGenerator) o;
+    return Objects.equals(csv, that.csv) && Objects.equals(template,
+        that.template) && Objects.equals(outputDirPath, that.outputDirPath)
+        && Objects.equals(informationFromCsv, that.informationFromCsv)
+        && Objects.equals(columnIndices, that.columnIndices);
+  }
+
+  /**
+   * Method to determine if the hashcode of the object is a match
+   * @return - a hashcode value for the object returned as an integer
+   */
+  @Override
+  public int hashCode() {
+    return Objects.hash(csv, template, outputDirPath, informationFromCsv, columnIndices);
+  }
+
+  /**
+   * Returns a string representation of the object.
+   * @return a string representation of the object, encoded as a String.
+   */
+  @Override
+  public String toString() {
+    return "FileGenerator{" +
+        "csv='" + csv + '\'' +
+        ", template='" + template + '\'' +
+        ", outputDirPath='" + outputDirPath + '\'' +
+        ", informationFromCsv=" + informationFromCsv +
+        ", columnIndices=" + columnIndices +
+        '}';
+  }
 }

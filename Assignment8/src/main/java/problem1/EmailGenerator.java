@@ -15,6 +15,11 @@ public class EmailGenerator extends FileGenerator {
     super(csv, template, outputDirPath);
   }
 
+  /**
+   * Method to create file names
+   * @param index - index of the name in the row to be returned
+   * @return - the filename
+   */
   @Override
   public String createFileName(Integer index){
     // By default, use first name and last name keys
