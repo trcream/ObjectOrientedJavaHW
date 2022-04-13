@@ -4,12 +4,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Objects;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -59,7 +55,7 @@ class EmailGeneratorTest {
     testEmailGenerator.parseCsv(csvFilePath);
     testEmailGenerator2.parseCsv(csvFilePath2);
     assertEquals("first_name_last_name_email_0.txt", testEmailGenerator.createFileName(0));
-     assertEquals("email_0.txt", testEmailGenerator2.createFileName(0));
+    assertEquals("email_0.txt", testEmailGenerator2.createFileName(0));
   }
 
   @Test
@@ -69,19 +65,9 @@ class EmailGeneratorTest {
   }
 
   @Test
-  void testCreateColumnIndices() {
-  }
-
-  @Test
   void testParseCsv() {
     testEmailGenerator.parseCsv(csvFilePath);
     assertEquals(501, testEmailGenerator.informationFromCsv.size());
-
-  }
-
-  @Test
-  void testWriteFileContent() {
-
   }
 
   @Test
@@ -91,10 +77,7 @@ class EmailGeneratorTest {
     String template = filepath + "/src/main/java/inputFiles/letter-template.txt";
     String output = filepath + "/src/test/java/testFiles";
 
-
     testEmailGenerator5 = new EmailGenerator(CSV,template,output);
-
-
 
     // This generates all the files
     testEmailGenerator5.generate();
@@ -108,7 +91,7 @@ class EmailGeneratorTest {
 
 
     // Test to see if files are formatted correctly
-    // This one should be generated as zztest2 and compare it to the example file
+    // This one should be generated as zztestEmail2 and compare it to the example file
     BufferedReader reader = new BufferedReader(new FileReader(filepath + "/src/test/java/testFiles/zztestEmail2.txt"));
 
     // This is reading the example file
@@ -122,20 +105,6 @@ class EmailGeneratorTest {
       // Actual = output
       assertEquals(line2, line);
     }
-
-
-
-  }
-
-  @Test
-  void CreateFileName() {
-
-    testEmailGenerator.parseCsv(csvFilePath);
-    testEmailGenerator2.parseCsv(csvFilePath2);
-    assertEquals("first_name_last_name_email_0.txt", testEmailGenerator.createFileName(0));
-    assertEquals("email_0.txt", testEmailGenerator2.createFileName(0));
-
-
   }
 
   @Test
@@ -146,27 +115,17 @@ class EmailGeneratorTest {
     assertFalse(testEmailGenerator.equals(testEmailGenerator4));
     assertTrue(testEmailGenerator.equals(testEmailGenerator));
     assertFalse(testEmailGenerator.equals(null));
-
-
-  }
-
-  @Test
-  void testHashCode() {
-    int expectedHashCode = Objects.hash(testEmailGenerator.csv, testEmailGenerator.template, testEmailGenerator.outputDirPath, testEmailGenerator.informationFromCsv, testEmailGenerator.columnIndices);
-    assertEquals(expectedHashCode, testEmailGenerator.hashCode());
-
   }
 
   @Test
   void testToString() {
-    String expectedString = "FileGenerator{" +
-        "csv='" + testEmailGenerator.getCsv() + '\'' +
-        ", template='" + testEmailGenerator.getTemplate() + '\'' +
-        ", outputDirPath='" + testEmailGenerator.getOutputDirPath() + '\'' +
+    String expectedString = "EmailGenerator{" +
+        "csv='" + csvFilePath + '\'' +
+        ", template='" + emailTemplateFilePath + '\'' +
+        ", outputDirPath='" + outputFilePath + '\'' +
         ", informationFromCsv=" + testEmailGenerator.getInformationFromCsv() +
         ", columnIndices=" + testEmailGenerator.getColumnIndices() +
         '}';
-
     assertEquals(expectedString, testEmailGenerator.toString());
   }
 }

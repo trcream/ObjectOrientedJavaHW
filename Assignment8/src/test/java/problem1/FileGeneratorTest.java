@@ -3,6 +3,7 @@ package problem1;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.File;
+import java.util.Objects;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -20,7 +21,6 @@ class FileGeneratorTest {
 
   @BeforeEach
   void setUp() {
-
     testFileGenerator = new FileGenerator(csvFilePath, emailTemplateFilePath, outputFilePath);
     testFileGenerator2 = new FileGenerator(csvFilePath2, emailTemplateFilePath, outputFilePath);
   }
@@ -33,4 +33,32 @@ class FileGeneratorTest {
     assertEquals("file_0.txt", testFileGenerator2.createFileName(0));
   }
 
+  @Test
+  void testEquals() {
+    FileGenerator testSameFileGenerator = new FileGenerator(csvFilePath, emailTemplateFilePath, outputFilePath);
+    assertTrue(testFileGenerator.equals(testFileGenerator));
+    assertTrue(testFileGenerator.equals(testSameFileGenerator));
+    assertFalse(testFileGenerator.equals(testFileGenerator2));
+    assertFalse(testFileGenerator.equals(filepath));
+    assertFalse(testFileGenerator.equals(null));
+  }
+
+  @Test
+  void testHashCode() {
+    int expectedHashCode = Objects.hash(testFileGenerator.csv, testFileGenerator.template, testFileGenerator.outputDirPath, testFileGenerator.informationFromCsv, testFileGenerator.columnIndices);
+    assertEquals(expectedHashCode, testFileGenerator.hashCode());
+  }
+
+  @Test
+  void testToString() {
+    String expectedString = "FileGenerator{" +
+        "csv='" + testFileGenerator.getCsv() + '\'' +
+        ", template='" + testFileGenerator.getTemplate() + '\'' +
+        ", outputDirPath='" + testFileGenerator.getOutputDirPath() + '\'' +
+        ", informationFromCsv=" + testFileGenerator.getInformationFromCsv() +
+        ", columnIndices=" + testFileGenerator.getColumnIndices() +
+        '}';
+
+    assertEquals(expectedString, testFileGenerator.toString());
+  }
 }

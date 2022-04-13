@@ -5,7 +5,6 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -127,7 +126,6 @@ public class FileGenerator implements FileGeneratorI{
 
     // add row index for easy csv lookup
     return fileName.concat("_" + index + ".txt");
-
   }
 
   /**
@@ -228,6 +226,7 @@ public class FileGenerator implements FileGeneratorI{
 
   /**
    * Returns whether some other object is "equal to" this one.
+   * @param o - The object we are comparing to.
    * @return whether some other object is "equal to" this one, encoded as a Boolean.
    */
   @Override
