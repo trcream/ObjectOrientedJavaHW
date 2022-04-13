@@ -4,33 +4,21 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class LetterGeneratorTest {
   private LetterGenerator testLetterGenerator;
-  private FileGenerator testFileGenerator;
-  private String CSV;
-  private FileGenerator testLetterGenerator2;
-  private String template;
-  private String output;
+  String filepath = new File("").getAbsolutePath();
+  String CSV = filepath + "/src/main/java/inputFiles/insurance-company-members.csv";
+  String template = filepath + "/src/main/java/inputFiles/letter-template.txt";
+  String output = filepath + "/src/test/java/testFiles";
 
   @BeforeEach
   void setUp() {
-    // Type in your file locations here
-    String filepath = new File("").getAbsolutePath();
-    String CSV = filepath + "/src/main/java/inputFiles/insurance-company-members.csv";
-    String template = filepath + "/src/main/java/inputFiles/letter-template.txt";
-    String output = filepath + "/src/test/java/testFiles";
-    testLetterGenerator = new LetterGenerator(CSV,template,output);
-
+    testLetterGenerator = new LetterGenerator(CSV, template, output);
   }
 
   @Test
@@ -51,57 +39,14 @@ class LetterGeneratorTest {
   void getOutputDirPath() {
     String filepath = new File("").getAbsolutePath();
     assertEquals(filepath + "/src/test/java/testFiles",testLetterGenerator.getOutputDirPath());
-
   }
-
-  @Test
-  void getInformationFromCsv() {
-    testLetterGenerator.parseCsv(CSV);
-    testLetterGenerator.getInformationFromCsv();
-
-  }
-
-  @Test
-  void getColumnIndices() {
-    testLetterGenerator.getColumnIndices();
-
-  }
-
 
   @Test
   void createFileName() {
     testLetterGenerator.parseCsv(CSV);
     assertEquals("first_name_last_name_letter_0.txt",testLetterGenerator.createFileName(0));
     assertEquals("James, Jacob_Butt_letter_1.txt",testLetterGenerator.createFileName(1));
-
   }
-
-  @Test
-  void generateDefaultFileName() {
-    testLetterGenerator.parseCsv(CSV);
-    //assertEquals("",testFileGenerator.generateDefaultFileName(1));
-
-  }
-
-  @Test
-  void createColumnIndices() {
-    testLetterGenerator.parseCsv(CSV);
-    testLetterGenerator.createColumnIndices();
-
-  }
-
-  @Test
-  void parseCsv() {
-
-  }
-
-  @Test
-  void writeFileContent() {
-    testLetterGenerator.parseCsv(CSV);
-
-  }
-
-
 
   @Test
   void generate() throws IOException {
@@ -116,9 +61,8 @@ class LetterGeneratorTest {
     testLetterGenerator.writeFileContent(1, "zztestLetter.txt");
     testLetterGenerator.writeFileContent(500, "zztestLetter2.txt");
 
-
     // Test to see if files are formatted correctly
-    // This one should be generated as zztest2 and compare it to the example file
+    // This one should be generated as zztestLetter2 and compare it to the example file
     BufferedReader reader = new BufferedReader(new FileReader(filepath + "/src/test/java/testFiles/zztestLetter2.txt"));
 
     // This is reading the example file
@@ -132,21 +76,26 @@ class LetterGeneratorTest {
       // Actual = output
       assertEquals(line2, line);
     }
-
-
-
-
   }
 
   @Test
   void testCreateFileName() {
-//    testLetterGenerator.parseCsv(CSV);
-//    testFileGenerator.createFileName(1);
+    String filepath = new File("").getAbsolutePath();
+    String CSV = filepath + "/src/main/java/inputFiles/insurance-company-members3.csv";
+    LetterGenerator testLetterGeneratorNoName = new LetterGenerator(CSV, template, output);
+    testLetterGeneratorNoName.parseCsv(filepath);
+    assertEquals("letter_" + 0 + ".txt", testLetterGeneratorNoName.createFileName(0));
   }
 
-
-
-
-
-
+  @Test
+  void testToString() {
+    String expectedString = "LetterGenerator{" +
+        "csv='" + CSV + '\'' +
+        ", template='" + template + '\'' +
+        ", outputDirPath='" + output + '\'' +
+        ", informationFromCsv=" + testLetterGenerator.getInformationFromCsv() +
+        ", columnIndices=" + testLetterGenerator.getColumnIndices() +
+        '}';
+    assertEquals(expectedString, testLetterGenerator.toString());
+  }
 }

@@ -31,6 +31,20 @@ public class EmailGenerator extends FileGenerator {
     } else {
       return defaultName + "_email_" + index + ".txt";
     }
+  }
 
+  /**
+   * Returns a string representation of the object.
+   * @return a string representation of the object, encoded as a String.
+   */
+  @Override
+  public String toString() {
+    return "EmailGenerator{" +
+        "csv='" + this.csv + '\'' +
+        ", template='" + this.template + '\'' +
+        ", outputDirPath='" + this.outputDirPath + '\'' +
+        ", informationFromCsv=" + this.informationFromCsv +
+        ", columnIndices=" + this.columnIndices +
+        '}';
   }
 }

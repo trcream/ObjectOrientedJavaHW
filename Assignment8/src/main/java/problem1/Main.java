@@ -14,10 +14,10 @@ public class Main {
   public static void main(String[] args) {
     try {
       String filePath = new File("").getAbsolutePath();
-      String emailTemplateFilePath = filePath +  "\\src\\main\\java\\inputFiles\\email-template.txt";
-      String csvFilePath = filePath + "\\src\\main\\java\\inputFiles\\insurance-company-members.csv";
-      String outputFilePath = filePath + "\\src\\main\\java\\outputFiles";
-      String letterTemplateFilePath = filePath + "\\src\\main\\java\\inputFiles\\letter-template.txt";
+      String emailTemplateFilePath = filePath +  "/src/main/java/inputFiles/email-template.txt";
+      String csvFilePath = filePath + "/src/main/java/inputFiles/insurance-company-members.csv";
+      String outputFilePath = filePath + "/src/main/java/outputFiles";
+      String letterTemplateFilePath = filePath + "/src/main/java/inputFiles/letter-template.txt";
 
       String[] arguments = {"--email", "--email-template", emailTemplateFilePath, "--letter", "--letter-template", letterTemplateFilePath,"--csv-file", csvFilePath, "--output-dir", outputFilePath};
 
