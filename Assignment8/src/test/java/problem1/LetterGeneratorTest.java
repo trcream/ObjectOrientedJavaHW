@@ -3,6 +3,7 @@ package problem1;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -24,28 +25,32 @@ class LetterGeneratorTest {
   @BeforeEach
   void setUp() {
     // Type in your file locations here
-    String CSV = "C:\\Users\\Arjun Patel\\IdeaProjects\\Team_repo_Repo6_Arjun_Matthew_Trenton\\Assignment8\\src\\main\\java\\inputFiles\\insurance-company-members.csv";
-    String template = "C:\\Users\\Arjun Patel\\IdeaProjects\\Team_repo_Repo6_Arjun_Matthew_Trenton\\Assignment8\\src\\main\\java\\inputFiles\\letter-template.txt";
-    String output = "C:\\Users\\Arjun Patel\\IdeaProjects\\Team_repo_Repo6_Arjun_Matthew_Trenton\\Assignment8\\src\\main\\java\\outputFiles";
+    String filepath = new File("").getAbsolutePath();
+    String CSV = filepath + "\\src\\main\\java\\inputFiles\\insurance-company-members.csv";
+    String template = filepath + "\\src\\main\\java\\inputFiles\\letter-template.txt";
+    String output = filepath + "\\src\\test\\java\\testFiles";
     testLetterGenerator = new LetterGenerator(CSV,template,output);
 
   }
 
   @Test
   void getCsv() {
-    assertEquals("C:\\Users\\Arjun Patel\\IdeaProjects\\Team_repo_Repo6_Arjun_Matthew_Trenton\\Assignment8\\src\\main\\java\\inputFiles\\insurance-company-members.csv",testLetterGenerator.getCsv());
+    String filepath = new File("").getAbsolutePath();
+    assertEquals(filepath + "\\src\\main\\java\\inputFiles\\insurance-company-members.csv",testLetterGenerator.getCsv());
 
   }
 
   @Test
   void getTemplate() {
-    assertEquals("C:\\Users\\Arjun Patel\\IdeaProjects\\Team_repo_Repo6_Arjun_Matthew_Trenton\\Assignment8\\src\\main\\java\\inputFiles\\letter-template.txt",testLetterGenerator.getTemplate());
+    String filepath = new File("").getAbsolutePath();
+    assertEquals(filepath + "\\src\\main\\java\\inputFiles\\letter-template.txt",testLetterGenerator.getTemplate());
 
   }
 
   @Test
   void getOutputDirPath() {
-    assertEquals("C:\\Users\\Arjun Patel\\IdeaProjects\\Team_repo_Repo6_Arjun_Matthew_Trenton\\Assignment8\\src\\main\\java\\outputFiles",testLetterGenerator.getOutputDirPath());
+    String filepath = new File("").getAbsolutePath();
+    assertEquals(filepath + "\\src\\test\\java\\testFiles",testLetterGenerator.getOutputDirPath());
 
   }
 
@@ -100,6 +105,7 @@ class LetterGeneratorTest {
 
   @Test
   void generate() throws IOException {
+    String filepath = new File("").getAbsolutePath();
     // This generates all the files
     testLetterGenerator.generate();
 
@@ -107,21 +113,23 @@ class LetterGeneratorTest {
     assertEquals(501, testLetterGenerator.informationFromCsv.size());
 
     // Generate Files
-    testLetterGenerator.writeFileContent(1, "zztest");
-    testLetterGenerator.writeFileContent(500, "zztest2");
+    testLetterGenerator.writeFileContent(1, "zztest.txt");
+    testLetterGenerator.writeFileContent(500, "zztest2.txt");
 
 
     // Test to see if files are formatted correctly
-    // This one should be generated as zztest2 and compare it to expected
-    BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\Arjun Patel\\IdeaProjects\\Team_repo_Repo6_Arjun_Matthew_Trenton\\Assignment8\\src\\main\\java\\outputFiles\\zztest2"));
+    // This one should be generated as zztest2 and compare it to the example file
+    BufferedReader reader = new BufferedReader(new FileReader(filepath + "\\src\\test\\java\\testFiles\\zztest2.txt"));
 
-    // This one you need to get the last file called Chauncey_Motley.txt
+    // This is reading the example file
     BufferedReader reader2 = new BufferedReader(new FileReader(
-        "C:\\Users\\Arjun Patel\\IdeaProjects\\Team_repo_Repo6_Arjun_Matthew_Trenton\\Assignment8\\src\\main\\java\\outputFiles\\Chauncey_Motley_letter.txt"));
+        filepath + "\\src\\test\\java\\testFiles\\zzexampleFile.txt"));
     String line;
     String line2;
 
     while (((line = reader.readLine()) != null) && ((line2 = reader2.readLine()) != null)) {
+      // Expected = example file
+      // Actual = output
       assertEquals(line2, line);
     }
 
