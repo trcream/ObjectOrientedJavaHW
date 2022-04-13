@@ -26,9 +26,9 @@ class LetterGeneratorTest {
   void setUp() {
     // Type in your file locations here
     String filepath = new File("").getAbsolutePath();
-    String CSV = filepath + "\\src\\main\\java\\inputFiles\\insurance-company-members.csv";
-    String template = filepath + "\\src\\main\\java\\inputFiles\\letter-template.txt";
-    String output = filepath + "\\src\\test\\java\\testFiles";
+    String CSV = filepath + "/src/main/java/inputFiles/insurance-company-members.csv";
+    String template = filepath + "/src/main/java/inputFiles/letter-template.txt";
+    String output = filepath + "/src/test/java/testFiles";
     testLetterGenerator = new LetterGenerator(CSV,template,output);
 
   }
@@ -36,21 +36,21 @@ class LetterGeneratorTest {
   @Test
   void getCsv() {
     String filepath = new File("").getAbsolutePath();
-    assertEquals(filepath + "\\src\\main\\java\\inputFiles\\insurance-company-members.csv",testLetterGenerator.getCsv());
+    assertEquals(filepath + "/src/main/java/inputFiles/insurance-company-members.csv",testLetterGenerator.getCsv());
 
   }
 
   @Test
   void getTemplate() {
     String filepath = new File("").getAbsolutePath();
-    assertEquals(filepath + "\\src\\main\\java\\inputFiles\\letter-template.txt",testLetterGenerator.getTemplate());
+    assertEquals(filepath + "/src/main/java/inputFiles/letter-template.txt",testLetterGenerator.getTemplate());
 
   }
 
   @Test
   void getOutputDirPath() {
     String filepath = new File("").getAbsolutePath();
-    assertEquals(filepath + "\\src\\test\\java\\testFiles",testLetterGenerator.getOutputDirPath());
+    assertEquals(filepath + "/src/test/java/testFiles",testLetterGenerator.getOutputDirPath());
 
   }
 
@@ -71,8 +71,8 @@ class LetterGeneratorTest {
   @Test
   void createFileName() {
     testLetterGenerator.parseCsv(CSV);
-    assertEquals("first_name_last_name_letter.txt",testLetterGenerator.createFileName(0));
-    assertEquals("James, Jacob_Butt_letter.txt",testLetterGenerator.createFileName(1));
+    assertEquals("first_name_last_name_letter_0.txt",testLetterGenerator.createFileName(0));
+    assertEquals("James, Jacob_Butt_letter_1.txt",testLetterGenerator.createFileName(1));
 
   }
 
@@ -113,17 +113,17 @@ class LetterGeneratorTest {
     assertEquals(501, testLetterGenerator.informationFromCsv.size());
 
     // Generate Files
-    testLetterGenerator.writeFileContent(1, "zztest.txt");
-    testLetterGenerator.writeFileContent(500, "zztest2.txt");
+    testLetterGenerator.writeFileContent(1, "zztestLetter.txt");
+    testLetterGenerator.writeFileContent(500, "zztestLetter2.txt");
 
 
     // Test to see if files are formatted correctly
     // This one should be generated as zztest2 and compare it to the example file
-    BufferedReader reader = new BufferedReader(new FileReader(filepath + "\\src\\test\\java\\testFiles\\zztest2.txt"));
+    BufferedReader reader = new BufferedReader(new FileReader(filepath + "/src/test/java/testFiles/zztestLetter2.txt"));
 
     // This is reading the example file
     BufferedReader reader2 = new BufferedReader(new FileReader(
-        filepath + "\\src\\test\\java\\testFiles\\zzexampleFile.txt"));
+        filepath + "/src/test/java/testFiles/zzexampleFileLetter.txt"));
     String line;
     String line2;
 
