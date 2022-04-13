@@ -5,6 +5,16 @@ import java.util.*;
  * CommandLineParser class that processes and validates command line arguments.
  */
 public class CommandLineParser {
+
+  public static final String MANUAL = " Usage:\n"
+      + "--email Generate email messages. If this option is provided, then -- email-template must also be provided.\n"
+      + "--email-template <path/to/file> A filename for the email template. --letter Generate letters. If this option is provided, then --letter- template must also be provided.\n"
+      + "--letter-template <path/to/file> A filename for the letter template. --output-dir <path/to/folder> The folder to store all generated files. This option is required.\n"
+      + "--csv-file <path/to/folder> The CSV file to process. This option is required.\n"
+      + "Examples:\n"
+      + "--email --email-template email-template.txt --output-dir emails -- csv-file customer.csv\n"
+      + "--letter --letter-template letter-template.txt --output-dir letters - -csv-file customer.csv";
+
   // CLI options
   public static final String EMAIL_ARGUMENT_KEY = "--email";
   public static final String EMAIL_TEMPLATE_ARGUMENT_KEY = "--email-template";
@@ -13,7 +23,7 @@ public class CommandLineParser {
   public static final String OUTPUT_ARGUMENT_KEY = "--output-dir";
   public static final String CSV_ARGUMENT_KEY = "--csv-file";
 
-  private String[] requiredOptions = {OUTPUT_ARGUMENT_KEY, CSV_ARGUMENT_KEY};
+  private final String[] requiredOptions = {OUTPUT_ARGUMENT_KEY, CSV_ARGUMENT_KEY};
 
   public String emailTemplate;
   public String letterTemplate;
@@ -66,7 +76,7 @@ public class CommandLineParser {
    * @return the command line's output directory path.
    */
   public String getOutputDirPath() {
-    return outputDirPath;
+    return this.outputDirPath;
   }
 
   /**
@@ -86,13 +96,13 @@ public class CommandLineParser {
     // check that either email option or letter option is given
     if (!processedArgs.containsKey(EMAIL_ARGUMENT_KEY) &&
         !processedArgs.containsKey(LETTER_ARGUMENT_KEY)){
-      throw new InvalidArgumentsException("Neither email option or letter option were chosen.");
+      throw new InvalidArgumentsException("Neither email option or letter option were chosen".concat(MANUAL));
     }
 
     // check if email option is given, email-template is also given
     if (processedArgs.containsKey(EMAIL_ARGUMENT_KEY)) {
       if (processedArgs.get(EMAIL_TEMPLATE_ARGUMENT_KEY) == null) {
-        throw new InvalidArgumentsException("Email option chosen but no email template given.");
+        throw new InvalidArgumentsException("Email option chosen but no email template given.".concat(MANUAL));
       } else {
         this.emailTemplate = processedArgs.get(EMAIL_TEMPLATE_ARGUMENT_KEY);
 
@@ -104,7 +114,7 @@ public class CommandLineParser {
     // check if letter option is given, letter-template is also given
     if (processedArgs.containsKey(LETTER_ARGUMENT_KEY)) {
       if (processedArgs.get(LETTER_TEMPLATE_ARGUMENT_KEY) == null) {
-        throw new InvalidArgumentsException("Letter option chosen but no letter template given.");
+        throw new InvalidArgumentsException("Letter option chosen but no letter template given.".concat(MANUAL));
       } else {
         this.letterTemplate = processedArgs.get(LETTER_TEMPLATE_ARGUMENT_KEY);
 
@@ -132,7 +142,7 @@ public class CommandLineParser {
    */
   private HashMap<String, String> preprocessArgs(String[] args) {
     String OPTION_FLAG = "--";
-    HashMap<String, String> processedArgs = new HashMap<String, String>();
+    HashMap<String, String> processedArgs = new HashMap<>();
 
     int i = 0;
     while (i < args.length) {
@@ -156,14 +166,12 @@ public class CommandLineParser {
   /**
    * Check if all required options are given
    * @param args arguments given by user
-   * @throws InvalidArgumentsException
+   * @throws InvalidArgumentsException - throws exception if invalid argument is entered
    */
   void checkRequiredOptions(HashMap<String, String> args) throws InvalidArgumentsException{
-    for (int i = 0; i < this.requiredOptions.length; i++){
-      String requiredOption = this.requiredOptions[i];
-
+    for (String requiredOption : this.requiredOptions) {
       if (args.get(requiredOption) == null) {
-        throw new InvalidArgumentsException(requiredOption + " option is required.");
+        throw new InvalidArgumentsException(requiredOption + " option is required.".concat(MANUAL));
       }
     }
   }
@@ -182,10 +190,10 @@ public class CommandLineParser {
       return false;
     }
     CommandLineParser that = (CommandLineParser) o;
-    return Arrays.equals(requiredOptions, that.requiredOptions) && Objects.equals(
-        emailTemplate, that.emailTemplate) && Objects.equals(letterTemplate,
-        that.letterTemplate) && Objects.equals(csv, that.csv) && Objects.equals(
-        outputDirPath, that.outputDirPath);
+    return Arrays.equals(this.requiredOptions, that.requiredOptions) && Objects.equals(
+        this.emailTemplate, that.emailTemplate) && Objects.equals(this.letterTemplate,
+        that.letterTemplate) && Objects.equals(this.csv, that.csv) && Objects.equals(
+        this.outputDirPath, that.outputDirPath);
   }
 
   /**
@@ -194,8 +202,8 @@ public class CommandLineParser {
    */
   @Override
   public int hashCode() {
-    int result = Objects.hash(emailTemplate, letterTemplate, csv, outputDirPath);
-    result = 31 * result + Arrays.hashCode(requiredOptions);
+    int result = Objects.hash(this.emailTemplate, this.letterTemplate, this.csv, this.outputDirPath);
+    result = 31 * result + Arrays.hashCode(this.requiredOptions);
     return result;
   }
 
@@ -206,11 +214,11 @@ public class CommandLineParser {
   @Override
   public String toString() {
     return "CommandLineParser{" +
-        "requiredOptions=" + Arrays.toString(requiredOptions) +
-        ", emailTemplate='" + emailTemplate + '\'' +
-        ", letterTemplate='" + letterTemplate + '\'' +
-        ", csv='" + csv + '\'' +
-        ", outputDirPath='" + outputDirPath + '\'' +
+        "requiredOptions=" + Arrays.toString(this.requiredOptions) +
+        ", emailTemplate='" + this.emailTemplate + '\'' +
+        ", letterTemplate='" + this.letterTemplate + '\'' +
+        ", csv='" + this.csv + '\'' +
+        ", outputDirPath='" + this.outputDirPath + '\'' +
         '}';
   }
 }

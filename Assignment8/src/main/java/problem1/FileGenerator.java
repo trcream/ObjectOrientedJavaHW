@@ -85,8 +85,7 @@ public class FileGenerator implements FileGeneratorI{
       BufferedReader reader = new BufferedReader(new FileReader(this.csv));
       String line;
       while ((line = reader.readLine()) != null) {
-        ArrayList<String> csvRow = new ArrayList(Arrays.asList(line.split("\"*,*\"")));
-        //System.out.println(Arrays.deepToString(csvRow.toArray()));
+        ArrayList<String> csvRow = new ArrayList<>(Arrays.asList(line.split("\"*,*\"")));
         this.informationFromCsv.add(csvRow);
       }
       reader.close();
@@ -179,7 +178,7 @@ public class FileGenerator implements FileGeneratorI{
       BufferedReader reader = new BufferedReader(new FileReader(this.template));
       BufferedWriter writer = new BufferedWriter(new FileWriter( outputDirPath + "/" + fileName));
       String line;
-      Pattern pattern = Pattern.compile("\\[\\[(.*?)\\]\\]");
+      Pattern pattern = Pattern.compile("\\[\\[(.*?)]]");
 
       while ((line = reader.readLine()) != null) {
         Matcher matcher = pattern.matcher(line);
@@ -203,10 +202,10 @@ public class FileGenerator implements FileGeneratorI{
   }
 
   /**
-   * Returning the value to be input based on the mathcing key value
+   * Returning the value to be input based on the matching key value
    * @param index - row in the csv file
-   * @param key - key to
-   * @return
+   * @param key - key to return values from
+   * @return - returns values from the csv file.
    */
   private String getValue(Integer index, String key) {
     return this.informationFromCsv.get(index).get(this.columnIndices.get(key));
@@ -217,10 +216,6 @@ public class FileGenerator implements FileGeneratorI{
    */
   public void generate(){
     this.parseCsv(this.csv);
-//    System.out.println(Arrays.deepToString(this.informationFromCsv.toArray()));
-    System.out.println("Printing columnIndices Hashmap");
-    System.out.println(Arrays.asList(this.columnIndices));
-
     if (this.informationFromCsv.size() > 1) {
       // Ignore column headers, skip first row
       for (int i = 1; i < this.informationFromCsv.size(); i++) {
