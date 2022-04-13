@@ -10,11 +10,13 @@ class FileGeneratorTest {
 
   private FileGenerator testFileGenerator;
   private FileGenerator testFileGenerator2;
+
   String filepath = new File("").getAbsolutePath();
   String emailTemplateFilePath = filepath + "/src/main/java/inputFiles/email-template.txt";
   String csvFilePath = filepath + "/src/main/java/inputFiles/insurance-company-members.csv";
   String csvFilePath2 = filepath + "/src/main/java/inputFiles/insurance-company-members3.csv";
   String outputFilePath = filepath + "/src/main/java/outputFiles";
+  
 
   @BeforeEach
   void setUp() {
