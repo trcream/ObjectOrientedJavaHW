@@ -2,7 +2,11 @@ package problem1;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
@@ -15,15 +19,16 @@ class EmailGeneratorTest {
   private EmailGenerator testEmailGenerator2;
   private EmailGenerator testEmailGenerator3;
   private EmailGenerator testEmailGenerator4;
+  private EmailGenerator testEmailGenerator5;
 
   String filePath = new File("").getAbsolutePath();
 
-  String emailTemplateFilePath = filePath + "\\src\\main\\java\\inputFiles\\email-template.txt";
-  String emailTemplateFilePath2 = filePath + "\\src\\main\\java\\inputFiles\\email-template.txt2";
-  String csvFilePath =  filePath + "\\src\\main\\java\\inputFiles\\insurance-company-members.csv";
-  String csvFilePath2 = filePath + "\\src\\main\\java\\inputFiles\\insurance-company-members3.csv";
-  String outputFilePath = filePath + "\\src\\main\\java\\outputFiles";
-  String outputFilePath2 = filePath + "\\src\\main\\java\\outputFiles2";
+  String emailTemplateFilePath = filePath + "/src/main/java/inputFiles/email-template.txt";
+  String emailTemplateFilePath2 = filePath + "/src/main/java/inputFiles/email-template.txt2";
+  String csvFilePath =  filePath + "/src/main/java/inputFiles/insurance-company-members.csv";
+  String csvFilePath2 = filePath + "/src/main/java/inputFiles/insurance-company-members3.csv";
+  String outputFilePath = filePath + "/src/main/java/outputFiles";
+  String outputFilePath2 = filePath + "/src/main/java/outputFiles2";
 
   @BeforeEach
   void setUp() {
@@ -80,7 +85,46 @@ class EmailGeneratorTest {
   }
 
   @Test
-  void testGenerate() {
+  void testGenerate() throws IOException {
+    String filepath = new File("").getAbsolutePath();
+    String CSV = filepath + "/src/main/java/inputFiles/insurance-company-members.csv";
+    String template = filepath + "/src/main/java/inputFiles/letter-template.txt";
+    String output = filepath + "/src/test/java/testFiles";
+
+
+    testEmailGenerator5 = new EmailGenerator(CSV,template,output);
+
+
+
+    // This generates all the files
+    testEmailGenerator5.generate();
+
+    // Test to see if length of CSV matches expected
+    assertEquals(501, testEmailGenerator5.informationFromCsv.size());
+
+    // Generate Files
+    testEmailGenerator5.writeFileContent(1, "zztestEmail.txt");
+    testEmailGenerator5.writeFileContent(500, "zztestEmail2.txt");
+
+
+    // Test to see if files are formatted correctly
+    // This one should be generated as zztest2 and compare it to the example file
+    BufferedReader reader = new BufferedReader(new FileReader(filepath + "/src/test/java/testFiles/zztestEmail2.txt"));
+
+    // This is reading the example file
+    BufferedReader reader2 = new BufferedReader(new FileReader(
+        filepath + "/src/test/java/testFiles/zzexampleFileEmail.txt"));
+    String line;
+    String line2;
+
+    while (((line = reader.readLine()) != null) && ((line2 = reader2.readLine()) != null)) {
+      // Expected = example file
+      // Actual = output
+      assertEquals(line2, line);
+    }
+
+
+
   }
 
   @Test
