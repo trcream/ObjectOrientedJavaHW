@@ -25,7 +25,7 @@ class FileGeneratorTest {
   void createFileName() {
     testFileGenerator.parseCsv(csvFilePath);
     testFileGenerator2.parseCsv(csvFilePath2);
-    assertEquals("first_name_last_name.txt", testFileGenerator.createFileName(0));
+    assertEquals("first_name_last_name_0.txt", testFileGenerator.createFileName(0));
     assertEquals("file_0.txt", testFileGenerator2.createFileName(0));
   }
 

@@ -20,7 +20,9 @@ public class Main {
       String letterTemplateFilePath = filePath + "\\src\\main\\java\\inputFiles\\letter-template.txt";
 
       String[] arguments = {"--email", "--email-template", emailTemplateFilePath, "--letter", "--letter-template", letterTemplateFilePath,"--csv-file", csvFilePath, "--output-dir", outputFilePath};
+
       CommandLineParser commandLine = new CommandLineParser(arguments);
+
 
 
     } catch (InvalidArgumentsException e) {
