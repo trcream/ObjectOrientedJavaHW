@@ -2,6 +2,7 @@ package problem1;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.File;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -9,10 +10,13 @@ class FileGeneratorTest {
 
   private FileGenerator testFileGenerator;
   private FileGenerator testFileGenerator2;
-  String emailTemplateFilePath = "C:\\Users\\trent\\Desktop\\Masters Programs\\Northeastern\\CS5004\\GroupProject\\Team_repo_Repo6_Arjun_Matthew_Trenton\\Assignment8\\src\\main\\java\\inputFiles\\email-template.txt";
-  String csvFilePath = "C:\\Users\\trent\\Desktop\\Masters Programs\\Northeastern\\CS5004\\GroupProject\\Team_repo_Repo6_Arjun_Matthew_Trenton\\Assignment8\\src\\main\\java\\inputFiles\\insurance-company-members.csv";
-  String csvFilePath2 = "C:\\Users\\trent\\Desktop\\Masters Programs\\Northeastern\\CS5004\\GroupProject\\Team_repo_Repo6_Arjun_Matthew_Trenton\\Assignment8\\src\\main\\java\\inputFiles\\insurance-company-members3.csv";
-  String outputFilePath = "C:\\Users\\trent\\Desktop\\Masters Programs\\Northeastern\\CS5004\\GroupProject\\Team_repo_Repo6_Arjun_Matthew_Trenton\\Assignment8\\src\\main\\java\\outputFiles";
+
+  String filePath = new File("").getAbsolutePath();
+
+  String emailTemplateFilePath = filePath + "\\src\\main\\java\\inputFiles\\email-template.txt";
+  String csvFilePath = filePath + "\\src\\main\\java\\inputFiles\\insurance-company-members.csv";
+  String csvFilePath2 = filePath + "\\src\\main\\java\\inputFiles\\insurance-company-members3.csv";
+  String outputFilePath = filePath + "\\src\\main\\java\\outputFiles";
 
   @BeforeEach
   void setUp() {
