@@ -86,6 +86,7 @@ public class CSVParser {
           category = csvRow.get(6).replaceAll("\"","").replaceAll("[^a-zA-Z0-9]", "");
           //System.out.println("Column 6: " + csvRow.get(6).replaceAll("\"","").replaceAll("[^a-zA-Z0-9]", ""));
 
+          
 
           Todo todo = new Todo(id, text, completed, dueDate, priority, category);
           //Todo todo = new Todo(counter, "test", true, LocalDate.now(), 1, "testing");
