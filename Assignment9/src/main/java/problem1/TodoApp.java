@@ -1,19 +1,16 @@
 package problem1;
 
-import java.time.LocalDateTime;
 import java.util.*;
 import problem1.CommandLine.CommandLineParser;
 import problem1.CommandLine.FlagParserArgument;
 import problem1.CommandLine.InvalidArgumentsException;
 import problem1.CommandLine.NamedParserArgument;
 import problem1.CommandLine.ParserArgument;
-import problem1.Functionality.Functionality;
 
 public class TodoApp{
   CommandLineParser commandLineParser;
 
   ArrayList<ParserArgument> arguments = new ArrayList();
-  ArrayList<Functionality> functionalities = new ArrayList();
 
   public TodoApp() {
     NamedParserArgument csvFilePathArgument =
@@ -129,7 +126,7 @@ public class TodoApp{
             new ArrayList(Arrays.asList("sort-by-date")));
     this.arguments.add(sortByPriorityArgument);
 
-    this.commandLineParser = new CommandLineParser(this.arguments, this.functionalities);
+    this.commandLineParser = new CommandLineParser(this.arguments);
   }
 
   public void run(String[] args) {

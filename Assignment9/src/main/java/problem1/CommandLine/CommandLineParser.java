@@ -1,45 +1,34 @@
 package problem1.CommandLine;
 
 import java.util.*;
-import problem1.Functionality.Functionality;
 
 public class CommandLineParser {
   public ArrayList<ParserArgument> arguments;
-  public ArrayList<Functionality> functionalities;
   public String argumentPrefix = "--";
 
   public HashMap<String, ArrayList<String>> processedArgs = new HashMap();
   public HashMap<String, ParserArgument> argumentsMap = new HashMap();
-  public HashMap<String, Functionality> functionalitiesMap = new HashMap();
 
   /**
    *
    * @param arguments
-   * @param functionalities
    * @param argumentPrefix
    */
-  public CommandLineParser(ArrayList<ParserArgument> arguments,
-      ArrayList<Functionality> functionalities, String argumentPrefix) {
+  public CommandLineParser(ArrayList<ParserArgument> arguments,String argumentPrefix) {
     this.arguments = arguments;
-    this.functionalities = functionalities;
     this.argumentPrefix = argumentPrefix;
 
     this.createArgumentsMap();
-    this.createFunctionalitiesMap();
   }
 
   /**
    *
    * @param arguments
-   * @param functionalities
    */
-  public CommandLineParser(ArrayList<ParserArgument> arguments,
-      ArrayList<Functionality> functionalities) {
+  public CommandLineParser(ArrayList<ParserArgument> arguments) {
     this.arguments = arguments;
-    this.functionalities = functionalities;
 
     this.createArgumentsMap();
-    this.createFunctionalitiesMap();
   }
 
   /**
@@ -48,15 +37,6 @@ public class CommandLineParser {
   private void createArgumentsMap() {
     for (ParserArgument arg: this.arguments){
       this.argumentsMap.put(arg.key, arg);
-    }
-  }
-
-  /**
-   * Creates HashMap that maps functionality key with the Functionality object
-   */
-  private void createFunctionalitiesMap() {
-    for (Functionality functionality: this.functionalities){
-      this.functionalitiesMap.put(functionality.key, functionality);
     }
   }
 

@@ -1,13 +1,7 @@
 package problem1.Functionality;
 
-public class CompleteTodo extends Functionality<Integer> {
-
-  public CompleteTodo(String key) {
-    super(key);
-  }
-
-  public void call(Integer id) {
+public class CompleteTodo implements Functionality<String> {
+  public void call(String id) {
     System.out.println("Completing Todo");
   }
-
 }

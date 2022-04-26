@@ -1,14 +1,10 @@
 package problem1.Functionality;
 
 import java.util.*;
+import problem1.Todo;
 
-public class DisplayTodo extends Functionality<HashMap<String, ArrayList<String>>> {
-
-  public DisplayTodo(String key) {
-    super(key);
-  }
-
-  public void call(HashMap<String, ArrayList<String>> displayOptions) {
+public class DisplayTodo implements Functionality<HashMap<String, Todo>> {
+  public void call(HashMap<String, Todo> todos) {
     System.out.println("Display Todo list");
   }
 }
