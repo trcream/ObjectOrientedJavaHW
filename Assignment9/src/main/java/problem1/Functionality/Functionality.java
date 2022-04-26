@@ -28,41 +28,42 @@ public class Functionality {
 
   }
 
-  /**
-   * Method to parse csv data into an array list
-   * @param fileLocation -csv file to be parsed
-   */
-  public void parseCsv(String fileLocation){
-    System.out.println("Parse CSV Method");
-
-    try{
-      BufferedReader reader = new BufferedReader(new FileReader(this.csv));
-      String line;
-      int i = 1;
-      while ((line = reader.readLine()) != null) {
-        //System.out.println("Parse While Loop");
-        ArrayList<String> csvRow = new ArrayList<>(Arrays.asList(line.split("\"*,*\"")));
-        System.out.println(csvRow.get(4));
-
-//        String text = csvRow.get(1);
-//        System.out.println(text);
-        //Boolean completed = Boolean.valueOf(csvRow.get(2));
-        //LocalDate dueDate = LocalDate.parse(csvRow.get(3));
-        //Integer priority = Integer.valueOf(csvRow.get(4));
-        //String category = csvRow.get(5);
-
-
-        // ToDo todo = new ToDo(i, text, completed, dueDate, priority, category);
-        Todo todo = new Todo(i, "test", true, LocalDate.now(), 1, "testing");
-        toDoList.put(i, todo);
-
-        i++;
-      }
-      reader.close();
-      //this.createColumnIndices();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-  }
+//  /**
+//   * Method to parse csv data into an array list
+//   * @param fileLocation -csv file to be parsed
+//   */
+//  public void parseCsv(String fileLocation){
+//  //public HashMap<Todo> parseCsv(String fileLocation){
+//    System.out.println("Parse CSV Method");
+//
+//    try{
+//      BufferedReader reader = new BufferedReader(new FileReader(this.csv));
+//      String line;
+//      int i = 1;
+//      while ((line = reader.readLine()) != null) {
+//        //System.out.println("Parse While Loop");
+//        ArrayList<String> csvRow = new ArrayList<>(Arrays.asList(line.split("\"*,*\"")));
+//        System.out.println(csvRow.get(4));
+//
+////        String text = csvRow.get(1);
+////        System.out.println(text);
+//        //Boolean completed = Boolean.valueOf(csvRow.get(2));
+//        //LocalDate dueDate = LocalDate.parse(csvRow.get(3));
+//        //Integer priority = Integer.valueOf(csvRow.get(4));
+//        //String category = csvRow.get(5);
+//
+//
+//        // ToDo todo = new ToDo(i, text, completed, dueDate, priority, category);
+//        Todo todo = new Todo(i, "test", true, LocalDate.now(), 1, "testing");
+//        toDoList.put(i, todo);
+//
+//        i++;
+//      }
+//      reader.close();
+//      //this.createColumnIndices();
+//    } catch (IOException e) {
+//      e.printStackTrace();
+//    }
+//  }
 
 }
