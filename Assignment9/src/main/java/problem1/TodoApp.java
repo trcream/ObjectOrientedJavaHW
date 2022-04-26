@@ -9,7 +9,6 @@ import problem1.CommandLine.ParserArgument;
 
 public class TodoApp{
   CommandLineParser commandLineParser;
-
   ArrayList<ParserArgument> arguments = new ArrayList();
 
   public TodoApp() {
@@ -131,7 +130,38 @@ public class TodoApp{
 
   public void run(String[] args) {
     try {
-      this.commandLineParser.processArgs(args);
+      HashMap<String, ParserArgument> arguments = this.commandLineParser.processArgs(args);
+
+      // ---------
+      // ParseCsv
+      // ---------
+      ArrayList<String> csvValue = (ArrayList<String>)arguments.get("csv-file").value;
+      String pathToCsv = csvValue.get(0);
+
+      // if (we haven't already parsed this csv, and it's not in cache){
+      //   parse new csv
+      //}
+
+      // ---------
+      // Add Todo
+      // ---------
+      if (arguments.containsKey("add-todo")) {
+        // call AddTodo functionality
+      }
+
+      // --------------
+      // Complete Todo
+      // --------------
+      if (arguments.containsKey("complete-todo")) {
+        // call CompleteTodo functionality
+      }
+
+      // --------------
+      // Display Todos
+      // --------------
+      if (arguments.containsKey("display")) {
+        // call CompleteTodo functionality
+      }
     } catch(InvalidArgumentsException e){
       System.out.print(e.getMessage() + "\n\n");
       this.commandLineParser.printManual();

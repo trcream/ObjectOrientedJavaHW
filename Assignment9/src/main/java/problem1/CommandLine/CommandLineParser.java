@@ -1,5 +1,6 @@
 package problem1.CommandLine;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class CommandLineParser {
@@ -40,7 +41,7 @@ public class CommandLineParser {
     }
   }
 
-  public void processArgs(String[] args) throws InvalidArgumentsException {
+  public HashMap<String, ParserArgument> processArgs(String[] args) throws InvalidArgumentsException {
     int i = 0;
     while (i < args.length) {
       String key = args[i];
@@ -72,6 +73,8 @@ public class CommandLineParser {
 
     this.initializeArgs();
     this.validate();
+
+    return this.argumentsMap;
   }
 
   public void initializeArgs(){
