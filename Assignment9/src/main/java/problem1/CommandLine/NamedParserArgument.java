@@ -61,12 +61,13 @@ public class NamedParserArgument extends ParserArgument<ArrayList<String>> {
     this.valueDescription = valueDescription;
   }
 
-//  public void checkRequired(HashMap<String, ArrayList<String>> args) throws InvalidArgumentsException {
-//    ArrayList<String> value = args.get(this.key);
-//    if (this.required && (value == null || value.size() == 0)){
-//      throw new InvalidArgumentsException("'" + this.key + "' is required.");
-//    }
-//  }
+  public ArrayList<String> getValue() {
+    return this.value;
+  }
+
+  public void setValue(ArrayList<String> value) {
+    this.value = value;
+  }
 
   public void checkIfValueGiven(HashMap<String, ArrayList<String>> args) throws InvalidArgumentsException{
     if (args.containsKey(this.key) && this.value == null){
