@@ -8,7 +8,7 @@ public class Main {
   public static void main(String[] args) {
      TodoApp app = new TodoApp();
 
-     String[] testArgs = {};
+     String[] testArgs = {"--csv-file", "path/to/file","--add-todo", "--todo-text", "Test todo", "--todo-text", "Test todo 2", "--priority", "3"};
      app.run(testArgs);
   }
 }

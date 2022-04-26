@@ -17,9 +17,8 @@ public class FlagParserArgument extends ParserArgument<String> {
     super(key, description);
   }
 
-  public void checkRequired(HashMap<String, ArrayList<String>> args) throws InvalidArgumentsException {
-    if (this.required && !args.containsKey(this.key)) {
-      throw new InvalidArgumentsException("'" + this.key + "' is required.");
-    }
+  public void printManual() {
+    System.out.println("--" + this.key);
+    System.out.println("\t\t" + this.description);
   }
 }

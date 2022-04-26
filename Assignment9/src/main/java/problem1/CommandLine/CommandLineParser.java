@@ -67,13 +67,13 @@ public class CommandLineParser {
       if (key.startsWith(this.argumentPrefix)) {
         key = key.replace(this.argumentPrefix, "");
         String value = null;
-        String nextArg = "";
+        String nextArg = null;
 
         if (i + 1 < args.length) {
           nextArg = args[i + 1];
         }
 
-        if (!nextArg.startsWith(this.argumentPrefix)) {
+        if (nextArg != null && !nextArg.startsWith(this.argumentPrefix)) {
           value = nextArg;
           // Move index by one to skip this argument
           i++;
@@ -99,14 +99,17 @@ public class CommandLineParser {
       ParserArgument arg = this.argumentsMap.get(key);
 
       if (arg != null) {
-        ArrayList<String> value = this.processedArgs.get(key);
+        ArrayList<String> values = this.processedArgs.get(key);
 
-        if (value.size() == 0) {
+        if (values.size() == 0) {
           arg.setValue(null);
         } else if (arg.allowMultiple) {
-          arg.setValue(value);
+          arg.setValue(values);
         } else {
-          arg.setValue(value.get(0));
+          String firstValue = values.get(0);
+          values.clear();
+          values.add(firstValue);
+          arg.setValue(values);
         }
       }
     }
@@ -115,6 +118,12 @@ public class CommandLineParser {
   public void validate() throws InvalidArgumentsException {
     for (ParserArgument arg: this.arguments){
      arg.validate(this.processedArgs);
+    }
+  }
+
+  public void printManual() {
+    for (ParserArgument arg: this.arguments) {
+      arg.printManual();
     }
   }
 }
