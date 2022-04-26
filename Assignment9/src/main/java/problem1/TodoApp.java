@@ -6,76 +6,165 @@ import problem1.CommandLine.FlagParserArgument;
 import problem1.CommandLine.InvalidArgumentsException;
 import problem1.CommandLine.NamedParserArgument;
 import problem1.CommandLine.ParserArgument;
-import problem1.Functionality.Functionality;
 
 public class TodoApp{
-  String MANUAL = "--csv-file <path/to/file>\n"
-      + "\t\tThe CSV file containing the todos. This option is required.\n"
-      + "--add-todo\n"
-      + "\t\tAdd a new todo. If this option is provided, then --todo-text must also be provided.\n"
-      + "--todo-text <description of todo>\n"
-      + "\t\tA description of the todo.\n"
-      + "--completed\n"
-      + "\t\t(Optional) Sets the completed status of a new todo to true.\n"
-      + "--due <due date>\n"
-      + "\t\t(Optional) Sets the due date of a new todo. "
-      + "You may choose how the date should be formatted.\n"
-      + "--priority <1, 2, or 3>\n"
-      + "\t\t(Optional) Sets the priority of a new todo. The value can be 1, 2, or 3.\n"
-      + "--category <a category name>\n"
-      + "\t\t(Optional) Sets the category of a new todo. The value can be any String. "
-      + "Categories do not need to be pre-defined.\n"
-      + "--complete-todo <id>\n"
-      + "\t\tMark the Todo with the provided ID as complete.\n"
-      + "--display\n"
-      + "\t\tDisplay todos. "
-      + "If none of the following optional arguments are provided, displays all todos.\n"
-      + "--show-incomplete\n"
-      + "\t\t(Optional) If --display is provided, only incomplete todos should be displayed.\n"
-      + "--show-category <category>\n"
-      + "\t\t(Optional) If --display is provided, "
-      + "only todos with the given category should be displayed.\n"
-      + "--sort-by-date\n"
-      + "\t\t(Optional) If --display is provided, sort the list of todos by date order (ascending). "
-      + "Cannot be combined with --sort-by-priority.\n"
-      + "--sort-by-priority\n"
-      + "\t\t(Optional) If --display is provided, sort the list of todos by priority (ascending). "
-      + "Cannot be combined with --sort-by-date.";
-
   CommandLineParser commandLineParser;
-
-  ArrayList<ParserArgument> arguments = new ArrayList<>();
-  ArrayList<Functionality> functionalities = new ArrayList<>();
+  ArrayList<ParserArgument> arguments = new ArrayList();
 
   public TodoApp() {
-    NamedParserArgument<String> csvFilePathArgument = new NamedParserArgument("csv-file", "The CSV file containing the todos. This option is required.", Boolean.TRUE);
+    NamedParserArgument csvFilePathArgument =
+        new NamedParserArgument("csv-file",
+            "The CSV file containing the todos. This option is required.",
+            "path/to/file",
+            Boolean.TRUE);
     this.arguments.add(csvFilePathArgument);
 
-    FlagParserArgument displayArgument = new FlagParserArgument("display", "Display todos. If none of the following optional arguments are provided, displays all todos. ", Boolean.FALSE);
-    this.arguments.add(displayArgument);
+    FlagParserArgument addToDoArgument =
+        new FlagParserArgument("add-todo",
+            "Add a new todo. If this option is provided, then --todo-text must also be provided.",
+            Boolean.FALSE,
+            new ArrayList(Arrays.asList("todo-text")),
+            new ArrayList());
+    this.arguments.add(addToDoArgument);
 
-    NamedParserArgument<ArrayList<String>> completeTodoArgument = new NamedParserArgument("complete-todo", "Mark the Todo with the provided ID as complete.", Boolean.TRUE);
+    NamedParserArgument toDoTextArgument =
+        new NamedParserArgument("todo-text",
+            "A description of the todo.",
+            "description of todo",
+            Boolean.FALSE,
+            Boolean.FALSE,
+            new ArrayList(Arrays.asList("add-todo")),
+            new ArrayList());
+    this.arguments.add(toDoTextArgument);
+
+    FlagParserArgument completedArgument =
+        new FlagParserArgument("completed",
+            "Sets the completed status of a new todo to true.",
+            Boolean.FALSE,
+            new ArrayList(Arrays.asList("add-todo")),
+            new ArrayList());
+    this.arguments.add(completedArgument);
+
+    NamedParserArgument dueDateArgument =
+        new NamedParserArgument("due",
+            "Sets the due date of a new todo. You may choose how the date should be formatted.",
+            "due date",
+            Boolean.FALSE,
+            Boolean.FALSE,
+            new ArrayList(Arrays.asList("add-todo")),
+            new ArrayList()
+            );
+    this.arguments.add(dueDateArgument);
+
+    NamedParserArgument priorityArgument =
+        new NamedParserArgument("priority",
+            "Mark the Todo with the provided ID as complete.",
+            "1, 2, or 3",
+            Boolean.FALSE,
+            Boolean.FALSE,
+            new ArrayList(Arrays.asList("add-todo")),
+            new ArrayList(),
+            new HashSet(Arrays.asList("1","2","3")));
+    this.arguments.add(priorityArgument);
+
+    NamedParserArgument categoryArgument =
+        new NamedParserArgument("category",
+            "Sets the category of a new todo. The value can be any String. Categories do not need to be pre-defined.",
+            "a category name",
+            Boolean.FALSE,
+            Boolean.FALSE,
+            new ArrayList(Arrays.asList("add-todo")),
+            new ArrayList());
+    this.arguments.add(categoryArgument);
+
+    NamedParserArgument completeTodoArgument =
+        new NamedParserArgument("complete-todo",
+            "Mark the Todo with the provided ID as complete.",
+            "id",
+            Boolean.FALSE,
+            Boolean.TRUE);
     this.arguments.add(completeTodoArgument);
 
-    NamedParserArgument<ArrayList<String>> priorityTodoArgument = new NamedParserArgument("priority", "Mark the Todo with the provided ID as complete.", Boolean.TRUE);
-    this.arguments.add(priorityTodoArgument);
+    FlagParserArgument displayArgument =
+        new FlagParserArgument("display",
+            "Display todos. If none of the following optional arguments are provided, displays all todos.",
+            Boolean.FALSE);
+    this.arguments.add(displayArgument);
 
-    FlagParserArgument sortByDateArgument = new FlagParserArgument("sort-by-date", "If --display is\n"
-        + "provided, sort the list of todos\n"
-        + "by date order (ascending). Cannot\n"
-        + "be combined with --sort-by-\n"
-        + "priority.", Boolean.FALSE, new ArrayList<String>(
-        Arrays.asList("display")), new ArrayList<String>(
-        Arrays.asList("sort-by-priority")));
+    FlagParserArgument showIncompleteArgument =
+        new FlagParserArgument("show-incomplete",
+            "If --display is provided, only incomplete todos should be displayed.",
+            Boolean.FALSE,
+            new ArrayList(Arrays.asList("display")),
+            new ArrayList());
+    this.arguments.add(showIncompleteArgument);
 
-    this.commandLineParser = new CommandLineParser(this.arguments, this.functionalities);
+    NamedParserArgument showCategoryArgument =
+        new NamedParserArgument("show-category",
+            "If --display is provided, only todos with the given category should be displayed.",
+            "category",
+            Boolean.FALSE,
+            Boolean.FALSE,
+            new ArrayList(Arrays.asList("display")),
+            new ArrayList());
+    this.arguments.add(showCategoryArgument);
+
+    FlagParserArgument sortByDateArgument =
+        new FlagParserArgument("sort-by-date",
+            "If --display is provided, sort the list of todos by date order (ascending). Cannot be combined with --sort-by-priority.",
+            Boolean.FALSE,
+            new ArrayList(Arrays.asList("display")),
+            new ArrayList(Arrays.asList("sort-by-priority")));
+    this.arguments.add(sortByDateArgument);
+
+    FlagParserArgument sortByPriorityArgument =
+        new FlagParserArgument("sort-by-priority",
+            "If --display is provided, sort the list of todos by priority (ascending). Cannot be combined with --sort-by-date.",
+            Boolean.FALSE,
+            new ArrayList(Arrays.asList("display")),
+            new ArrayList(Arrays.asList("sort-by-date")));
+    this.arguments.add(sortByPriorityArgument);
+
+    this.commandLineParser = new CommandLineParser(this.arguments);
   }
 
   public void run(String[] args) {
     try {
-      this.commandLineParser.processArgs(args);
+      HashMap<String, ParserArgument> arguments = this.commandLineParser.processArgs(args);
+
+      // ---------
+      // ParseCsv
+      // ---------
+      ArrayList<String> csvValue = (ArrayList<String>)arguments.get("csv-file").value;
+      String pathToCsv = csvValue.get(0);
+
+      // if (we haven't already parsed this csv, and it's not in cache){
+      //   parse new csv
+      //}
+
+      // ---------
+      // Add Todo
+      // ---------
+      if (arguments.containsKey("add-todo")) {
+        // call AddTodo functionality
+      }
+
+      // --------------
+      // Complete Todo
+      // --------------
+      if (arguments.containsKey("complete-todo")) {
+        // call CompleteTodo functionality
+      }
+
+      // --------------
+      // Display Todos
+      // --------------
+      if (arguments.containsKey("display")) {
+        // call CompleteTodo functionality
+      }
     } catch(InvalidArgumentsException e){
-      System.out.print(e.getMessage() + "\n\n" + this.MANUAL);
+      System.out.print(e.getMessage() + "\n\n");
+      this.commandLineParser.printManual();
     }
   }
 }
