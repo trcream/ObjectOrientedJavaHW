@@ -5,21 +5,11 @@ import java.util.*;
 public abstract class ParserArgument<T> {
   public String key;
   public String description;
-  public T value;
+  public T value = null;
   public Boolean required;
   public Boolean allowMultiple;
   ArrayList<String> requiredArgs;
   ArrayList<String> excludedArgs;
-
-  public ParserArgument(String key, String description, Boolean required, T value, Boolean allowMultiple, ArrayList<String> requiredArgs, ArrayList<String> excludedArgs) {
-    this.key = key;
-    this.description = description;
-    this.required = required;
-    this.value = value;
-    this.allowMultiple = allowMultiple;
-    this.requiredArgs = requiredArgs;
-    this.excludedArgs = excludedArgs;
-  }
 
   public ParserArgument(String key, String description, Boolean required, Boolean allowMultiple, ArrayList<String> requiredArgs, ArrayList<String> excludedArgs) {
     this.key = key;
@@ -105,11 +95,14 @@ public abstract class ParserArgument<T> {
     this.excludedArgs = excludedArgs;
   }
 
-  public abstract void checkRequired(HashMap<String, ArrayList<String>> args) throws InvalidArgumentsException;
-
+  public void checkRequired(HashMap<String, ArrayList<String>> args) throws InvalidArgumentsException {
+    if (this.required && !args.containsKey(this.key)) {
+      throw new InvalidArgumentsException("'" + this.key + "' is required.");
+    }
+  }
   public void checkRequiredArguments(HashMap<String, ArrayList<String>> args) throws InvalidArgumentsException {
     for (String requiredArg: this.requiredArgs){
-      if (!args.containsKey(requiredArg)){
+      if (args.containsKey(this.key) && !args.containsKey(requiredArg)){
         throw new InvalidArgumentsException("'" + this.key + "' requires " + requiredArg+ ".");
       }
     }
@@ -117,7 +110,7 @@ public abstract class ParserArgument<T> {
 
   public void checkExcludedArguments(HashMap<String, ArrayList<String>> args) throws InvalidArgumentsException {
     for (String excludedArg: this.excludedArgs){
-      if (args.containsKey(excludedArg)){
+      if (args.containsKey(this.key) && args.containsKey(excludedArg)){
         throw new InvalidArgumentsException("'" + this.key + "' cannot be used with " + excludedArg + ".");
       }
     }
@@ -128,4 +121,6 @@ public abstract class ParserArgument<T> {
     this.checkRequiredArguments(args);
     this.checkExcludedArguments(args);
   }
+
+  public abstract void printManual();
 }
