@@ -1,11 +1,13 @@
 package problem1;
 
+import java.time.LocalDate;
 import java.util.*;
 import problem1.CommandLine.CommandLineParser;
 import problem1.CommandLine.FlagParserArgument;
 import problem1.CommandLine.InvalidArgumentsException;
 import problem1.CommandLine.NamedParserArgument;
 import problem1.CommandLine.ParserArgument;
+import problem1.Functionality.AddTodo;
 
 public class TodoApp{
   CommandLineParser commandLineParser;
@@ -145,7 +147,16 @@ public class TodoApp{
       // ---------
       // Add Todo
       // ---------
+
       if (arguments.containsKey("add-todo")) {
+        String text = String.valueOf(arguments.get("--text"));
+        String completed = String.valueOf(arguments.getOrDefault("--completed",null));
+        String dueDate = String.valueOf(arguments.getOrDefault("--due",null));
+        String priority = String.valueOf(arguments.getOrDefault("--priority", null));
+        String category = String.valueOf(arguments.get("--category"));
+
+        AddTodo.addNewToDo(text, completed,dueDate, priority, category);
+
         // call AddTodo functionality
       }
 
@@ -154,6 +165,15 @@ public class TodoApp{
       // --------------
       if (arguments.containsKey("complete-todo")) {
         // call CompleteTodo functionality
+
+        // collect all ID numbers that are completed
+
+        // While or For Loop / Iterate
+
+          // if ID matches ID in hashmap, call method completeToDo(Integer ID);
+
+        // End
+
       }
 
       // --------------
@@ -161,6 +181,10 @@ public class TodoApp{
       // --------------
       if (arguments.containsKey("display")) {
         // call CompleteTodo functionality
+
+
+
+
       }
     } catch(InvalidArgumentsException e){
       System.out.print(e.getMessage() + "\n\n");
