@@ -7,9 +7,24 @@ import problem1.CommandLine.InvalidArgumentsException;
 import problem1.CommandLine.NamedParserArgument;
 import problem1.CommandLine.ParserArgument;
 
+import problem1.Functionality.AddTodo;
+import problem1.Functionality.CompleteTodo;
+import problem1.Functionality.DisplayTodos;
+import problem1.Functionality.ParseCsv;
+import problem1.Functionality.WriteCsv;
+
 public class TodoApp{
   CommandLineParser commandLineParser;
   ArrayList<ParserArgument> arguments = new ArrayList();
+  Csv cachedCsv;
+  TodoList todoList;
+
+  // Functionalities
+  ParseCsv parseCsv;
+  AddTodo addTodo;
+  CompleteTodo completeTodo;
+  DisplayTodos displayTodos;
+  WriteCsv writeCsv;
 
   public TodoApp() {
     NamedParserArgument csvFilePathArgument =
@@ -130,37 +145,31 @@ public class TodoApp{
 
   public void run(String[] args) {
     try {
-      HashMap<String, ParserArgument> arguments = this.commandLineParser.processArgs(args);
+      HashMap<String, ArrayList<String>> arguments = this.commandLineParser.processArgs(args);
 
-      // ---------
-      // ParseCsv
-      // ---------
-      ArrayList<String> csvValue = (ArrayList<String>)arguments.get("csv-file").value;
-      String pathToCsv = csvValue.get(0);
+      String pathToCsv = arguments.get("csv-file").get(0);
 
-      // if (we haven't already parsed this csv, and it's not in cache){
-      //   parse new csv
-      //}
+      if (this.cachedCsv == null || this.cachedCsv.pathToFile != pathToCsv){
+        this.parseCsv = new ParseCsv(pathToCsv);
+        this.cachedCsv = this.parseCsv.getCsv();
+        this.todoList = this.parseCsv.createTodoList();
 
-      // ---------
-      // Add Todo
-      // ---------
+        this.addTodo = new AddTodo(this.todoList);
+        this.completeTodo = new CompleteTodo(this.todoList);
+        this.displayTodos = new DisplayTodos(this.todoList);
+        this.writeCsv = new WriteCsv(pathToCsv, this.cachedCsv);
+      }
+
       if (arguments.containsKey("add-todo")) {
-        // call AddTodo functionality
+        this.addTodo.run(arguments);
       }
 
-      // --------------
-      // Complete Todo
-      // --------------
       if (arguments.containsKey("complete-todo")) {
-        // call CompleteTodo functionality
+        this.completeTodo.run(arguments);
       }
 
-      // --------------
-      // Display Todos
-      // --------------
       if (arguments.containsKey("display")) {
-        // call CompleteTodo functionality
+        this.displayTodos.run(arguments);
       }
     } catch(InvalidArgumentsException e){
       System.out.print(e.getMessage() + "\n\n");

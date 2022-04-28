@@ -1,16 +1,18 @@
 package problem1.Functionality;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import problem1.Todo;
+import problem1.TodoList;
 
-public class CompleteTodo implements Functionality<String> {
-  public HashMap<String, Todo> todos;
+public class CompleteTodo implements Functionality {
+  public TodoList list;
 
-  public CompleteTodo(HashMap<String, Todo> todos) {
-    this.todos = todos;
+  public CompleteTodo(TodoList list) {
+    this.list = list;
   }
 
-  public void call(String id) {
-    System.out.println("Completing Todo");
+  public void run(HashMap<String, ArrayList<String>> arguments){
+//    this.list.getTodo(id).setCompleted(Boolean.TRUE);
   }
 }

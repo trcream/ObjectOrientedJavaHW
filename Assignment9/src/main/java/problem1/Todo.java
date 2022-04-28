@@ -3,6 +3,7 @@ package problem1;
 import java.time.LocalDate;
 
 public class Todo {
+  public Integer DEFAULT_PRIORITY = 3;
 
   public Integer id;
   public String text;
@@ -17,53 +18,51 @@ public class Todo {
     this.text = text;
     this.completed = completed;
     this.dueDate = dueDate;
-    this.priority = priority;
+    if (priority != null) {
+      this.priority = priority;
+    } else {
+      this.priority = this.DEFAULT_PRIORITY;
+    }
     this.category = category;
-  }
-
-  public void setId(Integer id) {
-    this.id = id;
-  }
-
-  public void setText(String text) {
-    this.text = text;
   }
 
   public void setCompleted(Boolean completed) {
     this.completed = completed;
   }
 
-  public void setDueDate(LocalDate dueDate) {
-    this.dueDate = dueDate;
+  public Integer getId() {
+    return id;
   }
 
-  public void setPriority(Integer priority) {
-    this.priority = priority;
+  public String getText() {
+    return text;
   }
 
-  public void setCategory(String category) {
-    this.category = category;
+  public Boolean getCompleted() {
+    return completed;
+  }
+
+  public LocalDate getDueDate() {
+    return dueDate;
+  }
+
+  public Integer getPriority() {
+    return priority;
+  }
+
+  public String getCategory() {
+    return category;
+  }
+
+  @Override
+  public String toString() {
+    return "Todo{" +
+        "id=" + id +
+        ", text='" + text + '\'' +
+        ", completed=" + completed +
+        ", dueDate=" + dueDate +
+        ", priority=" + priority +
+        ", category='" + category + '\'' +
+        '}';
   }
 }
-
-
-
-//  public Todo(Integer id, String text, LocalDateTime due, Integer priority, String category) {
-//    this.id = id;
-//    this.text = text;
-//    this.due = due;
-//    this.priority = priority;
-//    this.category = category;
-//    this.completed = Boolean.FALSE;
-//  }
-//
-//  public Todo(Integer id, String text, LocalDateTime due, Integer priority, String category, Boolean completed) {
-//    this.id = id;
-//    this.text = text;
-//    this.due = due;
-//    this.priority = priority;
-//    this.category = category;
-//    this.completed = completed;
-//  }
-
-
