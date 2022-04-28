@@ -1,17 +1,30 @@
 package problem1;
 
-import java.time.LocalDate;
 import java.util.*;
 import problem1.CommandLine.CommandLineParser;
 import problem1.CommandLine.FlagParserArgument;
 import problem1.CommandLine.InvalidArgumentsException;
 import problem1.CommandLine.NamedParserArgument;
 import problem1.CommandLine.ParserArgument;
+
 import problem1.Functionality.AddTodo;
+import problem1.Functionality.CompleteTodo;
+import problem1.Functionality.DisplayTodos;
+import problem1.Functionality.ParseCsv;
+import problem1.Functionality.WriteCsv;
 
 public class TodoApp{
   CommandLineParser commandLineParser;
   ArrayList<ParserArgument> arguments = new ArrayList();
+  Csv cachedCsv;
+  TodoList todoList;
+
+  // Functionalities
+  ParseCsv parseCsv;
+  AddTodo addTodo;
+  CompleteTodo completeTodo;
+  DisplayTodos displayTodos;
+  WriteCsv writeCsv;
 
   public TodoApp() {
     NamedParserArgument csvFilePathArgument =
@@ -132,60 +145,34 @@ public class TodoApp{
 
   public void run(String[] args) {
     try {
-      HashMap<String, ParserArgument> arguments = this.commandLineParser.processArgs(args);
+      HashMap<String, ArrayList<String>> arguments = this.commandLineParser.processArgs(args);
 
-      // ---------
-      // ParseCsv
-      // ---------
-      ArrayList<String> csvValue = (ArrayList<String>)arguments.get("csv-file").value;
-      String pathToCsv = csvValue.get(0);
+      String pathToCsv = arguments.get("csv-file").get(0);
 
-      // if (we haven't already parsed this csv, and it's not in cache){
-      //   parse new csv
-      //}
+      if (this.cachedCsv == null || this.cachedCsv.pathToFile != pathToCsv){
+        this.parseCsv = new ParseCsv(pathToCsv);
+        this.cachedCsv = this.parseCsv.getCsv();
+        this.todoList = this.parseCsv.createTodoList();
 
-      // ---------
-      // Add Todo
-      // ---------
+        this.addTodo = new AddTodo(this.todoList);
+        this.completeTodo = new CompleteTodo(this.todoList);
+        this.displayTodos = new DisplayTodos(this.todoList);
+        this.writeCsv = new WriteCsv(pathToCsv, this.cachedCsv);
+      }
 
       if (arguments.containsKey("add-todo")) {
-        String text = String.valueOf(arguments.get("--text"));
-        String completed = String.valueOf(arguments.getOrDefault("--completed",null));
-        String dueDate = String.valueOf(arguments.getOrDefault("--due",null));
-        String priority = String.valueOf(arguments.getOrDefault("--priority", null));
-        String category = String.valueOf(arguments.get("--category"));
-
-        AddTodo.addNewToDo(text, completed,dueDate, priority, category);
-
-        // call AddTodo functionality
+        this.addTodo.run(arguments);
       }
 
-      // --------------
-      // Complete Todo
-      // --------------
       if (arguments.containsKey("complete-todo")) {
-        // call CompleteTodo functionality
-
-        // collect all ID numbers that are completed
-
-        // While or For Loop / Iterate
-
-          // if ID matches ID in hashmap, call method completeToDo(Integer ID);
-
-        // End
-
+        this.completeTodo.run(arguments);
       }
 
-      // --------------
-      // Display Todos
-      // --------------
       if (arguments.containsKey("display")) {
-        // call CompleteTodo functionality
-
-
-
-
+        this.displayTodos.run(arguments);
       }
+
+      this.writeCsv.write(this.todoList);
     } catch(InvalidArgumentsException e){
       System.out.print(e.getMessage() + "\n\n");
       this.commandLineParser.printManual();
