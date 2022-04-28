@@ -20,6 +20,8 @@ public class Main {
         "--due", "3/21/2022",
         "--priority", "2",
         "--display",
+        "--show-incomplete",
+        "--show-category", "home",
         "--sort-by-date",
         "--complete-todo", "2",
         "--complete-todo", "3"

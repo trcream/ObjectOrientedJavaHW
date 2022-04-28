@@ -149,6 +149,9 @@ public class TodoApp{
 
       String pathToCsv = arguments.get("csv-file").get(0);
 
+      // Re-use cached CSV if it's the same CSV we are going to update so no need to re-read it.
+      // If there's no cached Csv
+      // OR the new given path is not the same as the cached Csv's then create a new Csv.
       if (this.cachedCsv == null || this.cachedCsv.pathToFile != pathToCsv){
         this.parseCsv = new ParseCsv(pathToCsv);
         this.cachedCsv = this.parseCsv.getCsv();
@@ -173,6 +176,7 @@ public class TodoApp{
       }
 
       this.writeCsv.write(this.todoList);
+
     } catch(InvalidArgumentsException e){
       System.out.print(e.getMessage() + "\n\n");
       this.commandLineParser.printManual();

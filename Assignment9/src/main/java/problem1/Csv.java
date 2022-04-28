@@ -8,7 +8,8 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * Csv object to read, update, and write a Csv file.
+ * Csv object to read, upda
+ * te, and write a Csv file.
  */
 public class Csv {
   String DEFAULT_EMPTY_CELL = "?";
@@ -202,6 +203,28 @@ public class Csv {
       content = content.concat("\n");
     }
     return content;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Csv csv = (Csv) o;
+    return pathToFile.equals(csv.pathToFile) && Objects.equals(data, csv.data)
+        && Objects.equals(columnIndices, csv.columnIndices);
+  }
+
+  /**
+   * Method to determine if the hashcode of the object is a match
+   * @return - a hashcode value for the object returned as an integer
+   */
+  @Override
+  public int hashCode() {
+    return Objects.hash(this.pathToFile);
   }
 
   @Override
