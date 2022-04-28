@@ -20,31 +20,25 @@ public class AddTodo {
    * @throws NullPointerException - thrown if the user input is null for the text field
    */
   public static void addNewToDo(String text, String completed, String dueDate, String priority,
-      String category) throws NullPointerException {
+      String category){
 
     //Converting the data types from strings
     boolean completedConverted;
     DateTimeFormatter formatter;
     LocalDate dateConverted;
     int priorityConverted;
+    formatter = DateTimeFormatter.ofPattern("M/d/yyyy");
 
     Integer counter = 1;
 
-      //Text value cannot be null
-      if(text != null){
-        System.out.println("Text input is good");
-      }
-      else{
-        throw new NullPointerException("The value cannot be null");
-      }
-      if(completed != null){
-        completedConverted = Boolean.parseBoolean(completed);
-      }
-      else{
-        completedConverted = false;
-      }
+    // Data Validation
+    if(completed != null){
+      completedConverted = Boolean.parseBoolean(completed);
+    }
+    else{
+      completedConverted = false;
+    }
     if(dueDate !=null){
-      formatter = DateTimeFormatter.ofPattern("M/d/yyyy");
       dateConverted = LocalDate.parse(dueDate,formatter);
     }
     else{
@@ -56,11 +50,14 @@ public class AddTodo {
     else{
       priorityConverted = 3;
     }
+    //Counting to the end of the file
     for (Integer key : CSVParser.toDoList.keySet()) {
       counter++;
     }
 
+    // Putting the parsed data into a Todo object
     Todo todo = new Todo(counter, text, completedConverted, dateConverted, priorityConverted, category);
+    // Putting the todo object in the hashmap
     CSVParser.toDoList.put(counter, todo);
 
     //Only here to check the values of the updated - we can delete later
