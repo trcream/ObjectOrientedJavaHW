@@ -171,6 +171,8 @@ public class TodoApp{
       if (arguments.containsKey("display")) {
         this.displayTodos.run(arguments);
       }
+
+      this.writeCsv.write(this.todoList);
     } catch(InvalidArgumentsException e){
       System.out.print(e.getMessage() + "\n\n");
       this.commandLineParser.printManual();
