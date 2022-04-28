@@ -13,6 +13,9 @@ import problem1.Functionality.DisplayTodos;
 import problem1.Functionality.ParseCsv;
 import problem1.Functionality.WriteCsv;
 
+/**
+ * Class that runs an application to track and update a list of Todos.
+ */
 public class TodoApp{
   CommandLineParser commandLineParser;
   ArrayList<ParserArgument> arguments = new ArrayList();
@@ -26,7 +29,18 @@ public class TodoApp{
   DisplayTodos displayTodos;
   WriteCsv writeCsv;
 
+  /**
+   * Constructor for the TodoApp class
+   */
   public TodoApp() {
+    this.generateArguments();
+    this.commandLineParser = new CommandLineParser(this.arguments);
+  }
+
+  /**
+   * Generates the list of ParserArguments for the CommandLineParser to be used in the app.
+   */
+  public void generateArguments() {
     NamedParserArgument csvFilePathArgument =
         new NamedParserArgument("csv-file",
             "The CSV file containing the todos. This option is required.",
@@ -68,7 +82,7 @@ public class TodoApp{
             Boolean.FALSE,
             new ArrayList(Arrays.asList("add-todo")),
             new ArrayList()
-            );
+        );
     this.arguments.add(dueDateArgument);
 
     NamedParserArgument priorityArgument =
@@ -139,10 +153,12 @@ public class TodoApp{
             new ArrayList(Arrays.asList("display")),
             new ArrayList(Arrays.asList("sort-by-date")));
     this.arguments.add(sortByPriorityArgument);
-
-    this.commandLineParser = new CommandLineParser(this.arguments);
   }
 
+  /**
+   * Runs the app.
+   * @param args User input arguments to be passed to the CommandLineParser.
+   */
   public void run(String[] args) {
     try {
       HashMap<String, ArrayList<String>> arguments = this.commandLineParser.processArgs(args);

@@ -2,41 +2,81 @@ package problem1;
 
 import java.util.*;
 
+/**
+ * Class that tracks and updates a list of Todos.
+ */
 public class TodoList {
   private HashMap<Integer, Todo> list;
 
+  /**
+   * Constructor for the TodoList class.
+   */
   public TodoList() {
     this.list = new HashMap();
   }
 
+  /**
+   * Constructor for the TodoList class.
+   * @param list list of Todos encoded as a HashMap.
+   */
   public TodoList(HashMap<Integer, Todo> list) {
     this.list = list;
   }
 
+  /**
+   * Adds a Todo to the list
+   * @param newTodo Todo to be added to the list.
+   */
   public void add(Todo newTodo){
-    this.list.put(newTodo.id, newTodo);
+    this.list.put(newTodo.getId(), newTodo);
   }
 
+  /**
+   * Returns the size of the list.
+   * @return Size of the list.
+   */
   public Integer getSize() {
     return this.list.size();
   }
 
+  /**
+   * Returns the list of Todos.
+   * @return List of the Todos encoded as an ArrayList.
+   */
   public ArrayList<Todo> getList() {
     return new ArrayList(this.list.values());
   }
 
-  public Todo getTodo(Integer id){
-    return this.list.get(id);
+  /**
+   * Gets a Todo by its ID.
+   * @param id ID of the Todo to retrieve.
+   * @return Todo object.
+   */
+  public Todo getTodo(Integer id) throws UnknownTodoException{
+    Todo todo = this.list.get(id);
+
+    if (todo == null){
+      throw new UnknownTodoException("Cannot complete Todo \"" + id + "\" as it does not exist.");
+    }
+
+    return todo;
   }
 
+  /**
+   * Prints the list of Todo based on given display options.
+   * @param incompleteOnly If true, show only incomplete Todos, false otherwise.
+   * @param categoryFilter Only display Todos with this category.
+   * @param sortByDate If true, sorts Todos by due date (null due dates are after Todos with due dates).
+   * @param sortByPriority If true, sorts Todos by priority.
+   */
   public void display(Boolean incompleteOnly, String categoryFilter, Boolean sortByDate, Boolean sortByPriority){
     ArrayList<Todo> todos = new ArrayList(this.list.values());
 
     // Filter based on display options given
-    // Combining show
+    // Combining filter show incomplete only and filter by category, so we only loop once.
     todos.removeIf(todo ->
         (incompleteOnly == Boolean.TRUE && todo.getCompleted() == Boolean.TRUE) ||
-            (categoryFilter != null && !todo.getCategory().equals(categoryFilter))
+            (categoryFilter != null && !categoryFilter.equals(todo.getCategory()))
     );
 
     if (sortByDate == Boolean.TRUE) {
@@ -61,8 +101,12 @@ public class TodoList {
           todo2.getPriority()));
     }
 
-    for (Todo todo: todos) {
-      System.out.println(todo.toString());
+    if (todos.size() == 0) {
+      System.out.println("No Todos to display with the given display options.");
+    } else {
+      for (Todo todo : todos) {
+        System.out.println(todo.toString());
+      }
     }
   }
 }

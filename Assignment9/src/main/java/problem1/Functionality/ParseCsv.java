@@ -7,15 +7,26 @@ import problem1.Csv;
 import problem1.Todo;
 import problem1.TodoList;
 
+/**
+ * Class that parses a CSV.
+ */
 public class ParseCsv{
   public String pathToFile;
   public Csv csv;
 
+  /**
+   * Constructor for the ParseCsv class.
+   * @param pathToFile path to CSV file.
+   */
   public ParseCsv(String pathToFile){
     this.pathToFile = pathToFile;
     this.csv = new Csv(pathToFile);
   }
 
+  /**
+   * Create a TodoList from the CSV.
+   * @return
+   */
   public TodoList createTodoList(){
     TodoList list = new TodoList();
 
@@ -41,10 +52,18 @@ public class ParseCsv{
     return list;
   }
 
+  /**
+   * Returns path to CSV file.
+   * @return path to CSV file.
+   */
   public String getPathToFile() {
     return this.pathToFile;
   }
 
+  /**
+   * returns Csv.
+   * @return Csv object generated from CSV file.
+   */
   public Csv getCsv() {
     return this.csv;
   }
