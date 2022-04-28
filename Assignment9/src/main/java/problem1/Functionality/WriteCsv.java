@@ -6,20 +6,36 @@ import problem1.Csv;
 import problem1.Todo;
 import problem1.TodoList;
 
+/**
+ * Class that writes to a CSV.
+ */
 public class WriteCsv {
   String pathToFile;
   Csv csv;
 
+  /**
+   * Constructor for the WriteCsv class.
+   * @param pathToFile path to CSV file.
+   * @param csv Csv object to write to.
+   */
   public WriteCsv(String pathToFile, Csv csv){
     this.pathToFile = pathToFile;
     this.csv = csv;
   }
 
+  /**
+   * Constructor for the WriteCsv class.
+   * @param pathToFile path to CSV file.
+   */
   public WriteCsv(String pathToFile){
     this.pathToFile = pathToFile;
     this.csv = new Csv(pathToFile);
   }
 
+  /**
+   * Writes current state of a TodoList to the CSV file.
+   * @param list TodoList to write into the CSV file.
+   */
   public void write(TodoList list) {
     ArrayList<ArrayList<String>> data = new ArrayList();
     data.add(csv.getData().get(0));

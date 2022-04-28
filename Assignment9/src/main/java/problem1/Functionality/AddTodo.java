@@ -13,10 +13,18 @@ import problem1.TodoList;
 public class AddTodo  implements Functionality{
   public TodoList list;
 
+  /**
+   * Constructor for the AddTodo class.
+   * @param list list of Todos.
+   */
   public AddTodo(TodoList list) {
     this.list = list;
   }
 
+  /**
+   * Runs Functionality
+   * @param arguments HashMap representation of arguments from user input
+   */
   public void run(HashMap<String, ArrayList<String>> arguments) {
     Integer id = list.getSize() + 1;
     String text = arguments.get("todo-text").get(0);

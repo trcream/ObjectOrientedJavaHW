@@ -8,8 +8,7 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * Csv object to read, upda
- * te, and write a Csv file.
+ * Csv object to read, parse, update, and write a CSV file.
  */
 public class Csv {
   String DEFAULT_EMPTY_CELL = "?";
@@ -205,6 +204,11 @@ public class Csv {
     return content;
   }
 
+  /**
+   * Returns whether some other object is "equal to" this one.
+   * @param o - The object we are comparing to.
+   * @return whether some other object is "equal to" this one, encoded as a Boolean.
+   */
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -227,6 +231,10 @@ public class Csv {
     return Objects.hash(this.pathToFile);
   }
 
+  /**
+   * Returns a string representation of the object.
+   * @return a string representation of the object, encoded as a String.
+   */
   @Override
   public String toString() {
     return "Csv{" +

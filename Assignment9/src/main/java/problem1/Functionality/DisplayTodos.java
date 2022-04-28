@@ -5,13 +5,24 @@ import java.util.*;
 //import problem1.Todo;
 import problem1.TodoList;
 
+/**
+ * Class that displays todos from the command line
+ */
 public class DisplayTodos implements Functionality{
   public TodoList list;
 
+  /**
+   * Constructor for the DisplayTodos class.
+   * @param list list of Todos.
+   */
   public DisplayTodos(TodoList list) {
     this.list = list;
   }
 
+  /**
+   * Runs Functionality
+   * @param arguments HashMap representation of arguments from user input
+   */
   public void run(HashMap<String, ArrayList<String>> arguments) {
     Boolean showIncomplete = Boolean.FALSE;
     String showCategory = null;
