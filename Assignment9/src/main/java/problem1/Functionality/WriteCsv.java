@@ -10,8 +10,8 @@ import problem1.TodoList;
  * Class that writes to a CSV.
  */
 public class WriteCsv {
-  String pathToFile;
-  Csv csv;
+  public String pathToFile;
+  public Csv csv;
 
   /**
    * Constructor for the WriteCsv class.
@@ -38,54 +38,56 @@ public class WriteCsv {
    */
   public void write(TodoList list) {
     ArrayList<ArrayList<String>> data = new ArrayList();
-    data.add(csv.getData().get(0));
+    if (csv.getData().size() > 0){
+      data.add(csv.getData().get(0));
 
-    for (Todo todo: list.getList()) {
-      ArrayList<String> row = new ArrayList();
+      for (Todo todo: list.getList()) {
+        ArrayList<String> row = new ArrayList();
 
-      // Initialize row with null values to prevent index out of bounds error
-      for (int i = 0; i < data.get(0).size(); i++){
-        row.add(null);
-      }
-
-      Integer idIndex = csv.getColumnIndex("id");
-      Integer textIndex = csv.getColumnIndex("text");
-      Integer completedIndex = csv.getColumnIndex("completed");
-      Integer dueIndex = csv.getColumnIndex("due");
-      Integer priorityIndex = csv.getColumnIndex("priority");
-      Integer categoryIndex = csv.getColumnIndex("category");
-
-      if (idIndex != null){
-        row.set(idIndex, todo.getId().toString());
-      }
-
-      if (textIndex != null){
-        row.set(textIndex, todo.getText());
-      }
-
-      if (completedIndex != null) {
-        row.set(completedIndex, todo.getCompleted().toString());
-      }
-
-      if (dueIndex != null) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yyyy");
-        if (todo.getDueDate() != null) {
-          row.set(dueIndex, todo.getDueDate().format(formatter));
+        // Initialize row with null values to prevent index out of bounds error
+        for (int i = 0; i < data.get(0).size(); i++){
+          row.add(null);
         }
+
+        Integer idIndex = csv.getColumnIndex("id");
+        Integer textIndex = csv.getColumnIndex("text");
+        Integer completedIndex = csv.getColumnIndex("completed");
+        Integer dueIndex = csv.getColumnIndex("due");
+        Integer priorityIndex = csv.getColumnIndex("priority");
+        Integer categoryIndex = csv.getColumnIndex("category");
+
+        if (idIndex != null){
+          row.set(idIndex, todo.getId().toString());
+        }
+
+        if (textIndex != null){
+          row.set(textIndex, todo.getText());
+        }
+
+        if (completedIndex != null) {
+          row.set(completedIndex, todo.getCompleted().toString());
+        }
+
+        if (dueIndex != null) {
+          DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yyyy");
+          if (todo.getDueDate() != null) {
+            row.set(dueIndex, todo.getDueDate().format(formatter));
+          }
+        }
+
+        if (priorityIndex != null) {
+          row.set(priorityIndex, todo.getPriority().toString());
+        }
+
+        if (categoryIndex != null) {
+          row.set(categoryIndex, todo.getCategory());
+        }
+
+        data.add(row);
       }
 
-      if (priorityIndex != null) {
-        row.set(priorityIndex, todo.getPriority().toString());
-      }
-
-      if (categoryIndex != null) {
-        row.set(categoryIndex, todo.getCategory());
-      }
-
-      data.add(row);
+      csv.setData(data);
+      csv.writeData();
     }
-
-    csv.setData(data);
-    csv.writeData();
   }
 }

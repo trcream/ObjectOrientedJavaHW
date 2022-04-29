@@ -1,18 +1,15 @@
 package problem1.Functionality;
 
-
-
 import java.io.File;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import problem1.CommandLine.CommandLineParser;
 import problem1.TodoApp;
 
 class DisplayTodosTest {
 
   TodoApp app = new TodoApp();
   String filePath = new File("").getAbsolutePath();
-  String testCsv = filePath + "/src/main/java/problem1/todos.csv";
+  String testCsv = filePath + "/src/test/java/testFiles/todos.csv";
 
   String[] testArgs = {
       "--csv-file", testCsv,

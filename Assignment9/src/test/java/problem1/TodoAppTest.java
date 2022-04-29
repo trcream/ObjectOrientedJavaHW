@@ -3,15 +3,16 @@ package problem1;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.File;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class TodoAppTest {
-
-  TodoApp app = new TodoApp();
+  TodoApp testApp;
+  Csv originalCsv;
 
   String filePath = new File("").getAbsolutePath();
-  String testCsv = filePath + "/src/main/java/problem1/todos.csv";
+  String testCsv = filePath + "/src/test/java/testFiles/todos.csv";
 
   String[] testArgs = {
       "--csv-file", testCsv,
@@ -30,11 +31,29 @@ class TodoAppTest {
 
   @BeforeEach
   void setUp() {
+    testApp = new TodoApp();
+    originalCsv = testApp.cachedCsv;
+  }
 
+  @AfterEach
+  void tearDown() {
+    if (originalCsv != null) {
+      originalCsv.writeData();
+    }
   }
 
   @Test
   void run() {
-    app.run(testArgs);
+    testApp.run(testArgs);
+
+    String newPath = filePath + "/src/test/java/testFiles/empty.csv";
+    String[] newArgs = {
+        "--csv-file", newPath,
+        "--display",
+    };
+
+    assertDoesNotThrow(() -> {
+      testApp.run(newArgs);
+    });
   }
 }
