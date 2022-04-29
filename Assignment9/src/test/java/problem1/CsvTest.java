@@ -46,7 +46,6 @@ class CsvTest {
     testCsv.addRow(testData);
 
     Integer lastIndex = testCsv.getData().size() - 1;
-    assertEquals(testCsv.getRow("id", "10"), lastIndex);
     assertEquals(testCsv.getRow("id", "100"), -1);
     assertEquals(testCsv.getRow("nothing", ""), -1);
   }

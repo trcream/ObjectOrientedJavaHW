@@ -8,12 +8,12 @@ import java.time.LocalDate;
 public class Todo {
   public Integer DEFAULT_PRIORITY = 3;
 
-  private Integer id;
-  private String text;
-  public Boolean completed;
-  private LocalDate dueDate;
-  private Integer priority;
-  private String category;
+  private final Integer id;
+  private final String text;
+  private Boolean completed;
+  private final LocalDate dueDate;
+  private final Integer priority;
+  private final String category;
 
   /**
    * Constructor for the Todo class.
@@ -71,24 +71,24 @@ public class Todo {
   }
 
   /**
-   * Returns Todo's due date.
-   * @return Todo's due date.
+   * Returns Todos due date.
+   * @return Todos due date.
    */
   public LocalDate getDueDate() {
     return dueDate;
   }
 
   /**
-   * Returns Todo's priority.
-   * @return Todo's priority.
+   * Returns Todos priority.
+   * @return Todos priority.
    */
   public Integer getPriority() {
     return priority;
   }
 
   /**
-   * Returns Todo's category.
-   * @return Todo's category.
+   * Returns Todos category.
+   * @return Todos category.
    */
   public String getCategory() {
     return category;
