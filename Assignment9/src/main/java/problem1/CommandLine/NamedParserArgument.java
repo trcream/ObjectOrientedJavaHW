@@ -155,7 +155,7 @@ public class NamedParserArgument extends ParserArgument<ArrayList<String>> {
   /**
    * Checks if client actually passed a value through CommandLineParser.
    * @param args HashMap representation of client's arguments passed through CommandLineParser.
-   * @throws InvalidArgumentsException
+   * @throws InvalidArgumentsException - Exception if an invalid argument is entered
    */
   public void checkIfValueGiven(HashMap<String, ArrayList<String>> args) throws InvalidArgumentsException{
     // User can pass the argument but not actually provide value.
@@ -167,7 +167,7 @@ public class NamedParserArgument extends ParserArgument<ArrayList<String>> {
 
   /**
    * Checks if the given value is any of the valid values.
-   * @throws InvalidArgumentsException
+   * @throws InvalidArgumentsException - Exception if an invalid argument is entered
    */
   public void checkValidValues() throws InvalidArgumentsException{
     if (this.validValues != null && this.value != null){
@@ -179,6 +179,11 @@ public class NamedParserArgument extends ParserArgument<ArrayList<String>> {
     }
   }
 
+  /**
+   * Method to help validate data
+   * @param args HashMap representation of client's arguments passed through CommandLineParser.
+   * @throws InvalidArgumentsException - Exception for invalid arguments
+   */
   @Override
   public void validate(HashMap<String, ArrayList<String>> args) throws InvalidArgumentsException{
     super.validate(args);

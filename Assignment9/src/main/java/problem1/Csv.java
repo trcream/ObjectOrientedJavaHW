@@ -35,7 +35,7 @@ public class Csv {
       String line;
       while ((line = reader.readLine()) != null) {
         ArrayList<String> csvRow = new ArrayList<>(Arrays.asList(line.split("\"*,*\"")));
-        // remove extra column created due to first opening ".
+        // remove extra column created due to first opening .
         csvRow.remove(0);
         this.data.add(csvRow);
       }
@@ -127,7 +127,7 @@ public class Csv {
 
     if (index != null){
       for (int i = 0; i < this.data.size(); i++){
-        if (this.data.get(i).get(index) == uniqueIdentifier){
+        if (Objects.equals(this.data.get(i).get(index), uniqueIdentifier)){
           return i;
         }
       }
