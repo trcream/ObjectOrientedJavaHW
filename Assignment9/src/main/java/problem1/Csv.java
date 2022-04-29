@@ -11,10 +11,10 @@ import java.util.*;
  * Csv object to read, parse, update, and write a CSV file.
  */
 public class Csv {
-  String DEFAULT_EMPTY_CELL = "?";
-  String pathToFile;
-  ArrayList<ArrayList<String>> data = new ArrayList<>();
-  HashMap<String, Integer> columnIndices = new HashMap<>();
+  public String DEFAULT_EMPTY_CELL = "?";
+  public String pathToFile;
+  public ArrayList<ArrayList<String>> data = new ArrayList<>();
+  public HashMap<String, Integer> columnIndices = new HashMap<>();
 
   /**
    * Constructor for the Csv class.
@@ -99,6 +99,12 @@ public class Csv {
    */
   public void addRow(HashMap<String, String> data){
     ArrayList<String> newRow = new ArrayList<>();
+
+    // Initialize all cells of the new row to be empty
+    for (int i = 0; i < this.data.get(0).size(); i++) {
+      newRow.add(this.DEFAULT_EMPTY_CELL);
+    }
+
     for (String key: data.keySet()) {
       Integer index = this.columnIndices.get(key);
       if (index != null) {

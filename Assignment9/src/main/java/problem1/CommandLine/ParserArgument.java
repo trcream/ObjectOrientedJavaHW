@@ -197,7 +197,7 @@ public abstract class ParserArgument<T> {
   public void checkRequiredArguments(HashMap<String, ArrayList<String>> args) throws InvalidArgumentsException {
     for (String requiredArg: this.requiredArgs){
       if (args.containsKey(this.key) && !args.containsKey(requiredArg)){
-        throw new InvalidArgumentsException("'" + this.key + "' requires " + requiredArg+ ".");
+        throw new InvalidArgumentsException("'" + this.key + "' requires '" + requiredArg+ "'.");
       }
     }
   }
