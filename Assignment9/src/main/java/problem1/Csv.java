@@ -50,12 +50,14 @@ public class Csv {
    * Helper method to create column indices with key values that match the csv headers.
    */
   private void createColumnIndices() {
-    ArrayList<String> headerRow = this.data.get(0);
-    for (int i = 0; i < headerRow.size(); i++ ){
-      String key = headerRow.get(i);
-      if (!key.equals("")) {
-        Integer value = i;
-        this.columnIndices.put(key, value);
+    if (this.data.size() > 0 ) {
+      ArrayList<String> headerRow = this.data.get(0);
+      for (int i = 0; i < headerRow.size(); i++) {
+        String key = headerRow.get(i);
+        if (!key.equals("")) {
+          Integer value = i;
+          this.columnIndices.put(key, value);
+        }
       }
     }
   }
